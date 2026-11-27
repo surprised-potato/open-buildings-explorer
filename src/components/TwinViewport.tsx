@@ -1052,7 +1052,6 @@ export function TwinViewport({
     map.on('dragstart', () => setFollowAgent(false));
     onMapReady(map);
 
-    map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
     map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
 
     const overlay = new MapLibreOverlay({

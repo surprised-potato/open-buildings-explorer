@@ -1,3 +1,4 @@
+import { chartToSvg } from './charts';
 import type { ReportOutput, ReportTable } from './types';
 
 function csvCell(v: string | number | null): string {
@@ -34,13 +35,19 @@ export function reportToHtml(r: ReportOutput): string {
       const facts = s.facts
         ? `<dl>${s.facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`
         : '';
+      const charts = (s.charts ?? [])
+        .map((c) => {
+          const svg = chartToSvg(c);
+          return svg ? `<figure><figcaption>${esc(c.title)}</figcaption>${svg}</figure>` : '';
+        })
+        .join('');
       const table = s.table
         ? `<table><thead><tr>${s.table.columns.map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${s.table.rows
             .map((row) => `<tr>${row.map((c) => `<td>${esc(c === null ? '' : String(c))}</td>`).join('')}</tr>`)
             .join('')}</tbody></table>`
         : '';
       const note = s.note ? `<p class="note">${esc(s.note)}</p>` : '';
-      return `<section><h2>${esc(s.heading)}</h2>${facts}${table}${note}</section>`;
+      return `<section><h2>${esc(s.heading)}</h2>${facts}${charts}${table}${note}</section>`;
     })
     .join('');
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(r.title)}</title><style>
@@ -48,6 +55,7 @@ body{font:13px/1.45 system-ui,sans-serif;color:#0f172a;max-width:860px;margin:24
 h1{font-size:22px;margin:0}p.sub{color:#475569;margin:4px 0 18px}h2{font-size:15px;margin:22px 0 6px;border-bottom:1px solid #cbd5e1;padding-bottom:3px}
 dl{display:grid;grid-template-columns:max-content 1fr;gap:3px 16px;margin:0}dt{color:#475569}dd{margin:0;font-weight:600}
 table{border-collapse:collapse;width:100%;font-size:12px}th,td{border-bottom:1px solid #e2e8f0;padding:3px 6px;text-align:left}th{background:#f1f5f9}
+figure{margin:10px 0;break-inside:avoid;max-width:560px}figcaption{font-weight:600;font-size:12px;margin-bottom:2px}
 .note,.cav{color:#475569;font-size:12px}tr{break-inside:avoid}</style></head><body>
 <h1>${esc(r.title)}</h1><p class="sub">${esc(r.subtitle)}</p>${body}
 <h2>Caveats</h2><ul class="cav">${r.caveats.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></body></html>`;

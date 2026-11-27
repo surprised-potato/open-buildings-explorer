@@ -5,6 +5,7 @@ import {
   type MobilityModeId,
   type MobilityPurposeId,
 } from '../utils/mobilityTypes';
+import type { ReportChart } from './charts';
 import type { CorridorRow } from './corridors';
 import type { BuildingTripRow } from './tripGeneration';
 import type { ReportContext, ReportDefinition, ReportOutput } from './types';
@@ -71,6 +72,24 @@ const citySnapshot: ReportDefinition = {
         },
         {
           heading: 'Building mix',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'Buildings by class',
+              centerLabel: 'buildings',
+              items: [
+                { label: 'Residential', value: c.residential_count },
+                { label: 'Commercial', value: c.commercial_count },
+                { label: 'Mixed use', value: c.mixed_use_count },
+                { label: 'Industrial', value: c.industrial_count },
+                { label: 'Civic / education / health', value: c.civic_edu_health_count },
+                {
+                  label: 'Unclassified / other',
+                  value: Math.max(0, c.building_count - c.residential_count - c.commercial_count - c.mixed_use_count - c.industrial_count - c.civic_edu_health_count),
+                },
+              ],
+            },
+          ],
           table: {
             columns: ['Class', 'Buildings', 'Share'],
             rows: [
@@ -85,6 +104,9 @@ const citySnapshot: ReportDefinition = {
         },
         {
           heading: 'Most built-up barangays',
+          charts: [
+            { kind: 'bar', title: 'Buildings, top 10 barangays', items: top.map((b) => ({ label: b.name, value: b.building_count })) },
+          ],
           table: {
             columns: ['Barangay', 'Buildings', 'Coverage %', 'Commercial %'],
             rows: top.map((b) => [b.name, n0(b.building_count), n1(b.built_coverage_pct), n1(b.commercial_share_pct)]),
@@ -133,6 +155,21 @@ const barangayProfile: ReportDefinition = {
         },
         {
           heading: 'Land use mix (buildings)',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'Buildings by class',
+              centerLabel: 'buildings',
+              items: [
+                { label: 'Residential', value: b.residential_count },
+                { label: 'Commercial', value: b.commercial_count },
+                { label: 'Mixed use', value: b.mixed_use_count },
+                { label: 'Industrial', value: b.industrial_count },
+                { label: 'Civic / education / health', value: b.civic_edu_health_count },
+                { label: 'Unclassified', value: b.unknown_count },
+              ],
+            },
+          ],
           table: {
             columns: ['Class', 'Buildings', 'Share'],
             rows: [
@@ -155,6 +192,18 @@ const barangayProfile: ReportDefinition = {
                   ['School', pct(ctx.purposeMix.demand.barangays[b.name].mix.hbe, 1)],
                   ['Other', pct(ctx.purposeMix.demand.barangays[b.name].mix.hbo, 1)],
                 ] as Array<[string, string]>,
+                charts: [
+                  {
+                    kind: 'stack',
+                    title: 'Trip purpose: this barangay vs city',
+                    series: ['Work', 'School', 'Other'],
+                    normalize: true,
+                    rows: [
+                      { label: b.name, values: [ctx.purposeMix.demand.barangays[b.name].mix.hbw, ctx.purposeMix.demand.barangays[b.name].mix.hbe, ctx.purposeMix.demand.barangays[b.name].mix.hbo] },
+                      { label: 'City', values: [ctx.purposeMix.demand.meta.cityShares.hbw, ctx.purposeMix.demand.meta.cityShares.hbe, ctx.purposeMix.demand.meta.cityShares.hbo] },
+                    ],
+                  },
+                ] as ReportChart[],
               },
             ]
           : []),
@@ -168,6 +217,19 @@ const barangayProfile: ReportDefinition = {
                   ['Cropland', `${n1(b.cropland_pct)}%`],
                   ['Mapped parks and green space (OSM)', `${n1(b.green_space_pct)}%`],
                 ] as Array<[string, string]>,
+                charts: [
+                  {
+                    kind: 'donut',
+                    title: 'Land cover (share of area)',
+                    centerLabel: '% of area',
+                    items: [
+                      { label: 'Tree cover', value: b.tree_cover_pct ?? 0 },
+                      { label: 'Cropland', value: b.cropland_pct ?? 0 },
+                      { label: 'Built-up', value: b.built_up_pct ?? 0 },
+                      { label: 'Other', value: Math.max(0, 100 - (b.tree_cover_pct ?? 0) - (b.cropland_pct ?? 0) - (b.built_up_pct ?? 0)) },
+                    ],
+                  },
+                ] as ReportChart[],
                 note: 'Tree cover includes canopy over houses and gardens, so it is much higher than mapped parks.',
               },
             ]
@@ -186,6 +248,13 @@ const barangayProfile: ReportDefinition = {
           facts: [
             ['Total', n0(b.poi_count)],
             ['Density', `${n1(b.poi_density_per_km2)} per km²`],
+          ],
+          charts: [
+            {
+              kind: 'bar',
+              title: 'POIs by category',
+              items: Object.entries(b.poi_by_category).sort((x, y) => y[1] - x[1]).slice(0, 12).map(([k, v]) => ({ label: k, value: v })),
+            },
           ],
           table: { columns: ['Category', 'POIs'], rows: poiRows },
         },
@@ -220,6 +289,29 @@ const ranking: ReportDefinition = {
     title: 'Barangay comparison',
     subtitle: `${ctx.analytics.barangays.length} barangays`,
     sections: [
+      {
+        heading: 'At a glance',
+        charts: [
+          {
+            kind: 'bar',
+            title: 'Buildings per km², top 15',
+            items: [...ctx.analytics.barangays]
+              .sort((a, b) => b.building_density_per_km2 - a.building_density_per_km2)
+              .slice(0, 15)
+              .map((b) => ({ label: b.name, value: Math.round(b.building_density_per_km2) })),
+          },
+          {
+            kind: 'scatter',
+            title: 'Density vs tree cover',
+            xLabel: 'Buildings per km²',
+            yLabel: 'Tree cover %',
+            points: ctx.analytics.barangays
+              .filter((b) => b.tree_cover_pct !== undefined)
+              .map((b) => ({ label: b.name, x: b.building_density_per_km2, y: b.tree_cover_pct as number })),
+            note: 'Each dot is one barangay.',
+          },
+        ],
+      },
       {
         heading: 'Metrics by barangay',
         table: {
@@ -270,6 +362,18 @@ const businessReport: ReportDefinition = {
       sections: [
         {
           heading: 'Location trust',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'POI location trust',
+              centerLabel: 'POIs',
+              items: [
+                { label: 'Verified', value: trust.verified },
+                { label: 'Unverified', value: trust.unverified },
+                { label: 'Unrated', value: trust.unrated },
+              ],
+            },
+          ],
           facts: [
             ['Verified', `${n0(trust.verified)} (${pct(trust.verified, total)})`],
             ['Unverified (needs field check)', `${n0(trust.unverified)} (${pct(trust.unverified, total)})`],
@@ -278,6 +382,13 @@ const businessReport: ReportDefinition = {
         },
         {
           heading: 'POIs by category',
+          charts: [
+            {
+              kind: 'bar',
+              title: 'POIs by category, top 12',
+              items: [...cats.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => ({ label: k, value: v })),
+            },
+          ],
           table: {
             columns: ['Category', 'POIs'],
             rows: [...cats.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, n0(v)]),
@@ -285,6 +396,13 @@ const businessReport: ReportDefinition = {
         },
         {
           heading: 'POI density by barangay',
+          charts: [
+            {
+              kind: 'bar',
+              title: 'POIs, top 15 barangays',
+              items: [...ctx.analytics.barangays].sort((a, b) => b.poi_count - a.poi_count).slice(0, 15).map((b) => ({ label: b.name, value: b.poi_count })),
+            },
+          ],
           table: {
             columns: ['Barangay', 'POIs', 'per km²', 'Commercial buildings'],
             rows: [...ctx.analytics.barangays]
@@ -328,6 +446,17 @@ const dataQuality: ReportDefinition = {
       sections: [
         {
           heading: 'Building classification',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'Classified vs unclassified buildings',
+              centerLabel: 'buildings',
+              items: [
+                { label: 'Classified', value: c.building_count - unknownTotal },
+                { label: 'Unclassified', value: unknownTotal },
+              ],
+            },
+          ],
           facts: [
             ['Buildings', n0(c.building_count)],
             ['Unclassified', `${n0(unknownTotal)} (${pct(unknownTotal, c.building_count)})`],
@@ -335,6 +464,18 @@ const dataQuality: ReportDefinition = {
         },
         {
           heading: 'POI location trust',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'POI location trust',
+              centerLabel: 'POIs',
+              items: [
+                { label: 'Verified', value: trust.verified },
+                { label: 'Unverified', value: trust.unverified },
+                { label: 'Unrated', value: trust.unrated },
+              ],
+            },
+          ],
           facts: [
             ['Verified', `${n0(trust.verified)} (${pct(trust.verified, poiTotal)})`],
             ['Unverified', `${n0(trust.unverified)} (${pct(trust.unverified, poiTotal)})`],
@@ -343,6 +484,16 @@ const dataQuality: ReportDefinition = {
         },
         {
           heading: 'Zonal value match level (per building)',
+          charts:
+            tc && labels
+              ? [
+                  {
+                    kind: 'bar',
+                    title: 'Buildings by match level',
+                    items: tc.map((v, i) => ({ label: labels[i + 1] ?? `Tier ${i + 1}`, value: v })).filter((x) => x.value > 0),
+                  },
+                ]
+              : undefined,
           table:
             tc && labels
               ? {
@@ -402,6 +553,9 @@ const mobilityReport: ReportDefinition = {
         },
         {
           heading: 'Mode share (vehicles)',
+          charts: [
+            { kind: 'donut', title: 'Trips by mode', centerLabel: 'trips', items: modes.map((m) => ({ label: MOBILITY_MODE_LABELS[m], value: s.modeCounts[m] })) },
+          ],
           table: {
             columns: ['Mode', 'Trips', 'Share'],
             rows: modes.map((m) => [MOBILITY_MODE_LABELS[m], n0(s.modeCounts[m]), pct(s.modeCounts[m], totalM)]),
@@ -409,6 +563,9 @@ const mobilityReport: ReportDefinition = {
         },
         {
           heading: 'Trip purpose',
+          charts: [
+            { kind: 'donut', title: 'Trips by purpose', centerLabel: 'trips', items: purposes.map((p) => ({ label: MOBILITY_PURPOSE_LABELS[p], value: s.purposeCounts[p] })) },
+          ],
           table: {
             columns: ['Purpose', 'Trips', 'Share'],
             rows: purposes.map((p) => [MOBILITY_PURPOSE_LABELS[p], n0(s.purposeCounts[p]), pct(s.purposeCounts[p], totalP)]),
@@ -468,6 +625,21 @@ const propertyReport: ReportDefinition = {
         },
         {
           heading: 'By barangay',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'City value: land vs structures',
+              centerLabel: '₱ total',
+              items: [{ label: 'Land', value: land }, { label: 'Structures', value: structure }],
+            },
+            {
+              kind: 'stack',
+              title: 'Estimated value, top 15 barangays (₱)',
+              series: ['Land', 'Structures'],
+              normalize: false,
+              rows: rows.slice(0, 15).map((r) => ({ label: r.name, values: [r.b.land, r.b.structure] })),
+            },
+          ],
           table: {
             columns: ['Barangay', 'Buildings', 'Land ₱M', 'Structures ₱M', 'Total ₱M', 'Mean ₱ per building', 'Street-level match'],
             rows: rows.map(({ name, b, total: t }) => [
@@ -478,6 +650,14 @@ const propertyReport: ReportDefinition = {
         },
         {
           heading: 'How reliable is the zonal match?',
+          charts: [
+            {
+              kind: 'donut',
+              title: 'Buildings by match level',
+              centerLabel: 'buildings',
+              items: tierTotals.map((v, i) => ({ label: p.tierLabels[i] ?? `Tier ${i + 1}`, value: v })),
+            },
+          ],
           table: {
             columns: ['Match level', 'Buildings', 'Share'],
             rows: tierTotals
@@ -537,6 +717,13 @@ const terrainReport: ReportDefinition = {
           ? [
               {
                 heading: 'Storm surge: buildings by the lowest surge that reaches them',
+                charts: [
+                  {
+                    kind: 'bar',
+                    title: 'Buildings by lowest surge band',
+                    items: byLevel.map((v, i) => ({ label: labels[i + 1] ?? `Level ${i + 1}`, value: v })),
+                  },
+                ] as ReportChart[],
                 table: {
                   columns: ['Surge band', 'Buildings'],
                   rows: byLevel.map((v, i) => [labels[i + 1] ?? `Level ${i + 1}`, n0(v)]),
@@ -545,6 +732,21 @@ const terrainReport: ReportDefinition = {
               },
               {
                 heading: 'Storm surge by barangay, most exposed value first',
+                charts: [
+                  {
+                    kind: 'bar',
+                    title: 'Value reached by surge, top 15 (₱M)',
+                    items: surgeRows.slice(0, 15).map((r) => ({ label: r.a.name, value: surgeV(r) / 1e6 })),
+                  },
+                  {
+                    kind: 'bar',
+                    title: 'Share of buildings reached, top 15 (%)',
+                    items: [...surgeRows]
+                      .sort((x, y) => surgeN(y) / Math.max(1, y.b.buildings) - surgeN(x) / Math.max(1, x.b.buildings))
+                      .slice(0, 15)
+                      .map((r) => ({ label: r.a.name, value: Math.round((1000 * surgeN(r)) / Math.max(1, r.b.buildings)) / 10, display: pct(surgeN(r), r.b.buildings) })),
+                  },
+                ] as ReportChart[],
                 table: {
                   columns: ['Barangay', 'Buildings reached', 'Share of buildings', 'Reached at 2-3 m', 'Value exposed ₱M'],
                   rows: surgeRows.map((r) => [
@@ -556,6 +758,13 @@ const terrainReport: ReportDefinition = {
           : []),
         {
           heading: `Low-lying proxy (below ${p.lowLyingM} m), most exposed value first`,
+          charts: [
+            {
+              kind: 'bar',
+              title: `Value below ${p.lowLyingM} m, top 15 (₱M)`,
+              items: lowRows.slice(0, 15).map((r) => ({ label: r.a.name, value: r.b.lowLyingValue / 1e6 })),
+            },
+          ],
           table: {
             columns: ['Barangay', 'Mean elev m', 'Low-lying land %', 'Buildings below', 'Share of buildings', 'Exposed value ₱M'],
             rows: lowRows.map(({ a, b }) => [
@@ -625,6 +834,35 @@ const corridorReport: ReportDefinition = {
         },
         {
           heading: 'Busiest streets (load per km)',
+          charts: [
+            ...(a && b
+              ? ([
+                  {
+                    kind: 'bar',
+                    title: 'Mean volume / capacity',
+                    items: [{ label: a.name, value: a.vcMean, display: a.vcMean.toFixed(2) }, { label: b.name, value: b.vcMean, display: b.vcMean.toFixed(2) }],
+                  },
+                  {
+                    kind: 'bar',
+                    title: 'Car speed vs free flow (%)',
+                    items: [
+                      { label: a.name, value: Math.round(a.speedRatio * 100), display: `${Math.round(a.speedRatio * 100)}%` },
+                      { label: b.name, value: Math.round(b.speedRatio * 100), display: `${Math.round(b.speedRatio * 100)}%` },
+                    ],
+                  },
+                ] as ReportChart[])
+              : []),
+            {
+              kind: 'bar',
+              title: 'Load per km (PCU), top 10',
+              items: [...ranked].sort((x, y) => y.pcu / y.lengthKm - x.pcu / x.lengthKm).slice(0, 10).map((r) => ({ label: r.name, value: Math.round(r.pcu / r.lengthKm) })),
+            },
+            {
+              kind: 'bar',
+              title: 'Mean v/c, 10 most congested',
+              items: [...ranked].sort((x, y) => y.vcMean - x.vcMean).slice(0, 10).map((r) => ({ label: r.name, value: r.vcMean, display: r.vcMean.toFixed(2) })),
+            },
+          ] as ReportChart[],
           table: {
             columns: cols,
             rows: rankRows([...ranked].sort((x, y) => y.pcu / y.lengthKm - x.pcu / x.lengthKm)),
@@ -671,6 +909,10 @@ const tripGenReport: ReportDefinition = {
       sections: [
         {
           heading: 'By land use',
+          charts: [
+            { kind: 'donut', title: 'Trips in, by land use', centerLabel: 'trips in', items: g.landUse.map((l) => ({ label: l.group, value: l.in })) },
+            { kind: 'donut', title: 'Trips out, by land use', centerLabel: 'trips out', items: g.landUse.map((l) => ({ label: l.group, value: l.out })) },
+          ],
           table: {
             columns: ['Land use', 'Buildings', 'Trips out', 'Trips in', 'Out (city-scaled)', 'In (city-scaled)', 'Trips in per building'],
             rows: g.landUse.map((l) => [
@@ -682,14 +924,23 @@ const tripGenReport: ReportDefinition = {
         },
         {
           heading: 'Campuses and institutions',
+          charts: [{ kind: 'bar', title: 'Trips in, top 12 campuses', items: g.campuses.slice(0, 12).map((c) => ({ label: c.name, value: c.in })) }],
           table: {
             columns: ['Campus', 'Type', 'Buildings', 'Trips out', 'Trips in', 'Out (city-scaled)', 'In (city-scaled)'],
             rows: g.campuses.slice(0, 40).map((c) => [c.name, c.group, n0(c.buildings), ...pair(c.out, c.in), n0(c.outScaled), n0(c.inScaled)]),
           },
           note: 'Same-named schools, hospitals and civic buildings are grouped into one campus. Top 40 by trips in.',
         },
-        { heading: 'Top attractors (trips in)', table: { columns: bCols, rows: g.topAttractors.map(bRow) } },
-        { heading: 'Top producers (trips out)', table: { columns: bCols, rows: g.topProducers.map(bRow) } },
+        {
+          heading: 'Top attractors (trips in)',
+          charts: [{ kind: 'bar', title: 'Trips in, top 10 buildings', items: g.topAttractors.slice(0, 10).map((r) => ({ label: r.name, value: r.in })) }],
+          table: { columns: bCols, rows: g.topAttractors.map(bRow) },
+        },
+        {
+          heading: 'Top producers (trips out)',
+          charts: [{ kind: 'bar', title: 'Trips out, top 10 buildings', items: g.topProducers.slice(0, 10).map((r) => ({ label: r.name, value: r.out })) }],
+          table: { columns: bCols, rows: g.topProducers.map(bRow) },
+        },
       ],
       caveats: [
         'Counts are simulated agents. “City-scaled” multiplies each by how many real trips the sampled agent stands for when it is spawned; it is an estimate, not a count.',
@@ -745,6 +996,29 @@ const purposeReport: ReportDefinition = {
       sections: [
         {
           heading: 'By area type (population-weighted)',
+          charts: [
+            {
+              kind: 'stack',
+              title: 'Trip purpose mix by area type',
+              series: ['Work', 'School', 'Other'],
+              normalize: true,
+              rows: [
+                ...[...byType.entries()].map(([type, list]) => ({
+                  label: type,
+                  values: [avg(list, (r) => r.work), avg(list, (r) => r.school), avg(list, (r) => r.other)],
+                })),
+                { label: 'City', values: [cs.hbw, cs.hbe, cs.hbo] },
+              ],
+            },
+            {
+              kind: 'scatter',
+              title: 'Young residents vs school trip share',
+              xLabel: 'Aged 5-24 (% of residents)',
+              yLabel: 'School share of trips (%)',
+              points: rows.map((r) => ({ label: r.name, x: Math.round(r.young * 1000) / 10, y: Math.round(r.school * 1000) / 10 })),
+              note: 'Each dot is one barangay.',
+            },
+          ],
           table: {
             columns: ['Area type', 'Barangays', 'Residents', 'Work', 'School', 'Other', 'Aged 5-24', 'Aged 60+'],
             rows: [...byType.entries()].map(([type, list]) => [
@@ -756,6 +1030,15 @@ const purposeReport: ReportDefinition = {
         },
         {
           heading: 'By barangay (highest school share first)',
+          charts: [
+            {
+              kind: 'stack',
+              title: 'Purpose mix, 12 highest and lowest school share',
+              series: ['Work', 'School', 'Other'],
+              normalize: true,
+              rows: [...rows.slice(0, 6), ...rows.slice(-6)].map((r) => ({ label: r.name, values: [r.work, r.school, r.other] })),
+            },
+          ],
           table: {
             columns: ['Barangay', 'Area type', 'Residents', 'Aged 5-24', 'Aged 60+', 'Work', 'School', 'Other'],
             rows: rows.map((r) => [r.name, r.type, n0(r.pop), p(r.young), p(r.old), p(r.work), p(r.school), p(r.other)]),

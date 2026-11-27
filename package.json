@@ -11,6 +11,7 @@
     "test": "vitest run",
     "data:fetch": "uv run scripts/fetch_bacolod.py",
     "data:osm": "uv run scripts/enrich_osm_buildings.py",
+    "data:fixbata": "uv run python -I scripts/fix_bata_boundary.py",
     "data:analytics": "uv run scripts/compute_barangay_analytics.py",
     "data:dem": "uv run scripts/fetch_dem.py",
     "data:mobility": "uv run scripts/export_trafficsim_network.py && uv run python -I scripts/export_edge_streets.py",

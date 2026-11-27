@@ -10,6 +10,7 @@ import { MobilityPlaybackBar } from './components/MobilityPlaybackBar';
 import { ReportsPanel } from './components/ReportsPanel';
 import { TopBar } from './components/TopBar';
 import { TwinViewport } from './components/TwinViewport';
+import { ViewControl } from './components/ViewControl';
 import { TwinStoreProvider, useTwinStore } from './layers/registry';
 
 function TwinWorkspace() {
@@ -223,6 +224,8 @@ function TwinWorkspace() {
         }}
         onHoverProfileCoord={setProfileHoverCoord}
       />
+
+      <ViewControl map={mapInstance} />
 
       <LegendBar />
 

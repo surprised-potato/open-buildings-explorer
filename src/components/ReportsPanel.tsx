@@ -21,6 +21,7 @@ import { useTwinStore } from '../layers/registry';
 import { REPORTS } from '../reports/catalog';
 import { downloadText, openPrintable, reportToCsv, reportToHtml } from '../reports/export';
 import type { PropertyData, PurposeMixData, ReportContext, ReportOutput } from '../reports/types';
+import { chartToSvg } from '../reports/charts';
 import { loadBuildingZonal } from '../utils/buildingZonal';
 import {
   BACKGROUND_LABEL,
@@ -378,6 +379,20 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
                       ))}
                     </dl>
                   )}
+                  {s.charts?.length ? (
+                    <div className="report-charts">
+                      {s.charts.map((c) => {
+                        const svg = chartToSvg(c);
+                        return svg ? (
+                          <figure key={c.title} className="report-chart">
+                            <figcaption>{c.title}</figcaption>
+                            <div dangerouslySetInnerHTML={{ __html: svg }} />
+                            {c.note && <p className="report-note">{c.note}</p>}
+                          </figure>
+                        ) : null;
+                      })}
+                    </div>
+                  ) : null}
                   {s.table && (
                     <div className="report-table-wrap">
                       <table className="report-table">

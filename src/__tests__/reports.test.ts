@@ -55,7 +55,8 @@ describe('reports', () => {
 
   it('ranking has one row per barangay', () => {
     const out = REPORTS.find((r) => r.id === 'barangay-ranking')!.build(ctx());
-    expect(out.sections[0].table!.rows).toHaveLength(analytics.barangays.length);
+    const table = out.sections.find((s) => s.table)!.table!;
+    expect(table.rows).toHaveLength(analytics.barangays.length);
   });
 
   it('profile needs a barangay and ranks it', () => {

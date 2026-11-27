@@ -2,6 +2,7 @@ import type {
   BarangayAnalyticsDataset,
   BuildingPoiRecord,
 } from '../layers/types';
+import type { ReportChart } from './charts';
 import type { MobilitySimStats } from '../utils/mobilityTypes';
 import type { CorridorSnapshot } from './corridors';
 import type { TripGenSnapshot } from './tripGeneration';
@@ -15,6 +16,8 @@ export interface ReportSection {
   heading: string;
   /** Label / value pairs shown as a compact list. */
   facts?: Array<[string, string]>;
+  /** Graphs drawn above the table; the table stays as the exact numbers. */
+  charts?: ReportChart[];
   table?: ReportTable;
   note?: string;
 }
