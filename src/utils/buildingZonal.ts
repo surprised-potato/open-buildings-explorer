@@ -1,6 +1,8 @@
 /** Per-building BIR zonal value estimates (building_zonal.bin, written by
  *  scripts/estimate_building_zonal_values.py). Ids are sorted 16-byte UUIDs; lookup is a binary search. */
 
+import { placeFile } from './place';
+
 export const BUILDING_ZONAL_MAGIC = 0x4c565a42;
 
 export interface BuildingValuationParams {
@@ -142,8 +144,8 @@ export function loadBuildingZonal(base: string): Promise<BuildingZonalTable | nu
     cached = (async () => {
       try {
         const [b, j] = await Promise.all([
-          fetch(`${base}data/bacolod/building_zonal.bin`),
-          fetch(`${base}data/bacolod/building_zonal.json`),
+          fetch(`${base}${placeFile('building_zonal.bin')}`),
+          fetch(`${base}${placeFile('building_zonal.json')}`),
         ]);
         if (!b.ok || !j.ok) return null;
         return parseBuildingZonal(await b.arrayBuffer(), (await j.json()) as BuildingZonalMeta);

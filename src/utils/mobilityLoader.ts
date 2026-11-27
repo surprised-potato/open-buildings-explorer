@@ -4,6 +4,7 @@ import {
   type MobilityDataset,
   type MobilityZonesMetadata,
 } from './mobilityTypes';
+import { placeFile } from './place';
 
 export const MOBILITY_BINARY_MAGIC = 0x424d4f42; // 'BMOB'
 export const MOBILITY_BINARY_VERSION = 2;
@@ -334,8 +335,8 @@ export async function loadMobilityDataset(
 ): Promise<MobilityDataset> {
   const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   const [zonesRes, binRes] = await Promise.all([
-    fetch(`${normalizedBase}data/bacolod/mobility_zones.json`, { signal }),
-    fetch(`${normalizedBase}data/bacolod/mobility_network.bin`, { signal }),
+    fetch(`${normalizedBase}${placeFile('mobility_zones.json')}`, { signal }),
+    fetch(`${normalizedBase}${placeFile('mobility_network.bin')}`, { signal }),
   ]);
 
   if (!zonesRes.ok) {
@@ -359,8 +360,8 @@ export async function loadMobilityDataset(
   // Building-level origins/destinations are optional: fall back to access nodes if absent.
   try {
     const [bBinRes, bJsonRes] = await Promise.all([
-      fetch(`${normalizedBase}data/bacolod/mobility_buildings.bin`, { signal }),
-      fetch(`${normalizedBase}data/bacolod/mobility_buildings.json`, { signal }),
+      fetch(`${normalizedBase}${placeFile('mobility_buildings.bin')}`, { signal }),
+      fetch(`${normalizedBase}${placeFile('mobility_buildings.json')}`, { signal }),
     ]);
     if (bBinRes.ok && bJsonRes.ok) {
       const [bBuf, bJson] = await Promise.all([bBinRes.arrayBuffer(), bJsonRes.json()]);

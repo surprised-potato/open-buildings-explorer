@@ -4,10 +4,11 @@ import type {
   LegendItem,
   TwinLayerDefinition,
 } from '../types';
+import { placeFile } from '../../utils/place';
 
 function getBoundariesUrl(): string {
   const base = import.meta.env?.BASE_URL ?? '/';
-  return `${base}data/bacolod/boundaries.geojson`;
+  return `${base}${placeFile('boundaries.geojson')}`;
 }
 
 export const BOUNDARIES_SOURCE_ID = 'bacolod-boundaries';

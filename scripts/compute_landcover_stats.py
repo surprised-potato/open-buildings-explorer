@@ -24,9 +24,14 @@ from typing import Any
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
-TIF = REPO_ROOT / "data" / "landcover" / "worldcover_2021_bacolod.tif"
+OUT_DIR = PLACE.out_dir
+TIF = REPO_ROOT / PLACE.setting("landcover_tif", f"data/landcover/worldcover_2021_{PLACE.slug}.tif")
 
 CLASSES: dict[int, str] = {
     10: "tree_cover", 20: "shrubland", 30: "grassland", 40: "cropland", 50: "built_up",
@@ -49,7 +54,7 @@ def shares(values: np.ndarray) -> dict[str, float]:
 
 def read_raster(tif: Path) -> tuple[np.ndarray, float, float, float]:
     """(uint8 array[row, col], west, north, cell size) through GDAL's ENVI raw output."""
-    with tempfile.TemporaryDirectory(prefix="bacolod_lc_") as d:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_lc_") as d:
         raw = Path(d) / "lc.bin"
         subprocess.run(["gdal_translate", "-q", "-of", "ENVI", str(tif), str(raw)], check=True)
         hdr = (Path(d) / "lc.hdr").read_text()
@@ -109,6 +114,7 @@ def enrich(analytics_path: Path, boundaries_path: Path, lc: dict[str, dict[str, 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--tif", type=Path, default=TIF)
     ap.add_argument("--out-dir", type=Path, default=OUT_DIR)
     args = ap.parse_args()

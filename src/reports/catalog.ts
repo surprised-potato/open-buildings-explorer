@@ -9,6 +9,9 @@ import type { ReportChart } from './charts';
 import type { CorridorRow } from './corridors';
 import type { BuildingTripRow } from './tripGeneration';
 import type { ReportContext, ReportDefinition, ReportOutput } from './types';
+import { tryGetPlaceMeta } from '../utils/place';
+
+const placeName = () => tryGetPlaceMeta()?.displayName ?? 'City';
 
 const n0 = (v: number | null | undefined) =>
   v === null || v === undefined || !Number.isFinite(v) ? '–' : Math.round(v).toLocaleString('en-PH');
@@ -47,14 +50,14 @@ function poiTrustCounts(ctx: ReportContext) {
 const citySnapshot: ReportDefinition = {
   id: 'city-snapshot',
   title: 'City snapshot',
-  description: 'One-page summary of Bacolod: buildings, land use mix, POIs, terrain and zonal values.',
+  description: 'One-page summary of the place: buildings, land use mix, POIs, terrain and zonal values.',
   category: 'City',
   build: (ctx): ReportOutput => {
     const c = ctx.analytics.citywide;
     const bs = ctx.analytics.barangays;
     const top = [...bs].sort((a, b) => b.building_count - a.building_count).slice(0, 10);
     return {
-      title: 'Bacolod City snapshot',
+      title: `${placeName()} snapshot`,
       subtitle: `Data generated ${ctx.analytics.generated_at.slice(0, 10)}`,
       sections: [
         {
@@ -573,7 +576,7 @@ const mobilityReport: ReportDefinition = {
         },
       ],
       caveats: [
-        'Synthetic demand from a gravity model; not calibrated to Bacolod traffic counts, which we do not have.',
+        'Synthetic demand from a gravity model; not calibrated to local traffic counts, which we do not have.',
         'Cebu (JICA 2014) survey shares are the only reference for mode split.',
       ],
     };
@@ -777,7 +780,7 @@ const terrainReport: ReportDefinition = {
       ],
       caveats: [
         'Storm surge: Project NOAH modelled surge advisories (simulations of 721 historical cyclones), ODbL licence. A screening hazard, not a forecast, and it ignores sea walls and drainage.',
-        'Project NOAH flood maps (5, 25 and 100-year rain) were checked and do not cover Bacolod City, so river or rain flooding is not shown here. Only the elevation proxy speaks to it.',
+        'River and rain flooding (Project NOAH 5, 25 and 100-year maps) is not counted per building yet. For Bacolod City those maps do not reach the city at all; elsewhere in the province they do. Here only the elevation proxy speaks to it.',
         `Elevation comes from a coarse 30 m DEM, so ${p.lowLyingM} m is a screening threshold, not a flood hazard map.`,
         PROPERTY_CAVEAT,
       ],
@@ -876,7 +879,7 @@ const corridorReport: ReportDefinition = {
       ],
       caveats: [
         'A snapshot of the running simulation, smoothed over about a sim minute, not an average over the day. Compare at the same clock time and let it run a few minutes first.',
-        'Demand is synthetic (gravity model) and not calibrated to Bacolod traffic counts, which we do not have.',
+        'Demand is synthetic (gravity model) and not calibrated to local traffic counts, which we do not have.',
         'Streets are named by matching network edges to OSM roads within 25 m; about two thirds of edges are unnamed minor roads and are not counted here.',
       ],
     };
@@ -1053,7 +1056,7 @@ const purposeReport: ReportDefinition = {
         },
       ],
       caveats: [
-        'Trip rates are from the JICA Metro Cebu 2014 household survey (not Bacolod). The survey gives no purpose split by age; the matrix is an assumption.',
+        'Trip rates are from the JICA Metro Cebu 2014 household survey (not Negros Occidental). The survey gives no purpose split by age; the matrix is an assumption.',
         'Age data: PSA 2020 Census of Population and Housing via HDX (CC BY). Mix describes residents’ trips; commuting inflows are handled by the gravity model, not here.',
         'Area types are an unvalidated grouping (the TSSP 2023 study reports 41 urban and 20 suburban barangays).',
       ],

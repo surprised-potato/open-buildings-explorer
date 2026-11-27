@@ -26,25 +26,45 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
+import sys
+
 import numpy as np
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+P = PLACE.file_prefix
+
 ROOT = Path(__file__).resolve().parent.parent
-OUT_DIR = ROOT / "public" / "data" / "bacolod" / "dem"
+OUT_DIR = PLACE.out_dir / "dem"
+DEM_URL_DIR = f"{PLACE.data_url_dir}/dem"
 
-# Padded Bacolod City bounding box (west, south, east, north)
-BACOLOD_BBOX = (122.88, 10.57, 123.15, 10.75)
+# Padded place bounding box (west, south, east, north)
+BACOLOD_BBOX = PLACE.analysis_bbox
 # Slightly wider terrain mesh bbox so eastern foothills render seamlessly
-TERRAIN_BBOX = (122.85, 10.54, 123.20, 10.78)
+TERRAIN_BBOX = PLACE.terrain_bbox
 
-COPERNICUS_URLS = [
-    "/vsicurl/https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N10_00_E122_00_DEM/Copernicus_DSM_COG_10_N10_00_E122_00_DEM.tif",
-    "/vsicurl/https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N10_00_E123_00_DEM/Copernicus_DSM_COG_10_N10_00_E123_00_DEM.tif",
-]
+
+
+def copernicus_urls(bbox: tuple[float, float, float, float]) -> list[str]:
+    """Copernicus GLO-30 1x1 degree COG tiles covering bbox (west, south, east, north)."""
+    west, south, east, north = bbox
+    urls = []
+    for lat in range(math.floor(south), math.floor(north) + 1):
+        for lon in range(math.floor(west), math.floor(east) + 1):
+            ns = f"{'N' if lat >= 0 else 'S'}{abs(lat):02d}"
+            ew = f"{'E' if lon >= 0 else 'W'}{abs(lon):03d}"
+            tile = f"Copernicus_DSM_COG_10_{ns}_00_{ew}_00_DEM"
+            urls.append(f"/vsicurl/https://copernicus-dem-30m.s3.amazonaws.com/{tile}/{tile}.tif")
+    return urls
+
+
+COPERNICUS_URLS = copernicus_urls(TERRAIN_BBOX)
 
 ORIGIN_SHIFT = 20037508.342789244  # Web Mercator half-circumference (meters)
-GRID_WIDTH = 486
-GRID_HEIGHT = 324
+GRID_WIDTH, GRID_HEIGHT = PLACE.need("dem_grid")
 NODATA_F32 = -9999.0
 NODATA_I16 = -32768
 
@@ -213,7 +233,8 @@ def build_contours(master_dem: Path, out_pmtiles: Path, tmp_dir: Path) -> int:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build Bacolod City DEM suite.")
+    parser = argparse.ArgumentParser(description="Build the place's DEM suite (default Bacolod City).")
+    add_place_argument(parser)
     parser.add_argument(
         "--tif",
         type=Path,
@@ -227,10 +248,10 @@ def main() -> None:
     source_label = args.tif.name if args.tif else "Copernicus DEM GLO-30 (30m)"
     resolution_m = 5 if args.tif else 30
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_dem_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_dem_") as tmp:
         tmp_dir = Path(tmp)
         terrain_dem = tmp_dir / "terrain_dem.tif"
-        master_dem = OUT_DIR / "bacolod_dem.tif"
+        master_dem = OUT_DIR / f"{P}_dem.tif"
 
         print(f"1/6 Clipping DEM from {source_label}...")
         t_west, t_south, t_east, t_north = TERRAIN_BBOX
@@ -289,7 +310,7 @@ def main() -> None:
             "350.0 185 28 28 235",
             "600.0 248 250 252 240",
         ])
-        relief_png = OUT_DIR / "bacolod_elevation_relief.png"
+        relief_png = OUT_DIR / f"{P}_elevation_relief.png"
         run_cmd([
             "gdaldem", "color-relief",
             str(dem_3857), str(relief_ramp), str(relief_png),
@@ -337,7 +358,7 @@ def main() -> None:
             "15 225 29 72 230",
             "35 159 18 57 240",
         ])
-        slope_png = OUT_DIR / "bacolod_slope.png"
+        slope_png = OUT_DIR / f"{P}_slope.png"
         run_cmd([
             "gdaldem", "color-relief",
             str(slope_3857), str(slope_ramp), str(slope_png),
@@ -347,7 +368,7 @@ def main() -> None:
         slope_coords = get_3857_wgs84_corners(slope_3857)
 
         print("5/6 Extracting 5m/25m contours to PMTiles...")
-        contours_pmtiles = OUT_DIR / "bacolod_contours.pmtiles"
+        contours_pmtiles = OUT_DIR / f"{P}_contours.pmtiles"
         contour_count = build_contours(master_dem, contours_pmtiles, tmp_dir)
 
         print("6/6 Encoding compact offline elevation grid & manifest...")
@@ -372,7 +393,7 @@ def main() -> None:
         grid_i16 = np.full((GRID_HEIGHT, GRID_WIDTH), NODATA_I16, dtype=np.int16)
         scaled = np.rint(np.clip(elev_f32[valid_mask] * 10.0, -32767.0, 32767.0)).astype(np.int16)
         grid_i16[valid_mask] = scaled
-        grid_bin = OUT_DIR / "bacolod_dem_grid.bin"
+        grid_bin = OUT_DIR / f"{P}_dem_grid.bin"
         grid_i16.astype("<i2").tofile(grid_bin)
 
         manifest = {
@@ -388,7 +409,7 @@ def main() -> None:
                 "p90_m": round(float(np.percentile(valid_vals, 90)), 2),
             },
             "grid": {
-                "file": "data/bacolod/dem/bacolod_dem_grid.bin",
+                "file": f"{DEM_URL_DIR}/{P}_dem_grid.bin",
                 "width": GRID_WIDTH,
                 "height": GRID_HEIGHT,
                 "bbox": list(BACOLOD_BBOX),
@@ -396,21 +417,21 @@ def main() -> None:
                 "nodata": NODATA_I16,
             },
             "relief": {
-                "file": "data/bacolod/dem/bacolod_elevation_relief.png",
+                "file": f"{DEM_URL_DIR}/{P}_elevation_relief.png",
                 "coordinates": relief_coords,
             },
             "slope": {
-                "file": "data/bacolod/dem/bacolod_slope.png",
+                "file": f"{DEM_URL_DIR}/{P}_slope.png",
                 "coordinates": slope_coords,
             },
             "contours": {
-                "file": "data/bacolod/dem/bacolod_contours.pmtiles",
+                "file": f"{DEM_URL_DIR}/{P}_contours.pmtiles",
                 "interval_m": 5,
                 "major_interval_m": 25,
                 "feature_count": contour_count,
             },
             "terrarium": {
-                "tiles_template": "data/bacolod/dem/terrarium/{z}/{x}/{y}.png",
+                "tiles_template": DEM_URL_DIR + "/terrarium/{z}/{x}/{y}.png",
                 "minzoom": 10,
                 "maxzoom": 13,
                 "bounds": list(TERRAIN_BBOX),

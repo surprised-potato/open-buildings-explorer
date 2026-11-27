@@ -42,6 +42,7 @@ import type {
   TwinLayerDefinition,
   TwinManifest,
 } from './types';
+import { placeFile } from '../utils/place';
 
 const STORAGE_KEY = 'bacolod_twin_prefs_v2';
 
@@ -418,7 +419,7 @@ export function TwinStoreProvider({ children }: { children: ReactNode }) {
 
     async function loadCityMetadata() {
       try {
-        const manifestRes = await fetch(`${base}data/bacolod/manifest.json`, {
+        const manifestRes = await fetch(`${base}${placeFile('manifest.json')}`, {
           signal: controller.signal,
         });
         if (manifestRes.ok) {
@@ -431,7 +432,7 @@ export function TwinStoreProvider({ children }: { children: ReactNode }) {
 
       try {
         const boundariesRes = await fetch(
-          `${base}data/bacolod/boundaries.geojson`,
+          `${base}${placeFile('boundaries.geojson')}`,
           { signal: controller.signal }
         );
         if (boundariesRes.ok) {
@@ -443,7 +444,7 @@ export function TwinStoreProvider({ children }: { children: ReactNode }) {
       }
 
       try {
-        const poisRes = await fetch(`${base}data/bacolod/building_pois.json`, {
+        const poisRes = await fetch(`${base}${placeFile('building_pois.json')}`, {
           signal: controller.signal,
         });
         if (poisRes.ok) {
@@ -488,7 +489,7 @@ export function TwinStoreProvider({ children }: { children: ReactNode }) {
 
       try {
         const analyticsRes = await fetch(
-          `${base}data/bacolod/barangay_analytics.json`,
+          `${base}${placeFile('barangay_analytics.json')}`,
           { signal: controller.signal }
         );
         if (analyticsRes.ok) {
@@ -501,7 +502,7 @@ export function TwinStoreProvider({ children }: { children: ReactNode }) {
 
       try {
         const gridRes = await fetch(
-          `${base}data/bacolod/catchment_grid.json`,
+          `${base}${placeFile('catchment_grid.json')}`,
           { signal: controller.signal }
         );
         if (gridRes.ok) {

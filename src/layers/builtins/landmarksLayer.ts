@@ -1,80 +1,11 @@
 import { ColumnLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers';
+import { getPlaceMeta } from '../../utils/place';
 import type { LandmarkItem, TwinLayerDefinition } from '../types';
 
-export const BACOLOD_LANDMARKS: LandmarkItem[] = [
-  {
-    id: 'public-plaza',
-    name: 'Bacolod Public Plaza',
-    category: 'Civic Heritage',
-    description:
-      'Historic heart of Bacolod City with central bandstand and civic promenade.',
-    coordinates: [122.94642, 10.66937],
-    camera: { center: [122.94642, 10.66937], zoom: 16.4, pitch: 58, bearing: -20 },
-  },
-  {
-    id: 'san-sebastian-cathedral',
-    name: 'San Sebastian Cathedral',
-    category: 'Heritage',
-    description:
-      '19th-century coral-stone cathedral facing the Bacolod Public Plaza.',
-    coordinates: [122.94715, 10.67033],
-    camera: { center: [122.94715, 10.67033], zoom: 17.0, pitch: 60, bearing: 25 },
-  },
-  {
-    id: 'new-government-center',
-    name: 'Bacolod New Government Center',
-    category: 'Government',
-    description:
-      'Bacolod City Hall and civic grounds along Circumferential Road.',
-    coordinates: [122.96658, 10.65885],
-    camera: { center: [122.96658, 10.65885], zoom: 16.2, pitch: 56, bearing: -35 },
-  },
-  {
-    id: 'capitol-lagoon',
-    name: 'Capitol Park and Lagoon',
-    category: 'Civic Park',
-    description:
-      'Negros Occidental Provincial Capitol complex and twin-sculpture lagoon.',
-    coordinates: [122.9521, 10.67604],
-    camera: { center: [122.9521, 10.67604], zoom: 16.3, pitch: 55, bearing: -12 },
-  },
-  {
-    id: 'bredco-port',
-    name: 'BREDCO Port & Reclamation',
-    category: 'Maritime & Mixed-Use',
-    description:
-      'Major ferry terminal, commercial reclamation zone, and SM City Bacolod waterfront.',
-    coordinates: [122.94479, 10.68261],
-    camera: { center: [122.94479, 10.68261], zoom: 15.2, pitch: 54, bearing: 40 },
-  },
-  {
-    id: 'the-ruins',
-    name: 'The Ruins (North Border)',
-    category: 'Heritage',
-    description:
-      'Iconic ancestral mansion ruins just north of the Bacolod–Talisay boundary.',
-    coordinates: [122.98266, 10.70921],
-    camera: { center: [122.98266, 10.70921], zoom: 16.4, pitch: 58, bearing: -15 },
-  },
-  {
-    id: 'usls-bacolod',
-    name: 'University of St. La Salle',
-    category: 'Education',
-    description:
-      'Major academic campus anchoring the La Salle–Villamonte corridor.',
-    coordinates: [122.96248, 10.67842],
-    camera: { center: [122.96248, 10.67842], zoom: 16.0, pitch: 52, bearing: -25 },
-  },
-  {
-    id: 'panaad-stadium',
-    name: 'Panaad Park and Stadium',
-    category: 'Sports & Recreation',
-    description:
-      '20,000-seat provincial sports complex and forested park in Barangay Mansilingan.',
-    coordinates: [122.96461, 10.62378],
-    camera: { center: [122.96461, 10.62378], zoom: 15.8, pitch: 54, bearing: 18 },
-  },
-];
+/** Landmarks of the current place (overrides/<place>/place.json via place.json). */
+export function placeLandmarks(): LandmarkItem[] {
+  return getPlaceMeta().landmarks;
+}
 
 export const landmarksLayer: TwinLayerDefinition = {
   id: 'landmarks',
@@ -125,7 +56,7 @@ export const landmarksLayer: TwinLayerDefinition = {
 
     const haloLayer = new ScatterplotLayer<LandmarkItem>({
       id: 'landmarks-halo',
-      data: BACOLOD_LANDMARKS,
+      data: placeLandmarks(),
       pickable: true,
       radiusUnits: 'meters',
       getPosition: (d) => [d.coordinates[0], d.coordinates[1], groundZ(d) + 1.5],
@@ -147,7 +78,7 @@ export const landmarksLayer: TwinLayerDefinition = {
 
     const columnLayer = new ColumnLayer<LandmarkItem>({
       id: 'landmarks-beacon',
-      data: BACOLOD_LANDMARKS,
+      data: placeLandmarks(),
       pickable: true,
       diskResolution: 12,
       radius: 5,
@@ -168,7 +99,7 @@ export const landmarksLayer: TwinLayerDefinition = {
 
     const textLayer = new TextLayer<LandmarkItem>({
       id: 'landmarks-labels',
-      data: BACOLOD_LANDMARKS,
+      data: placeLandmarks(),
       pickable: true,
       characterSet: 'auto',
       fontFamily: 'Inter, system-ui, sans-serif',

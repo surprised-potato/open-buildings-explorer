@@ -2,6 +2,8 @@
  *  One byte per building, ids sorted as 16-byte UUIDs: bits 0-2 lowest storm-surge advisory reaching it
  *  (0 none, 1-4), bit 3 elevation below the low-lying threshold. */
 
+import { placeFile } from './place';
+
 export const BUILDING_HAZARD_MAGIC = 0x44485a42;
 export const LOW_LYING_BIT = 8;
 
@@ -80,8 +82,8 @@ export function loadBuildingHazard(base: string): Promise<BuildingHazardTable | 
     cached = (async () => {
       try {
         const [b, j] = await Promise.all([
-          fetch(`${base}data/bacolod/building_hazard.bin`),
-          fetch(`${base}data/bacolod/building_hazard.json`),
+          fetch(`${base}${placeFile('building_hazard.bin')}`),
+          fetch(`${base}${placeFile('building_hazard.json')}`),
         ]);
         if (!b.ok || !j.ok) return null;
         return parseBuildingHazard(await b.arrayBuffer(), (await j.json()) as BuildingHazardMeta);

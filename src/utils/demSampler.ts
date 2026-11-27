@@ -1,4 +1,5 @@
 import type { DemManifest } from '../layers/types';
+import { placeFile } from './place';
 
 export interface DemGridConfig {
   width: number;
@@ -100,7 +101,7 @@ export async function loadDemGrid(
 ): Promise<{ manifest: DemManifest; sampler: DemGridSampler } | null> {
   try {
     const manifestRes = await fetch(
-      `${baseUrl}data/bacolod/dem/dem_manifest.json`
+      `${baseUrl}${placeFile('dem/dem_manifest.json')}`
     );
     if (!manifestRes.ok) return null;
     const manifest = (await manifestRes.json()) as DemManifest;

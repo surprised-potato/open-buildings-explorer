@@ -1,4 +1,5 @@
 /** Street-level roll-up of the live mobility simulation (edge names from mobility_edge_streets.json). */
+import { placeFile } from '../utils/place';
 
 export const NO_STREET = 0xffff;
 
@@ -92,7 +93,7 @@ let cached: Promise<EdgeStreets | null> | null = null;
 
 export function loadEdgeStreets(base: string): Promise<EdgeStreets | null> {
   if (!cached) {
-    cached = fetch(`${base}data/bacolod/mobility_edge_streets.json`)
+    cached = fetch(`${base}${placeFile('mobility_edge_streets.json')}`)
       .then((r) => (r.ok ? (r.json() as Promise<EdgeStreets>) : null))
       .catch(() => null);
   }

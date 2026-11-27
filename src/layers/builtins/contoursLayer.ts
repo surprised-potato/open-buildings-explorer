@@ -1,4 +1,5 @@
 import type { TwinLayerDefinition } from '../types';
+import { getPlaceMeta, placeFile } from '../../utils/place';
 
 function getOriginAndBase(): string {
   const origin =
@@ -29,7 +30,7 @@ export const contoursLayer: TwinLayerDefinition = {
   ],
   maplibre(ctx) {
     const { map, visible, opacity, theme } = ctx;
-    const url = `pmtiles://${getOriginAndBase()}data/bacolod/dem/bacolod_contours.pmtiles`;
+    const url = `pmtiles://${getOriginAndBase()}${placeFile(`dem/${getPlaceMeta().filePrefix}_contours.pmtiles`)}`;
 
     if (!map.getSource(CONTOURS_SOURCE_ID)) {
       map.addSource(CONTOURS_SOURCE_ID, {

@@ -21,10 +21,15 @@ from typing import Any, Iterable, Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import parse_bir_zonal_values as bir  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_XLSX = REPO_ROOT / "data" / "psa" / "2020_popn_single_age_admin4.xlsx"
-DEFAULT_BOUNDARIES = REPO_ROOT / "public" / "data" / "bacolod" / "boundaries.geojson"
-DEFAULT_OUT = REPO_ROOT / "public" / "data" / "bacolod" / "barangay_demographics.json"
+DEFAULT_BOUNDARIES = PLACE.out_dir / "boundaries.geojson"
+DEFAULT_OUT = PLACE.out_dir / "barangay_demographics.json"
 
 BANDS: list[tuple[str, int, int]] = [
     ("age_0_4", 0, 4),
@@ -33,8 +38,8 @@ BANDS: list[tuple[str, int, int]] = [
     ("age_25_59", 25, 59),
     ("age_60_plus", 60, 200),
 ]
-CITY_MARKER = "CITY OF BACOLOD"
-PROVINCE = "NEGROS OCCIDENTAL"
+CITY_NAME = PLACE.psa_name  # exact PSA municipality name, e.g. "CITY OF BACOLOD (Capital)"
+PROVINCE = PLACE.province
 
 
 def single_age_columns(header: Sequence[Any]) -> list[tuple[int, int]]:
@@ -64,7 +69,7 @@ def band_counts(row: Sequence[Any], cols: list[tuple[int, int]]) -> dict[str, in
 
 
 def parse_rows(rows: Iterable[Sequence[Any]]) -> dict[str, dict[str, Any]]:
-    """Return {normalised barangay key: {name, total, bands...}} for City of Bacolod rows."""
+    """Return {normalised barangay key: {name, total, bands...}} for the place's rows."""
     it = iter(rows)
     header = next(it)
     cols = single_age_columns(header)
@@ -74,7 +79,7 @@ def parse_rows(rows: Iterable[Sequence[Any]]) -> dict[str, dict[str, Any]]:
     for row in it:
         if len(row) < 7 or str(row[1]).strip().upper() != PROVINCE:
             continue
-        if CITY_MARKER not in str(row[2]).upper():
+        if str(row[2]).strip() != CITY_NAME:
             continue
         name = str(row[3]).strip()
         counts = band_counts(row, cols)
@@ -117,6 +122,7 @@ def read_rows(path: Path) -> Iterable[Sequence[Any]]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--xlsx", type=Path, default=DEFAULT_XLSX)
     ap.add_argument("--boundaries", type=Path, default=DEFAULT_BOUNDARIES)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)

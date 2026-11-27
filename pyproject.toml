@@ -11,6 +11,9 @@ dependencies = [
     "requests>=2.32.0",
     "xlrd>=2.0.2",
     "openpyxl>=3.1.5",
+    "osmium>=4.0",
+    "networkx>=3.0",
+    "scipy>=1.11",
 ]
 
 [project.optional-dependencies]

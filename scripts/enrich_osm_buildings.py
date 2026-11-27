@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pull OpenStreetMap (OSM) POI pins for Bacolod City via Overpass,
+"""Match OpenStreetMap (OSM) POI pins for one place (default Bacolod City), read from the downloaded OSM snapshot,
 run a spatial containment + nearest-building matching algorithm against
 building footprints, reclassify buildings (OSM POIs + Overture + OSM land use
 with dedicated mixed_use support), update estimated heights, emit
@@ -22,7 +22,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-import requests
 from shapely import make_valid
 from shapely import transform as shapely_transform
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon, mapping, shape
@@ -34,6 +33,7 @@ try:
         EAST,
         NORTH,
         OUT_DIR,
+        PLACE,
         SOUTH,
         WEST,
         estimate_building_height,
@@ -43,14 +43,15 @@ except ImportError:
         EAST,
         NORTH,
         OUT_DIR,
+        PLACE,
         SOUTH,
         WEST,
         estimate_building_height,
     )
 
-DEFAULT_BUILDINGS_PMTILES = OUT_DIR / "bacolod_buildings.pmtiles"
-DEFAULT_ROADS_PMTILES = OUT_DIR / "bacolod_roads.pmtiles"
-DEFAULT_BASE_PMTILES = OUT_DIR / "bacolod_base.pmtiles"
+DEFAULT_BUILDINGS_PMTILES = PLACE.pmtiles("buildings")
+DEFAULT_ROADS_PMTILES = PLACE.pmtiles("roads")
+DEFAULT_BASE_PMTILES = PLACE.pmtiles("base")
 DEFAULT_BOUNDARIES = OUT_DIR / "boundaries.geojson"
 DEFAULT_OUT_BUILDING_POIS = OUT_DIR / "building_pois.json"
 DEFAULT_OUT_LABELS = OUT_DIR / "building_labels.geojson"
@@ -84,15 +85,8 @@ COMPOUND_SHOP_MAP: dict[str, str] = {
     "department_store": "retail",
 }
 
-OVERPASS_POI_ENDPOINTS = [
-    "https://overpass-api.de/api/interpreter",
-    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-    "https://overpass.private.coffee/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-]
-
-# Local planar approximation in meters centered on Bacolod City (~10.67°N)
-CENTER_LAT = 10.67
+# Local planar approximation in meters centred on the place (Bacolod: its historic 10.67°N)
+CENTER_LAT = PLACE.planar_lat
 M_PER_DEG_LAT = 111320.0
 M_PER_DEG_LON = 111320.0 * math.cos(math.radians(CENTER_LAT))
 
@@ -432,88 +426,31 @@ def coerce_polygonal(geom: Any) -> Polygon | MultiPolygon | None:
     return None
 
 
-def fetch_osm_pois(
-    endpoints: list[str] | None = None,
-    timeout_s: int = 65,
-) -> list[dict[str, Any]]:
-    """Fetch OSM POI nodes and ways inside the Bacolod City bbox via Overpass."""
-    query = f"""[out:json][timeout:60];
-(
-  nw["shop"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["amenity"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["office"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["tourism"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["healthcare"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["craft"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["leisure"]({SOUTH},{WEST},{NORTH},{EAST});
-  nw["industrial"]({SOUTH},{WEST},{NORTH},{EAST});
-);
-out tags center;"""
+def fetch_osm_pois() -> list[dict[str, Any]]:
+    """OSM POI nodes and ways inside the place bbox, from the downloaded snapshot (no live Overpass).
 
-    target_endpoints = endpoints or OVERPASS_POI_ENDPOINTS
-    last_error: Exception | None = None
+    Same selection the Overpass query made: nw["shop"|"amenity"|"office"|"tourism"|"healthcare"|"craft"|
+    "leisure"|"industrial"](bbox); out tags center.
+    """
+    from osm_snapshot import elements, source_label
 
-    for ep in target_endpoints:
-        try:
-            print(f"Fetching OSM POIs from {ep}...")
-            resp = requests.post(
-                ep,
-                data={"data": query},
-                headers={"User-Agent": "BacolodDigitalTwin/1.0"},
-                timeout=timeout_s,
-            )
-            if resp.status_code != 200:
-                print(f"Overpass {ep} returned HTTP {resp.status_code}")
-                continue
-            payload = resp.json()
-            elements = payload.get("elements", [])
-            if elements:
-                print(f"Overpass {ep} returned {len(elements)} raw elements.")
-                return elements
-        except Exception as exc:
-            last_error = exc
-            print(f"Overpass {ep} failed: {exc}")
-
-    raise RuntimeError(f"All Overpass endpoints failed to return OSM POIs: {last_error}")
+    found = elements("osm_pois.json", (WEST, SOUTH, EAST, NORTH))
+    print(f"{len(found):,} OSM POI elements from {source_label()}.")
+    return found
 
 
-def fetch_osm_compounds(
-    endpoints: list[str] | None = None,
-    timeout_s: int = 65,
-) -> list[dict[str, Any]]:
-    """Fetch OSM campus/compound polygons & extra landuse areas via Overpass."""
-    query = f"""[out:json][timeout:60];
-(
-  wr["amenity"~"^(school|university|college|kindergarten|hospital|clinic|place_of_worship|marketplace|townhall|courthouse|police|fire_station|bus_station|ferry_terminal)$"]({SOUTH},{WEST},{NORTH},{EAST});
-  wr["shop"~"^(mall|supermarket|department_store)$"]({SOUTH},{WEST},{NORTH},{EAST});
-  wr["tourism"="resort"]({SOUTH},{WEST},{NORTH},{EAST});
-  wr["landuse"~"^(commercial|retail|industrial|residential|institutional|education|religious)$"]({SOUTH},{WEST},{NORTH},{EAST});
-);
-out tags geom;"""
+def fetch_osm_compounds() -> list[dict[str, Any]]:
+    """Campus / compound / land-use outlines inside the place bbox, from the downloaded snapshot.
 
-    target_endpoints = endpoints or OVERPASS_POI_ENDPOINTS
-    for ep in target_endpoints:
-        try:
-            print(f"Fetching OSM compound & landuse polygons from {ep}...")
-            resp = requests.post(
-                ep,
-                data={"data": query},
-                headers={"User-Agent": "BacolodDigitalTwin/1.0"},
-                timeout=timeout_s,
-            )
-            if resp.status_code != 200:
-                print(f"Overpass compounds {ep} returned HTTP {resp.status_code}")
-                continue
-            payload = resp.json()
-            elements = payload.get("elements", [])
-            if isinstance(elements, list):
-                print(f"Overpass {ep} returned {len(elements)} compound/landuse elements.")
-                return elements
-        except Exception as exc:
-            print(f"Overpass compounds {ep} failed: {exc}")
+    Same selection the Overpass query made: wr[amenity~school|university|...|ferry_terminal],
+    wr[shop~mall|supermarket|department_store], wr[tourism=resort], wr[landuse~commercial|...|religious];
+    out tags geom.
+    """
+    from osm_snapshot import elements
 
-    print("Warning: Could not fetch OSM compound polygons; continuing without extra compounds.")
-    return []
+    found = elements("osm_compounds.json", (WEST, SOUTH, EAST, NORTH))
+    print(f"{len(found):,} OSM compound / land-use elements from the snapshot.")
+    return found
 
 
 def _coords_from_overpass_geom(geom_pts: list[dict[str, Any]]) -> list[tuple[float, float]]:
@@ -1097,7 +1034,7 @@ TRUST_SORT_RANK: dict[str, int] = {
 }
 
 _STOPWORDS_RE = re.compile(
-    r"\b(?:bacolod|city|branch|ph|philippines|inc|corp|corporation|co|ltd)\b"
+    r"\b(?:" + re.escape(PLACE.name.lower()) + r"|city|branch|ph|philippines|inc|corp|corporation|co|ltd)\b"
 )
 
 
@@ -1549,20 +1486,12 @@ def load_foursquare_places(
 # Places outside Bacolod that Overture/Foursquare sometimes geocode into the city.
 # Matched only as a trailing ", X" / " - X" locality suffix so Bacolod branches of
 # businesses named after these places (e.g. "Solid Manila Bldg") are kept.
-_FOREIGN_LOCALITY_SUFFIXES = (
-    "manila", "metro manila", "makati", "pasay", "quezon city", "taguig", "pasig",
-    "mandaluyong", "paranaque", "cebu", "cebu city", "mactan", "iloilo", "iloilo city",
-    "davao", "dumaguete", "pontevedra", "sipalay", "kabankalan", "cauayan",
-    "himamaylan", "hinigaran", "binalbagan", "la carlota", "san carlos", "cadiz",
-    "sagay", "escalante", "victorias", "isabela", "moises padilla", "la castellana",
-    "valladolid", "pulupandan", "manapla", "eb magalona", "toboso", "calatrava",
-    "salvador benedicto", "san enrique", "ilog", "candoni", "hinoba-an",
-)
+_FOREIGN_LOCALITY_SUFFIXES = tuple(PLACE.foreign_locality_suffixes())
 _FOREIGN_SUFFIX_RE = re.compile(
     r"(?:,|\s[-–—|]\s)\s*(?:" + "|".join(re.escape(s) for s in _FOREIGN_LOCALITY_SUFFIXES) + r")\s*$",
     re.IGNORECASE,
 )
-# Landmarks that cannot exist inside Bacolod City, wherever they appear in the name.
+# Landmarks that cannot exist inside the place (airports elsewhere), wherever they appear in the name.
 _FOREIGN_LANDMARK_RE = re.compile(
     r"\b(?:ninoy\s+aquino\s+international|naia|mactan[-\s]cebu\s+international|"
     r"manila\s+international\s+airport|clark\s+international)\b",
@@ -2824,7 +2753,7 @@ def rebuild_buildings_pmtiles(
             }
             fh.write(json.dumps(feat, separators=(",", ":")) + "\n")
 
-    tmp_pmtiles = tmp_dir / "bacolod_buildings.pmtiles"
+    tmp_pmtiles = tmp_dir / f"{PLACE.file_prefix}_buildings.pmtiles"
     cmd = [
         "ogr2ogr",
         "-f",
@@ -2950,7 +2879,7 @@ def enrich_buildings_with_osm(
             f"{len(extra_landuse_items):,} extra OSM landuse polygons."
         )
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_osm_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_osm_") as tmp:
         tmp_dir = Path(tmp)
         building_ids, building_geoms_deg, building_geoms_m, building_props = load_stitched_buildings(
             pmtiles_path, tmp_dir
@@ -3045,8 +2974,8 @@ def enrich_buildings_with_osm(
         counts["class_confidence"] = dict(class_confidence)
         files = manifest.setdefault("files", {})
         files.pop("osm_pois", None)
-        files["building_pois"] = "data/bacolod/building_pois.json"
-        files["building_labels"] = "data/bacolod/building_labels.geojson"
+        files["building_pois"] = f"{PLACE.data_url_dir}/building_pois.json"
+        files["building_labels"] = f"{PLACE.data_url_dir}/building_labels.geojson"
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         print(f"Updated manifest -> {manifest_path}")
 
@@ -3066,8 +2995,10 @@ def enrich_buildings_with_osm(
 
 
 def parse_args() -> argparse.Namespace:
+    from place import add_place_argument
+
     parser = argparse.ArgumentParser(
-        description="Enrich Bacolod buildings with OSM, Overture, and Foursquare POIs via nearest-building matching."
+        description="Enrich the place's buildings with OSM, Overture, and Foursquare POIs via nearest-building matching."
     )
     parser.add_argument("--pmtiles", type=Path, default=DEFAULT_BUILDINGS_PMTILES)
     parser.add_argument("--base-pmtiles", type=Path, default=DEFAULT_BASE_PMTILES)
@@ -3084,6 +3015,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--overture-min-confidence", type=float, default=0.65)
     parser.add_argument("--overture-min-update-year", type=int, default=OVERTURE_MIN_UPDATE_YEAR)
     parser.add_argument("--foursquare-parquet", type=str, default=None)
+    add_place_argument(parser)
     return parser.parse_args()
 
 

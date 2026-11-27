@@ -14,3 +14,6 @@ __pycache__/
 # raw source downloads (large, not served; see datalayers.md for how to refetch)
 /data/
 video/
+
+# pipeline state (stamps, QA reports, per-place scratch)
+/build/

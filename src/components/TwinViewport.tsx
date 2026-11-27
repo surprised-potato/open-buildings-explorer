@@ -44,11 +44,8 @@ import type {
 } from '../utils/mobilityTypes';
 import { decodeUrlState, encodeUrlState } from '../utils/urlState';
 import type { MeasureMode } from './MeasureControl';
+import { PLACE_SLUG, getPlaceMeta } from '../utils/place';
 
-const DEFAULT_CENTER: [number, number] = [122.9509, 10.6765];
-const DEFAULT_ZOOM = 14.8;
-const DEFAULT_PITCH = 58;
-const DEFAULT_BEARING = -18;
 
 const ESRI_SATELLITE_STYLE: StyleSpecification = {
   version: 8,
@@ -1019,6 +1016,7 @@ export function TwinViewport({
       sunHour: snap.sunHour,
       hiddenLayers,
       view: decodeUrlState(window.location.hash).view,
+      place: PLACE_SLUG,
     });
 
     const nextUrl = hash || window.location.pathname + window.location.search;
@@ -1035,10 +1033,10 @@ export function TwinViewport({
     const map = new maplibregl.Map({
       container,
       style: getBasemapStyle(latestRef.current.theme),
-      center: initialUrlState.center ?? DEFAULT_CENTER,
-      zoom: initialUrlState.zoom ?? DEFAULT_ZOOM,
-      pitch: initialUrlState.pitch ?? DEFAULT_PITCH,
-      bearing: initialUrlState.bearing ?? DEFAULT_BEARING,
+      center: initialUrlState.center ?? getPlaceMeta().homeView.center,
+      zoom: initialUrlState.zoom ?? getPlaceMeta().homeView.zoom,
+      pitch: initialUrlState.pitch ?? getPlaceMeta().homeView.pitch,
+      bearing: initialUrlState.bearing ?? getPlaceMeta().homeView.bearing,
       maxPitch: 85,
       canvasContextAttributes: { antialias: true },
       attributionControl: {
@@ -1744,7 +1742,7 @@ export function TwinViewport({
       <div
         ref={containerRef}
         style={{ width: '100%', height: '100%' }}
-        aria-label="Bacolod City 3D Digital Twin Map"
+        aria-label={`${getPlaceMeta().displayName} 3D Digital Twin Map`}
       />
       {cursorTelemetry && (
         <div

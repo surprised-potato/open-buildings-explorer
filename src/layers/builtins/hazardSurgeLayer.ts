@@ -1,4 +1,5 @@
 import type { TwinLayerDefinition } from '../types';
+import { placeFile } from '../../utils/place';
 
 export const HAZARD_SURGE_SOURCE_ID = 'bacolod-hazard-surge';
 export const HAZARD_SURGE_FILL_ID = 'hazard-surge-fill';
@@ -30,7 +31,7 @@ export const hazardSurgeLayer: TwinLayerDefinition = {
     if (!map.getSource(HAZARD_SURGE_SOURCE_ID)) {
       map.addSource(HAZARD_SURGE_SOURCE_ID, {
         type: 'geojson',
-        data: `${base}data/bacolod/hazards.geojson`,
+        data: `${base}${placeFile('hazards.geojson')}`,
       });
     }
     const visibility = visible ? 'visible' : 'none';

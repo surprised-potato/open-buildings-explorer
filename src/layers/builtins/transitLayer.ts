@@ -1,4 +1,5 @@
 import type { TwinLayerDefinition } from '../types';
+import { placeFile } from '../../utils/place';
 
 export const TRANSIT_SOURCE_ID = 'bacolod-transit';
 export const TRANSIT_LINE_ID = 'transit-routes-line';
@@ -29,7 +30,7 @@ export const transitLayer: TwinLayerDefinition = {
     const { map, visible, opacity } = ctx;
     const base = import.meta.env?.BASE_URL ?? '/';
     if (!map.getSource(TRANSIT_SOURCE_ID)) {
-      map.addSource(TRANSIT_SOURCE_ID, { type: 'geojson', data: `${base}data/bacolod/transit_routes.geojson` });
+      map.addSource(TRANSIT_SOURCE_ID, { type: 'geojson', data: `${base}${placeFile('transit_routes.geojson')}` });
     }
     const visibility = visible ? 'visible' : 'none';
     const match: unknown[] = ['match', ['get', 'ref']];

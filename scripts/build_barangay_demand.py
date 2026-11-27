@@ -19,8 +19,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
+OUT_DIR = PLACE.out_dir
 
 PURPOSES = ["hbw", "hbe", "hbo"]
 
@@ -80,6 +85,7 @@ def build_demand(
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--demographics", type=Path, default=OUT_DIR / "barangay_demographics.json")
     ap.add_argument("--zones", type=Path, default=OUT_DIR / "mobility_zones.json")
     ap.add_argument("--out", type=Path, default=OUT_DIR / "barangay_demand.json")

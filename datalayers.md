@@ -21,8 +21,8 @@ All files live in `public/data/bacolod/` unless noted. Sizes as of 2026-11-27.
 |---|---|---|---|---|
 | Buildings (203,517 footprints) | `bacolod_buildings.pmtiles` (41 MB) | Overture Maps buildings, release 2026-11-18.0 (merges OSM, Esri, Google, Microsoft footprints) | ODbL | `npm run data:fetch` |
 | Roads (28,304) | `bacolod_roads.pmtiles` (8.9 MB) | Overture transportation | ODbL | `npm run data:fetch` |
-| Base features (water, land use, parks) | `bacolod_base.pmtiles` | Overture + OSM Overpass | ODbL | `npm run data:fetch` |
-| Barangay boundaries (61) | `boundaries.geojson` | OSM relations via Overpass | ODbL | `npm run data:fetch` |
+| Base features (water, land use, parks) | `bacolod_base.pmtiles` | Overture | ODbL | `npm run data:fetch` |
+| Barangay boundaries (61) | `boundaries.geojson` | Overture divisions, OSM snapshot as fallback (Bacolod's current file was built with Overpass) | ODbL | `npm run data:fetch` |
 | Building classes | inside buildings tiles | Computed: OSM tags and POIs, Overture classes, morphology rules, name keywords. 171,027 of 203,517 classified; 106,802 are "inferred" and 32,506 "unknown" | derived | `npm run data:osm` |
 | Building heights | inside buildings tiles | Overture heights where present, Google Open Buildings 2.5D where it matches, otherwise estimated. Only 27 measured and 680 from floors; **202,810 (99.7%) are estimates** | derived | `npm run data:fetch`, `scripts/enrich_heights_25d.py` |
 | Landmarks, labels | `building_labels.geojson`, `src/layers/builtins/landmarksLayer.ts` | Hand-curated list + building names | n/a | edited by hand |
@@ -31,7 +31,7 @@ All files live in `public/data/bacolod/` unless noted. Sizes as of 2026-11-27.
 
 | Layer | File | Source | Licence | Rebuild |
 |---|---|---|---|---|
-| POIs (6,883: OSM 2,252, Overture 4,126, Foursquare 55 matched) | `building_pois.json` (4 MB) | OSM Overpass; Overture Places (Meta, Microsoft, AllThePlaces, Uberall); Foursquare Open Source Places via Overture | ODbL (OSM); Overture Places and Foursquare are permissive, check the current release | `npm run data:osm` |
+| POIs (6,883: OSM 2,252, Overture 4,126, Foursquare 55 matched) | `building_pois.json` (4 MB) | OSM snapshot (Bacolod's current file was built with Overpass); Overture Places (Meta, Microsoft, AllThePlaces, Uberall); Foursquare Open Source Places via Overture | ODbL (OSM); Overture Places and Foursquare are permissive, check the current release | `npm run data:osm` |
 | POI trust votes (verified / unverified / unrated) | same file, fields `vote_score`, `trust`, `votes` | Computed from street match, source type and phone conflicts | derived | `uv run python -I scripts/score_poi_votes.py` (rerun after every `data:osm`) |
 | POI heatmap | `poiHeatmapLayer.ts` | from `building_pois.json` | derived | n/a |
 
@@ -50,7 +50,7 @@ All files live in `public/data/bacolod/` unless noted. Sizes as of 2026-11-27.
 | Storm surge exposure by barangay (buildings and value) | inside `barangay_property.json` (`surge`, `surgeValue`) | same script | derived | same |
 | Land-cover shares per barangay (tree, crop, built-up, grass, water...) | `barangay_landcover.json`; `tree_cover_pct`, `built_up_pct`, `cropland_pct` merged into `barangay_analytics.json` and `boundaries.geojson` | ESA WorldCover 10 m 2021 v200, clipped to Bacolod (input in `data/landcover/`) | CC BY 4.0 | `npm run data:landcover` (rerun after every `data:analytics`) |
 | Population grid used for home weights | `data/popgrid/phl_pop_2020_CN_100m_R2025A_v1.tif` (63 MB, not served); stats in `mobility_zones.json` under `population_grid` | WorldPop Global2 R2025A, Philippines 2020, 100 m constrained | CC BY 4.0 | read by `npm run data:mobility` |
-| Signals, crossings, stops, bus routes, tag-coverage audit | `transport_osm.json`, `transit_routes.geojson` | OSM via Overpass | ODbL | `npm run data:transport` |
+| Signals, crossings, stops, bus routes, tag-coverage audit | `transport_osm.json`, `transit_routes.geojson` | OSM snapshot (Geofabrik extract) | ODbL | `npm run data:transport` |
 
 What each one actually changed (and where the data fell short):
 - **NOAH flood maps (5, 25, 100-year) do not cover Bacolod City.** The shapefiles clip to under 5 km2 inside our bounding box and none of it lies inside the city, so `build_hazard_layers.py` drops them (recorded in `hazards.geojson` `meta.dropped`). Storm surge does cover the coast: 19.3% of buildings (about 29,600, estimated value near 29% of the city total) are reached by the largest modelled surge, 11,402 of them already at 2-3 m. River and rain flooding is still unmapped.
@@ -77,7 +77,9 @@ Run the three demand scripts together with `npm run data:demand`, then `npm run 
 
 | Layer | File | Source | Licence | Rebuild |
 |---|---|---|---|---|
-| Road graph (13,429 nodes, 35,162 edges) | `mobility_network.bin` (7.4 MB) | Companion project `trafficsim_map` (OSM extracted via Overpass), exported by `scripts/export_trafficsim_network.py` | ODbL | `npm run data:mobility` |
+| Road graph (13,429 nodes, 35,162 edges) | `mobility_network.bin` (7.4 MB) | Companion project `trafficsim_map` (OSM extracted via Overpass, 2026-11-15; other LGUs use the snapshot), exported by `scripts/export_trafficsim_network.py` | ODbL | `npm run data:mobility` |
+| OSM province extract (roads, POIs, compounds, transit, activity buildings, admin boundaries); replaces all Overpass queries | `data/osm/negros-occidental/*.json` (not served) | Geofabrik Philippines extract (615 MB, `data/osm/geofabrik/`), cut by `scripts/extract_osm_region.py` in about 7 min | ODbL | `npm run data:osm-extract` (the pipeline runs it once per new download) |
+| Road graph, zones and demand for LGUs other than Bacolod | `build/<place>/trafficsim_state/` | Province extract + the author's trafficsim_map code (`vendor/trafficsim/`), zones from our boundaries, population from PSA. Validated on Bacolod: 13,433 vs 13,429 nodes, zone jobs and students correlation 1.000 | ODbL / derived | `npm run data:network -- --place <slug>` (pipeline stage `network`) |
 | Zones, skims, demand | `mobility_zones.json` | Same export + `barangay_demand.json` + `barangay_typology.json` | derived | `npm run data:mobility` |
 | Building origin/destination table (153k) | `mobility_buildings.bin/json` | Same export | derived | `npm run data:mobility` |
 | Street name per network edge | `mobility_edge_streets.json` | Nearest named OSM road within 25 m, from `scripts/export_edge_streets.py` | ODbL | runs after the export |
@@ -89,12 +91,24 @@ Reports (`src/reports/`), the live and background simulation, corridor and trip-
 
 ### 1.7 Pipeline order
 
+The order is now encoded in `scripts/pipeline.py` (see `pipeline-plan.md`). Run it instead of the
+individual `data:*` scripts:
+
 ```
-data:fetch  ->  data:osm  ->  score_poi_votes.py
-            ->  data:dem  ->  data:analytics  ->  data:zonal  ->  estimate_building_zonal_values.py
-parse_psa_age_sex  ->  build_barangay_demand  ->  classify_barangays  ->  data:mobility
+npm run pipeline -- --place bacolod --offline   # rerun only what is out of date, no network
+npm run pipeline -- --place bacolod --refresh   # re-fetch Overture / DEM, then everything downstream
+npm run pipeline -- --list                      # stages and places
 ```
-Rules that bite: rerun `data:zonal` after `data:analytics`; rerun `score_poi_votes.py` after `data:osm`; rerun `data:mobility` after any network change (edge order changes).
+
+Stages, in order: place-meta, fetch, dem, osm, overrides, analytics, zonal, poi-votes, hazards,
+building-values, transport, demographics, demand, typology, mobility, edge-streets, landcover, then
+QA checks (barangay count, unassigned land, census match, size). Each place's settings live in
+`regions/negros-occidental.json`; hand corrections (such as the Bata boundary) live in
+`overrides/<place>/`. The old rules ("rerun zonal after analytics", "landcover after mobility") are
+handled by stage fingerprints, so a change reruns exactly the stages downstream of it.
+
+The single-step `npm run data:*` scripts still work and default to Bacolod; pass `-- --place <slug>`
+to point one at another place.
 
 ---
 
@@ -175,7 +189,8 @@ Effort: S = a day or less, M = a few days, L = a week or more. Impact is what ch
 ## 5. Conventions for adding a layer
 
 - One script per source in `scripts/`, run with `uv run python -I` when it reads downloaded files, with a unit test that does not need the download.
-- Raw downloads go in `data/<source>/` (untrusted input, not served); only the small derived file goes in `public/data/bacolod/`.
+- Raw downloads go in `data/<source>/` (untrusted input, not served); only the small derived file goes in `public/data/<place>/`.
 - Write the source, licence and date into the output JSON `meta`, and add a row to section 1 of this file.
-- Add an `npm run data:*` entry and place it in the pipeline order above.
+- Take the place from `scripts/place.py` (`PLACE = current_place()`), never a hard-coded bbox or city name.
+- Add a `Stage` to `scripts/pipeline.py` with its dependencies, raw inputs and outputs.
 - Anything modelled rather than measured gets a caveat in the UI and in any report that uses it.

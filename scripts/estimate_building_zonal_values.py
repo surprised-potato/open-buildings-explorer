@@ -38,10 +38,15 @@ sys.path.insert(0, str(SCRIPTS))
 
 import parse_bir_zonal_values as bir  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = SCRIPTS.parent
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
-BUILDINGS_PMTILES = OUT_DIR / "bacolod_buildings.pmtiles"
-ROADS_PMTILES = OUT_DIR / "bacolod_roads.pmtiles"
+OUT_DIR = PLACE.out_dir
+BUILDINGS_PMTILES = PLACE.pmtiles("buildings")
+ROADS_PMTILES = PLACE.pmtiles("roads")
 BOUNDARIES = OUT_DIR / "boundaries.geojson"
 
 MAGIC = 0x4C565A42  # 'BZVL'
@@ -291,6 +296,17 @@ def write_hazard_bin(ids: list[str], values: list[int], out_bin: Path, out_json:
     out_json.write_text(json.dumps(meta, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
 
 
+def hazard_note(path: Path) -> str:
+    """Caveat for building_hazard.json, saying whether NOAH flood maps reach the place."""
+    flood_kept = False
+    if path.exists():
+        meta = json.loads(path.read_text(encoding="utf-8")).get("meta", {})
+        flood_kept = any(str(h.get("key", "")).startswith("flood") for h in meta.get("hazards", []))
+    if flood_kept:
+        return "Modelled hazard, not a prediction. NOAH flood maps cover part of this place; they are in hazards.geojson but not yet packed per building."
+    return f"Modelled hazard, not a prediction. NOAH flood maps do not cover {PLACE.display_name}."
+
+
 def load_surge_polygons(path: Path) -> list[Any]:
     """Prepared polygons for storm-surge advisories 1-4 (None where a level is missing)."""
     from shapely.geometry import shape
@@ -350,6 +366,7 @@ def load_named_roads(path: Path, tmp: Path) -> list[tuple[str, Any]]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--buildings", type=Path, default=BUILDINGS_PMTILES)
     ap.add_argument("--roads", type=Path, default=ROADS_PMTILES)
     ap.add_argument("--boundaries", type=Path, default=BOUNDARIES)
@@ -377,9 +394,9 @@ def main() -> None:
         if f["properties"].get("level") == "barangay"
     ]
     btree = STRtree([p for _, p in bpolys])
-    lat0 = 10.676
+    lat0 = PLACE.lat0
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_zonal_") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_zonal_") as tmpdir:
         tmp = Path(tmpdir)
         ids, geoms_deg, geoms_m, props = load_stitched_buildings(args.buildings, tmp)
         roads = load_named_roads(args.roads, tmp)
@@ -467,7 +484,7 @@ def main() -> None:
             "valueBits": {"surge": "bits 0-2: lowest storm surge advisory reaching the building (1-4, 0 none)", "lowLying": "bit 3: elevation below 3 m"},
             "surgeLabels": ["Not reached", "Reached by surge 2-3 m", "Reached by surge 3-4 m", "Reached by surge 4-5 m", "Reached by surge over 5 m"],
             "lowLyingM": LOW_LYING_M,
-            "note": "Modelled hazard, not a prediction. NOAH flood maps do not cover Bacolod City.",
+            "note": hazard_note(args.out_dir / "hazards.geojson"),
         },
     )
     agg = aggregate_barangay_property(prop_rows)

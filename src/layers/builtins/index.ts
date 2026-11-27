@@ -6,7 +6,7 @@ import { contoursLayer } from './contoursLayer';
 import { demReliefLayer } from './demReliefLayer';
 import { demSlopeLayer } from './demSlopeLayer';
 import { hazardSurgeLayer } from './hazardSurgeLayer';
-import { BACOLOD_LANDMARKS, landmarksLayer } from './landmarksLayer';
+import { landmarksLayer, placeLandmarks } from './landmarksLayer';
 import { mobilityLayer } from './mobilityLayer';
 import { poiHeatmapLayer } from './poiHeatmapLayer';
 import { roadsLayer } from './roadsLayer';
@@ -30,7 +30,7 @@ export const BUILTIN_LAYERS: TwinLayerDefinition[] = [
 ];
 
 export {
-  BACOLOD_LANDMARKS,
+  placeLandmarks,
   baseLayer,
   boundariesLayer,
   buildingsLayer,

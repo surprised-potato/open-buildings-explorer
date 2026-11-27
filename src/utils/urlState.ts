@@ -1,4 +1,5 @@
 import type { AppView, BasemapTheme, BuildingColorMode } from '../layers/types';
+import { DEFAULT_PLACE_SLUG } from './place';
 
 export interface UrlViewState {
   center?: [number, number];
@@ -12,6 +13,8 @@ export interface UrlViewState {
   sunHour?: number;
   hiddenLayers?: string[];
   view?: AppView;
+  /** Place slug (LGU); omitted from the hash for the default place. */
+  place?: string;
 }
 
 const VALID_THEMES = new Set<BasemapTheme>(['dark', 'light', 'satellite']);
@@ -34,6 +37,10 @@ function parseFinite(value: string | null): number | undefined {
  */
 export function encodeUrlState(state: UrlViewState): string {
   const params = new URLSearchParams();
+
+  if (state.place && state.place !== DEFAULT_PLACE_SLUG && /^[a-z0-9][a-z0-9-]{0,40}$/.test(state.place)) {
+    params.set('place', state.place);
+  }
 
   if (
     state.center &&
@@ -94,6 +101,11 @@ export function decodeUrlState(hash: string): UrlViewState {
   try {
     const params = new URLSearchParams(cleaned);
     const result: UrlViewState = {};
+
+    const place = params.get('place');
+    if (place && /^[a-z0-9][a-z0-9-]{0,40}$/.test(place)) {
+      result.place = place;
+    }
 
     const lng = parseFinite(params.get('lng'));
     const lat = parseFinite(params.get('lat'));

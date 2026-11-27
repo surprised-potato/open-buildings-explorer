@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Precompute per-barangay urban analytics and a 250 m catchment grid for Bacolod City.
+"""Precompute per-barangay urban analytics and a 250 m catchment grid for one place (default Bacolod City).
 
 Outputs:
   - public/data/bacolod/barangay_analytics.json
@@ -35,7 +35,7 @@ try:
         geom_to_meters,
         load_stitched_buildings,
     )
-    from scripts.fetch_bacolod import OUT_DIR
+    from scripts.fetch_bacolod import OUT_DIR, PLACE
 except ImportError:
     from enrich_osm_buildings import (  # type: ignore[no-redef]
         COMMERCIAL_CLASSES,
@@ -45,11 +45,11 @@ except ImportError:
         geom_to_meters,
         load_stitched_buildings,
     )
-    from fetch_bacolod import OUT_DIR  # type: ignore[no-redef]
+    from fetch_bacolod import OUT_DIR, PLACE  # type: ignore[no-redef]
 
-DEFAULT_BUILDINGS_PMTILES = OUT_DIR / "bacolod_buildings.pmtiles"
-DEFAULT_ROADS_PMTILES = OUT_DIR / "bacolod_roads.pmtiles"
-DEFAULT_BASE_PMTILES = OUT_DIR / "bacolod_base.pmtiles"
+DEFAULT_BUILDINGS_PMTILES = PLACE.pmtiles("buildings")
+DEFAULT_ROADS_PMTILES = PLACE.pmtiles("roads")
+DEFAULT_BASE_PMTILES = PLACE.pmtiles("base")
 DEFAULT_BOUNDARIES = OUT_DIR / "boundaries.geojson"
 DEFAULT_BUILDING_POIS = OUT_DIR / "building_pois.json"
 DEFAULT_DEM_MANIFEST = OUT_DIR / "dem" / "dem_manifest.json"
@@ -645,7 +645,7 @@ def compute_and_write_analytics(
 
     dem_sampler = load_dem_sampler(dem_manifest_path)
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_analytics_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_analytics_") as tmp:
         tmp_dir = Path(tmp)
         building_ids, building_geoms_deg, building_geoms_m, building_props = load_stitched_buildings(
             pmtiles_path, tmp_dir
@@ -731,8 +731,8 @@ def compute_and_write_analytics(
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         files = manifest.setdefault("files", {})
-        files["barangay_analytics"] = "data/bacolod/barangay_analytics.json"
-        files["catchment_grid"] = "data/bacolod/catchment_grid.json"
+        files["barangay_analytics"] = f"{PLACE.data_url_dir}/barangay_analytics.json"
+        files["catchment_grid"] = f"{PLACE.data_url_dir}/catchment_grid.json"
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
     print(
@@ -754,8 +754,11 @@ def compute_and_write_analytics(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Compute per-barangay analytics and 250m catchment grid for Bacolod City."
+        description="Compute per-barangay analytics and 250m catchment grid for one place."
     )
+    from place import add_place_argument
+
+    add_place_argument(parser)
     parser.add_argument("--pmtiles", type=Path, default=DEFAULT_BUILDINGS_PMTILES)
     parser.add_argument("--roads-pmtiles", type=Path, default=DEFAULT_ROADS_PMTILES)
     parser.add_argument("--base-pmtiles", type=Path, default=DEFAULT_BASE_PMTILES)

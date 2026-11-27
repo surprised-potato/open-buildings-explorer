@@ -28,11 +28,16 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS))
 
 REPO_ROOT = SCRIPTS.parent
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
+OUT_DIR = PLACE.out_dir
 
 STREET_NEAR_M = 150.0
 STREET_FAR_M = 300.0
@@ -41,9 +46,9 @@ PHONE_MAX_RECORDS = 3
 BARANGAY_BORDER_TOL_M = 250.0
 DEFAULT_BOUNDARIES = OUT_DIR / "boundaries.geojson"
 M_PER_DEG_LAT = 110_540.0
-M_PER_DEG_LON = 111_320.0 * math.cos(math.radians(10.676))
+M_PER_DEG_LON = 111_320.0 * math.cos(math.radians(PLACE.lat0))
 
-_GENERIC = {"BACOLOD", "NEGROS", "OCCIDENTAL", "CITY", "PROPER", "OLD", "NEW", "NORTH", "SOUTH", "EAST", "WEST"}
+_GENERIC = {*PLACE.name.upper().split(), "NEGROS", "OCCIDENTAL", "CITY", "PROPER", "OLD", "NEW", "NORTH", "SOUTH", "EAST", "WEST"}
 _SUFFIX = re.compile(
     r"\b(STREET|ST|AVENUE|AVE|ROAD|RD|BOULEVARD|BLVD|HIGHWAY|HWY|DRIVE|DR|EXTENSION|EXT|"
     r"NATIONAL|NAT|THE|OF|DEL|DE|GEN|GENERAL|SUBDIVISION|SUBD|VILLAGE)\b"
@@ -284,7 +289,7 @@ def road_geometries(roads_pmtiles: Path) -> dict[tuple[str, ...], Any]:
 
     from estimate_building_zonal_values import load_named_roads
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_votes_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_votes_") as tmp:
         roads = load_named_roads(roads_pmtiles, Path(tmp))
     grouped: dict[tuple[str, ...], list[Any]] = defaultdict(list)
     for name, geom in roads:
@@ -298,8 +303,9 @@ def road_geometries(roads_pmtiles: Path) -> dict[tuple[str, ...], Any]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--pois", type=Path, default=OUT_DIR / "building_pois.json")
-    ap.add_argument("--roads", type=Path, default=OUT_DIR / "bacolod_roads.pmtiles")
+    ap.add_argument("--roads", type=Path, default=PLACE.pmtiles("roads"))
     ap.add_argument("--boundaries", type=Path, default=DEFAULT_BOUNDARIES)
     args = ap.parse_args()
 

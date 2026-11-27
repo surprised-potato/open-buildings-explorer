@@ -1,0 +1,10 @@
+{
+  "assign_unassigned": [
+    {
+      "to": "Bata",
+      "min_km2": 1.0,
+      "max_km2": 20.0,
+      "note": "Overture and OSM leave about 4 km2 of northern Bacolod, next to Bata, Banago, Estefania and Mandalagan, in no barangay. That land is Barangay Bata (user correction, 2026-11-27)."
+    }
+  ]
+}

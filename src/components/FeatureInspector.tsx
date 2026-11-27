@@ -29,6 +29,7 @@ import {
   type BuildingZonalEstimate,
 } from '../utils/buildingZonal';
 import { MOBILITY_MODE_HEX, type MobilityModeId } from '../utils/mobilityTypes';
+import { getPlaceMeta } from '../utils/place';
 
 const CATEGORY_COLORS: Record<string, string> = {
   commercial: '#f59e0b',
@@ -194,7 +195,7 @@ function PoiCard({
     poi.website && /^https?:\/\//i.test(poi.website) ? poi.website : null;
 
   const googleMapsUrl = poi.name?.trim()
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${poi.name.trim()} Bacolod City`)}`
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${poi.name.trim()} ${getPlaceMeta().displayName}`)}`
     : buildingCenter
       ? `https://www.google.com/maps/search/?api=1&query=${buildingCenter[1].toFixed(6)},${buildingCenter[0].toFixed(6)}`
       : null;
@@ -958,7 +959,7 @@ export function FeatureInspector({ onFlyTo }: FeatureInspectorProps = {}) {
             {hazard !== null && (
               <div
                 className="metric-box"
-                title="Modelled storm surge from Project NOAH (ODbL) and elevation from a 30 m DEM. A screening result, not a forecast. NOAH flood maps do not cover Bacolod City."
+                title="Modelled storm surge from Project NOAH (ODbL) and elevation from a 30 m DEM. A screening result, not a forecast. River and rain flooding is not included."
               >
                 <div className="metric-label">Storm surge / elevation</div>
                 <div

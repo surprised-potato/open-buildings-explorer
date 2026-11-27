@@ -24,12 +24,17 @@ from typing import Any, Sequence
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
+OUT_DIR = PLACE.out_dir
 MAGIC_BMOB = 0x424D4F42
 NO_NAME = 0xFFFF
 MAX_DIST_M = 25.0
-LAT0 = 10.676
+LAT0 = PLACE.lat0
 M_PER_DEG_LAT = 111_320.0
 
 
@@ -128,13 +133,14 @@ def name_edges(offs: np.ndarray, coords: np.ndarray, roads: list[tuple[str, Any]
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--network", type=Path, default=OUT_DIR / "mobility_network.bin")
-    ap.add_argument("--roads", type=Path, default=OUT_DIR / "bacolod_roads.pmtiles")
+    ap.add_argument("--roads", type=Path, default=PLACE.pmtiles("roads"))
     ap.add_argument("--out", type=Path, default=OUT_DIR / "mobility_edge_streets.json")
     args = ap.parse_args()
 
     offs, coords = read_edges(args.network)
-    with tempfile.TemporaryDirectory(prefix="bacolod_edges_") as d:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_edges_") as d:
         roads = load_named_roads(args.roads, Path(d))
     names, edge = name_edges(offs, coords, roads)
     args.out.write_text(json.dumps({"names": names, "edge": edge}, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")

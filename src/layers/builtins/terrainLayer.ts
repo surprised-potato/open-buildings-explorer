@@ -1,4 +1,5 @@
 import type { TwinLayerDefinition } from '../types';
+import { placeFile } from '../../utils/place';
 
 function getOriginAndBase(): string {
   const origin =
@@ -34,7 +35,7 @@ export const terrainLayer: TwinLayerDefinition = {
 
     const template =
       demManifest?.terrarium.tiles_template ??
-      'data/bacolod/dem/terrarium/{z}/{x}/{y}.png';
+      placeFile('dem/terrarium/{z}/{x}/{y}.png');
     const tileUrl = `${getOriginAndBase()}${template}`;
 
     if (!map.getSource(TERRAIN_SOURCE_ID)) {

@@ -1,5 +1,6 @@
 import type maplibregl from 'maplibre-gl';
 import type { TwinLayerDefinition } from '../types';
+import { getPlaceMeta, placeFile } from '../../utils/place';
 
 export const DEM_SLOPE_SOURCE_ID = 'bacolod-dem-slope';
 export const DEM_SLOPE_LAYER_ID = 'dem-slope-raster';
@@ -38,7 +39,7 @@ export const demSlopeLayer: TwinLayerDefinition = {
   maplibre(ctx) {
     const { map, visible, opacity, demManifest } = ctx;
     const base = getBase();
-    const url = `${base}${demManifest?.slope.file ?? 'data/bacolod/dem/bacolod_slope.png'}`;
+    const url = `${base}${demManifest?.slope.file ?? placeFile(`dem/${getPlaceMeta().filePrefix}_slope.png`)}`;
     const coordinates = demManifest?.slope.coordinates ?? FALLBACK_COORDS;
 
     const existingSource = map.getSource(DEM_SLOPE_SOURCE_ID) as

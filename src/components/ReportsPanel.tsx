@@ -38,6 +38,7 @@ import {
   type CorridorSnapshot,
   type EdgeStreets,
 } from '../reports/corridors';
+import { placeFile } from '../utils/place';
 
 const REPORT_ICONS: Record<string, LucideIcon> = {
   'city-snapshot': Building2,
@@ -84,7 +85,7 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     let live = true;
-    fetch(`${import.meta.env.BASE_URL}data/bacolod/barangay_property.json`)
+    fetch(`${import.meta.env.BASE_URL}${placeFile('barangay_property.json')}`)
       .then((r) => (r.ok ? (r.json() as Promise<PropertyData>) : null))
       .then((d) => {
         if (live && d) setProperty(d);
@@ -97,7 +98,7 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     let live = true;
-    const base = `${import.meta.env.BASE_URL}data/bacolod/`;
+    const base = `${import.meta.env.BASE_URL}${placeFile('')}`;
     const get = (f: string) => fetch(`${base}${f}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     void Promise.all([get('barangay_demand.json'), get('barangay_demographics.json'), get('barangay_typology.json')]).then(
       ([demand, demographics, typology]) => {

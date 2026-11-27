@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Pull transport-related OSM data for Bacolod: signals, crossings, bus stops, jeepney/bus routes, and a
-tag-coverage audit of the road network.
+"""Transport-related OSM data for one place: signals, crossings, bus stops, jeepney/bus routes, and a
+tag-coverage audit of the road network. Read from the downloaded OSM snapshot (extract_osm_region.py);
+nothing is fetched live.
 
-Output: public/data/bacolod/transport_osm.json (and a raw cache in data/osm/, not served)
+Output: public/data/<place>/transport_osm.json
   signals  [[lon, lat], ...]            highway=traffic_signals nodes
   crossings count                       highway=crossing nodes
   stops    [{name, lon, lat}]           highway=bus_stop and public_transport=platform
@@ -18,43 +19,18 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import time
 from pathlib import Path
 from typing import Any
 
-import requests
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-RAW_DIR = REPO_ROOT / "data" / "osm"
-OUT = REPO_ROOT / "public" / "data" / "bacolod" / "transport_osm.json"
-TRANSIT_OUT = REPO_ROOT / "public" / "data" / "bacolod" / "transit_routes.geojson"
-BBOX = (10.58, 122.89, 10.74, 123.14)  # south, west, north, east (Overpass order)
-ENDPOINTS = [
-    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.private.coffee/api/interpreter",
-]
+OUT = PLACE.out_dir / "transport_osm.json"
+TRANSIT_OUT = PLACE.out_dir / "transit_routes.geojson"
 ROAD_CLASSES = ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential"]
-
-
-def overpass(query: str, retries: int = 3) -> dict[str, Any]:
-    """POST a query to the first Overpass endpoint that answers with JSON."""
-    last: Exception | None = None
-    for attempt in range(retries):
-        for url in ENDPOINTS:
-            try:
-                r = requests.post(url, data={"data": query}, timeout=180, headers={"User-Agent": "bacolod-twin-pipeline/0.1"})
-                if r.ok and r.text.lstrip().startswith("{"):
-                    return r.json()
-                last = RuntimeError(f"{url}: HTTP {r.status_code}")
-            except requests.RequestException as e:
-                last = e
-        time.sleep(5 * (attempt + 1))
-    raise RuntimeError(f"All Overpass endpoints failed: {last}")
-
-
-def bbox_str() -> str:
-    return ",".join(str(v) for v in BBOX)
 
 
 def coverage(ways: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
@@ -102,7 +78,7 @@ def build(raw: dict[str, Any]) -> dict[str, Any]:
     ]
     routes = [r for r in (route_record(e) for e in raw["routes"]["elements"] if e["type"] == "relation") if r]
     return {
-        "source": "OpenStreetMap contributors (ODbL), via Overpass",
+        "source": raw.get("source", "OpenStreetMap contributors (ODbL)"),
         "fetched_at": raw.get("fetched_at"),
         "signals": signals,
         "crossings": len([e for e in raw["crossings"]["elements"] if e["type"] == "node"]),
@@ -141,40 +117,29 @@ def transit_geojson(out: dict[str, Any]) -> dict[str, Any]:
         )
     return {
         "type": "FeatureCollection",
-        "name": "bacolod_transit",
+        "name": f"{PLACE.file_prefix}_transit",
         "meta": {"source": out["source"], "fetched_at": out.get("fetched_at"), "note": "OSM route relations; not the official LPTRP"},
         "features": feats,
     }
 
 
 def fetch_all() -> dict[str, Any]:
-    b = bbox_str()
-    queries = {
-        "signals": f"[out:json][timeout:120];node[highway=traffic_signals]({b});out;",
-        "crossings": f"[out:json][timeout:120];node[highway=crossing]({b});out ids;",
-        "stops": f"[out:json][timeout:120];(node[highway=bus_stop]({b});node[public_transport=platform]({b}););out;",
-        "routes": f'[out:json][timeout:180];relation[route~"^(bus|share_taxi|minibus)$"]({b});out geom;',
-        "roads": f'[out:json][timeout:180];way[highway~"^({"|".join(ROAD_CLASSES)})$"]({b});out tags;',
-    }
-    raw: dict[str, Any] = {"fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-    for k, q in queries.items():
-        print(f"fetching {k}...")
-        raw[k] = overpass(q)
-        time.sleep(2)
+    """The five result sets the Overpass queries returned, cut from the downloaded snapshot for this place."""
+    from osm_snapshot import meta, source_label, transport
+
+    raw: dict[str, Any] = transport(PLACE.bbox)
+    raw["fetched_at"] = meta().get("osm_timestamp")
+    raw["source"] = f"OpenStreetMap contributors (ODbL), {source_label()}"
     return raw
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--from-cache", action="store_true", help="rebuild from data/osm/transport_raw.json without fetching")
+    add_place_argument(ap)
+    ap.add_argument("--from-cache", type=Path, default=None,
+                    help="rebuild from a saved raw file (e.g. the old data/osm/bacolod/transport_raw.json) instead of the snapshot")
     args = ap.parse_args()
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
-    cache = RAW_DIR / "transport_raw.json"
-    if args.from_cache and cache.exists():
-        raw = json.loads(cache.read_text(encoding="utf-8"))
-    else:
-        raw = fetch_all()
-        cache.write_text(json.dumps(raw), encoding="utf-8")
+    raw = json.loads(args.from_cache.read_text(encoding="utf-8")) if args.from_cache else fetch_all()
     out = build(raw)
     OUT.write_text(json.dumps(out, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     TRANSIT_OUT.write_text(json.dumps(transit_geojson(out), separators=(",", ":"), ensure_ascii=False), encoding="utf-8")

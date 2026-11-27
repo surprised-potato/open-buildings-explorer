@@ -20,13 +20,19 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_XLS = REPO_ROOT / "data" / "bir_zonal" / "RDO77_Bacolod_DO058-2023.xls"
-DEFAULT_BOUNDARIES = REPO_ROOT / "public" / "data" / "bacolod" / "boundaries.geojson"
-DEFAULT_OUT = REPO_ROOT / "public" / "data" / "bacolod" / "bir_zonal_values.json"
-DEFAULT_ANALYTICS = REPO_ROOT / "public" / "data" / "bacolod" / "barangay_analytics.json"
-SHEET_MARKER = "058"  # sheet name contains the Department Order number
-TARGET_CITY = "bacolod city"
+BIR = PLACE.setting("bir") or {}
+DEFAULT_XLS = REPO_ROOT / BIR.get("xls", f"data/bir_zonal/{PLACE.slug}.xls")
+DEFAULT_BOUNDARIES = PLACE.out_dir / "boundaries.geojson"
+DEFAULT_OUT = PLACE.out_dir / "bir_zonal_values.json"
+DEFAULT_ANALYTICS = PLACE.out_dir / "barangay_analytics.json"
+SHEET_MARKER = BIR.get("sheet_marker", "")  # sheet name contains the Department Order number
+TARGET_CITY = BIR.get("target_city", PLACE.display_name.lower())
 
 # Classification code -> land-use group
 GROUPS: dict[str, str] = {
@@ -220,11 +226,11 @@ def build_payload(
     all_res = [e["value"] for e in entries if e["group"] == "residential"]
     all_com = [e["value"] for e in entries if e["group"] == "commercial"]
     return {
-        "source": "BIR RDO No. 77 - Bacolod City, Negros Occidental (Revenue Region 12)",
-        "source_url": "https://www.bir.gov.ph/zonal-values",
-        "department_order": "058-2023",
-        "revision": "5th",
-        "effectivity": "2023-11-01",
+        "source": BIR.get("source", f"BIR zonal values, {PLACE.display_name}"),
+        "source_url": BIR.get("source_url", "https://www.bir.gov.ph/zonal-values"),
+        "department_order": BIR.get("department_order"),
+        "revision": BIR.get("revision"),
+        "effectivity": BIR.get("effectivity"),
         "unit": "PHP per square metre",
         "note": (
             "Zonal values are BIR tax floors per street/vicinity, not market prices. Group "
@@ -287,6 +293,7 @@ def enrich_outputs(payload: dict[str, Any], analytics_path: Path, boundaries_pat
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--xls", type=Path, default=DEFAULT_XLS)
     ap.add_argument("--boundaries", type=Path, default=DEFAULT_BOUNDARIES)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
@@ -300,7 +307,7 @@ def main() -> None:
     if not args.no_enrich:
         enrich_outputs(payload, args.analytics, args.boundaries)
     print(
-        f"Parsed {payload['city']['entries']} Bacolod entries; "
+        f"Parsed {payload['city']['entries']} {PLACE.name} entries; "
         f"matched {len(payload['barangays'])} barangays; "
         f"unmatched BIR names: {payload['unmatched_bir_barangays']}; "
         f"barangays without values: {payload['barangays_without_values']}"

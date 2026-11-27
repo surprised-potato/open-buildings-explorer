@@ -1767,3 +1767,15 @@ dialog.hud-modal::backdrop {
   textarea { font-size: 16px; }
   input[type='range'] { min-height: 28px; }
 }
+
+/* Shown when the URL names a place with no data */
+.place-error {
+  max-width: 460px;
+  margin: 18vh auto 0;
+  padding: 24px;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+}
+.place-error h1 { font-size: 18px; margin: 0 0 8px; }
+.place-error p { color: var(--text-secondary); margin: 0 0 14px; }
+.place-error a { color: var(--accent); }

@@ -1,12 +1,16 @@
 import { Compass, Minus, Plus, RotateCw, SlidersHorizontal, X } from 'lucide-react';
 import type maplibregl from 'maplibre-gl';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getPlaceMeta } from '../utils/place';
 
-export const HOME_VIEW = { center: [122.9509, 10.6765] as [number, number], zoom: 14.8, pitch: 58, bearing: -18 };
+/** The place's home camera (place.json homeView). */
+export function homeView() {
+  return getPlaceMeta().homeView;
+}
 
 const PRESETS: { id: string; label: string; pitch: number; bearing?: number }[] = [
   { id: 'top', label: 'Top-down', pitch: 0, bearing: 0 },
-  { id: 'oblique', label: 'Oblique', pitch: 58, bearing: HOME_VIEW.bearing },
+  { id: 'oblique', label: 'Oblique', pitch: 58 },
   { id: 'street', label: 'Street', pitch: 80 },
 ];
 
@@ -26,7 +30,10 @@ interface ViewControlProps {
 
 export function ViewControl({ map }: ViewControlProps) {
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState<ViewState>({ zoom: HOME_VIEW.zoom, pitch: HOME_VIEW.pitch, bearing: HOME_VIEW.bearing });
+  const [view, setView] = useState<ViewState>(() => {
+    const h = homeView();
+    return { zoom: h.zoom, pitch: h.pitch, bearing: h.bearing };
+  });
   const [orbit, setOrbit] = useState(false);
   const orbitRef = useRef<number | null>(null);
 
@@ -111,7 +118,7 @@ export function ViewControl({ map }: ViewControlProps) {
                 key={p.id}
                 type="button"
                 className="view-chip"
-                onClick={() => ease({ pitch: p.pitch, ...(p.bearing != null ? { bearing: p.bearing } : {}) })}
+                onClick={() => ease({ pitch: p.pitch, ...(p.bearing != null ? { bearing: p.bearing } : p.id === 'oblique' ? { bearing: homeView().bearing } : {}) })}
               >
                 {p.label}
               </button>
@@ -127,7 +134,7 @@ export function ViewControl({ map }: ViewControlProps) {
             <button
               type="button"
               className="view-chip"
-              onClick={() => ease({ ...HOME_VIEW })}
+              onClick={() => ease({ ...homeView() })}
             >
               Home
             </button>

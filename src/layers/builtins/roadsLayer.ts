@@ -1,4 +1,5 @@
 import type { TwinLayerDefinition } from '../types';
+import { placePmtiles } from '../../utils/place';
 
 function getOriginAndBase(): string {
   const origin =
@@ -28,7 +29,7 @@ export const roadsLayer: TwinLayerDefinition = {
   ],
   maplibre(ctx) {
     const { map, visible, opacity, theme } = ctx;
-    const url = `pmtiles://${getOriginAndBase()}data/bacolod/bacolod_roads.pmtiles`;
+    const url = `pmtiles://${getOriginAndBase()}${placePmtiles('roads')}`;
 
     if (!map.getSource(ROADS_SOURCE_ID)) {
       map.addSource(ROADS_SOURCE_ID, {

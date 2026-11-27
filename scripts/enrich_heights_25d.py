@@ -14,9 +14,14 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
-DEFAULT_PMTILES = ROOT_DIR / "public" / "data" / "bacolod" / "bacolod_buildings.pmtiles"
-DEFAULT_MANIFEST = ROOT_DIR / "public" / "data" / "bacolod" / "manifest.json"
+DEFAULT_PMTILES = PLACE.pmtiles("buildings")
+DEFAULT_MANIFEST = PLACE.out_dir / "manifest.json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -59,6 +64,7 @@ def parse_args() -> argparse.Namespace:
         default=2.5,
         help="Minimum valid 2.5D building height in meters to accept (default: 2.5).",
     )
+    add_place_argument(parser)
     return parser.parse_args()
 
 
@@ -85,7 +91,7 @@ def main() -> int:
         )
         return 1
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_25d_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_25d_") as tmp:
         tmp_dir = Path(tmp)
         extracted_geojsonl = tmp_dir / "extracted.geojsonl"
         enriched_geojsonl = tmp_dir / "enriched.geojsonl"
@@ -169,7 +175,7 @@ def main() -> int:
                 counts[src_tag] = counts.get(src_tag, 0) + 1
                 fh.write(json.dumps(feat, separators=(",", ":")) + "\n")
 
-        temp_pmtiles = tmp_dir / "bacolod_buildings.pmtiles"
+        temp_pmtiles = tmp_dir / f"{PLACE.file_prefix}_buildings.pmtiles"
         subprocess.run(
             [
                 "ogr2ogr",

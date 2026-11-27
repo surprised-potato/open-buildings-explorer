@@ -5,6 +5,7 @@ import type {
   LegendItem,
   TwinLayerDefinition,
 } from '../types';
+import { placeFile, placePmtiles } from '../../utils/place';
 
 function getOriginAndBase(): string {
   const origin =
@@ -269,8 +270,8 @@ export const buildingsLayer: TwinLayerDefinition = {
       theme,
       poiCategoryFilter,
     } = ctx;
-    const url = `pmtiles://${getOriginAndBase()}data/bacolod/bacolod_buildings.pmtiles`;
-    const labelsUrl = `${getOriginAndBase()}data/bacolod/building_labels.geojson`;
+    const url = `pmtiles://${getOriginAndBase()}${placePmtiles('buildings')}`;
+    const labelsUrl = `${getOriginAndBase()}${placeFile('building_labels.geojson')}`;
 
     if (!map.getSource(BUILDINGS_SOURCE_ID)) {
       map.addSource(BUILDINGS_SOURCE_ID, {

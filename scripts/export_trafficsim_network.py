@@ -53,14 +53,21 @@ except ImportError:
         load_stitched_buildings,
     )
 
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_STATE_DIR = Path(
-    "/home/daniel/Documents/trafficsim-20261114T161208Z-1-001/trafficsim_map/deploy/state"
-)
-DEFAULT_BUILDINGS_PMTILES = REPO_ROOT / "public" / "data" / "bacolod" / "bacolod_buildings.pmtiles"
-DEFAULT_BUILDING_POIS = REPO_ROOT / "public" / "data" / "bacolod" / "building_pois.json"
-DEFAULT_DEM_MANIFEST = REPO_ROOT / "public" / "data" / "bacolod" / "dem" / "dem_manifest.json"
-DEFAULT_OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
+# Calibrated road graph from the separate trafficsim project (Bacolod only so far). Places without
+# one need a network built from OSM/Overture roads first (pipeline phase 2).
+DEFAULT_STATE_DIR = PLACE.trafficsim_state or REPO_ROOT / "build" / PLACE.slug / "trafficsim_state"
+DEFAULT_BUILDINGS_PMTILES = PLACE.pmtiles("buildings")
+DEFAULT_BUILDING_POIS = PLACE.out_dir / "building_pois.json"
+DEFAULT_DEM_MANIFEST = PLACE.out_dir / "dem" / "dem_manifest.json"
+DEFAULT_OUT_DIR = PLACE.out_dir
 
 MAGIC_BMOB = 0x424D4F42
 BINARY_VERSION = 2
@@ -227,7 +234,7 @@ def extract_building_points(
 
     records: list[dict[str, Any]] = []
     if buildings_pmtiles.exists():
-        with tempfile.TemporaryDirectory(prefix="bacolod_mob_bldgs_") as tmp:
+        with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_mob_bldgs_") as tmp:
             ids, geoms_deg, _, props_by_id = load_stitched_buildings(
                 buildings_pmtiles, Path(tmp)
             )
@@ -878,8 +885,8 @@ def apply_population_grid(
     names = [n for n, _ in brgys]
     psa = np.array([float(demo.get(n, {}).get("population", 0.0)) for n in names])
 
-    west, south, east, north = (122.88, 10.57, 123.15, 10.75)
-    with tempfile.TemporaryDirectory(prefix="bacolod_pop_") as d:
+    west, south, east, north = PLACE.analysis_bbox
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_pop_") as d:
         clip = Path(d) / "clip.asc"
         subprocess.run(
             ["gdal_translate", "-q", "-of", "AAIGrid", "-projwin", str(west), str(north), str(east), str(south), str(grid_tif), str(clip)],
@@ -1234,6 +1241,7 @@ def main() -> None:
     parser.add_argument("--building-pois", type=Path, default=DEFAULT_BUILDING_POIS)
     parser.add_argument("--dem-manifest", type=Path, default=DEFAULT_DEM_MANIFEST)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
+    add_place_argument(parser)
     args = parser.parse_args()
 
     summary = export_trafficsim_network(

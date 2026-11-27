@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Fetch Bacolod City geospatial layers from Overture Maps 2026-11-18.0 and OSM Overpass,
-compute 3D building heights, compile static PMTiles, and emit boundaries.geojson + manifest.json.
+"""Fetch one place's geospatial layers (default Bacolod City) from Overture Maps 2026-11-18.0 and the
+downloaded OSM snapshot, compute 3D building heights, compile static PMTiles, and emit boundaries.geojson +
+manifest.json. The place comes from regions/negros-occidental.json (--place <slug> or PLACE).
 """
 
 from __future__ import annotations
@@ -15,47 +16,30 @@ from pathlib import Path
 from typing import Any
 
 import duckdb
-import requests
 from shapely import clip_by_rect
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, mapping, shape
 from shapely.ops import polygonize, unary_union
 from shapely.validation import make_valid
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
 OVERTURE_RELEASE = "2026-11-18.0"
 S3_BASE = f"s3://overturemaps-us-west-2/release/{OVERTURE_RELEASE}"
 
-# Full Bacolod City, Negros Occidental, Philippines bounding box & default center
-WEST, SOUTH, EAST, NORTH = 122.89, 10.58, 123.14, 10.74
+PLACE = current_place()
+
+# Fetch extent (west, south, east, north) and default centre of the place
+WEST, SOUTH, EAST, NORTH = PLACE.bbox
 BBOX = [WEST, SOUTH, EAST, NORTH]
-CENTER = [122.9509, 10.6765]
+CENTER = list(PLACE.center)
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-OUT_DIR = ROOT_DIR / "public" / "data" / "bacolod"
+OUT_DIR = PLACE.out_dir
 
-# Official 61 barangays of Bacolod City (41 numbered + 20 named)
-BACOLOD_BARANGAYS: set[str] = {
-    *(f"Barangay {i}" for i in range(1, 42)),
-    "Alangilan",
-    "Alijis",
-    "Banago",
-    "Bata",
-    "Cabug",
-    "Estefania",
-    "Felisa",
-    "Granada",
-    "Handumanan",
-    "Mandalagan",
-    "Mansilingan",
-    "Montevista",
-    "Pahanocoy",
-    "Punta Taytay",
-    "Singcang-Airport",
-    "Sum-ag",
-    "Taculing",
-    "Tangub",
-    "Villamonte",
-    "Vista Alegre",
-}
+# Official barangay names of the place (from the registry)
+BARANGAYS: set[str] = set(PLACE.barangays)
+BACOLOD_BARANGAYS = BARANGAYS  # old name, kept for imports
 
 RESIDENTIAL_CLASSES = {
     "residential",
@@ -102,13 +86,6 @@ RELIGIOUS_CLASSES = {
     "mosque",
     "temple",
 }
-
-OVERPASS_ENDPOINTS = [
-    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-]
-
 
 def estimate_building_height(
     height: float | None,
@@ -345,7 +322,7 @@ def fetch_buildings(con: duckdb.DuckDBPyConnection, tmp_dir: Path) -> dict[str, 
 
     rows = con.execute(query).fetchall()
     if not rows:
-        raise RuntimeError("Overture query returned 0 buildings for Bacolod City bbox!")
+        raise RuntimeError(f"Overture query returned 0 buildings for the {PLACE.display_name} bbox!")
 
     counts = {
         "buildings": 0,
@@ -410,7 +387,7 @@ def fetch_buildings(con: duckdb.DuckDBPyConnection, tmp_dir: Path) -> dict[str, 
 
     run_ogr2ogr_pmtiles(
         geojsonl_path,
-        OUT_DIR / "bacolod_buildings.pmtiles",
+        PLACE.pmtiles("buildings"),
         layer_name="buildings",
         minzoom=11,
         maxzoom=16,
@@ -461,7 +438,7 @@ def fetch_roads(con: duckdb.DuckDBPyConnection, tmp_dir: Path) -> int:
 
     run_ogr2ogr_pmtiles(
         geojsonl_path,
-        OUT_DIR / "bacolod_roads.pmtiles",
+        PLACE.pmtiles("roads"),
         layer_name="roads",
         minzoom=10,
         maxzoom=16,
@@ -529,7 +506,7 @@ def fetch_base(con: duckdb.DuckDBPyConnection, tmp_dir: Path) -> int:
 
     run_ogr2ogr_pmtiles(
         geojsonl_path,
-        OUT_DIR / "bacolod_base.pmtiles",
+        PLACE.pmtiles("base"),
         layer_name="base",
         minzoom=10,
         maxzoom=15,
@@ -572,52 +549,32 @@ def polygonize_osm_relation(rel: dict[str, Any]) -> dict[str, Any] | None:
     return mapping(geom)
 
 
-def fetch_overpass_boundaries() -> tuple[dict[str, Any] | None, dict[str, tuple[str, dict[str, Any]]]]:
-    """Fetch Bacolod City (rel/11349321) + admin_level=10 barangay polygons from Overpass."""
-    query = f"""[out:json][timeout:60];
-(
-  relation(11349321);
-  relation["boundary"="administrative"]["admin_level"="10"]({SOUTH},{WEST},{NORTH},{EAST});
-);
-out geom;"""
-    for endpoint in OVERPASS_ENDPOINTS:
-        try:
-            resp = requests.post(
-                endpoint,
-                data={"data": query},
-                headers={"User-Agent": "BacolodDigitalTwin/1.0"},
-                timeout=65,
-            )
-            if resp.status_code != 200:
-                print(f"Overpass {endpoint} HTTP {resp.status_code}")
-                continue
-            data = resp.json()
-            elements = data.get("elements", [])
-            city_geom: dict[str, Any] | None = None
-            barangays: dict[str, tuple[str, dict[str, Any]]] = {}
-            for el in elements:
-                if el.get("type") != "relation":
-                    continue
-                tags = el.get("tags", {})
-                name = str(tags.get("name", "")).strip()
-                geom_dict = polygonize_osm_relation(el)
-                if geom_dict is None:
-                    continue
-                if el.get("id") == 11349321:
-                    city_geom = geom_dict
-                elif name in BACOLOD_BARANGAYS and name not in barangays:
-                    barangays[name] = (f"osm-rel-{el['id']}", geom_dict)
-            if barangays or city_geom:
-                print(f"Overpass {endpoint} returned city={city_geom is not None}, barangays={len(barangays)}")
-                return city_geom, barangays
-        except Exception as exc:
-            print(f"Overpass {endpoint} failed: {exc}")
-    return None, {}
+def fetch_osm_boundaries() -> tuple[dict[str, Any] | None, dict[str, tuple[str, dict[str, Any]]]]:
+    """The place's OSM boundary relation + admin_level=10 barangay relations, from the downloaded OSM
+    snapshot (extract_osm_region.py) rather than live Overpass. Used where Overture lacks a barangay."""
+    from osm_snapshot import boundaries
+
+    city_rel = int(PLACE.need("osm_relation"))
+    city_geom: dict[str, Any] | None = None
+    barangays: dict[str, tuple[str, dict[str, Any]]] = {}
+    for feat in boundaries():
+        props = feat["properties"]
+        name = str(props.get("name", "")).strip()
+        if props.get("osm_relation") == city_rel:
+            city_geom = feat["geometry"]
+            continue
+        if props.get("admin_level") != 10 or name not in BARANGAYS or name in barangays:
+            continue
+        c = shape(feat["geometry"]).representative_point()
+        if WEST <= c.x <= EAST and SOUTH <= c.y <= NORTH:
+            barangays[name] = (f"osm-rel-{props['osm_relation']}", feat["geometry"])
+    print(f"OSM snapshot boundaries: city={city_geom is not None}, barangays={len(barangays)}")
+    return city_geom, barangays
 
 
 def fetch_boundaries(con: duckdb.DuckDBPyConnection) -> int:
-    """Build boundaries.geojson combining Overture divisions + OSM Overpass so all 61 barangays exist."""
-    print("Fetching Bacolod City & 61 barangay boundaries...")
+    """Build boundaries.geojson combining Overture divisions + the OSM snapshot so every barangay exists."""
+    print(f"Fetching {PLACE.display_name} & {len(BARANGAYS)} barangay boundaries...")
     div_path = f"{S3_BASE}/theme=divisions/type=division/*.parquet"
     area_path = f"{S3_BASE}/theme=divisions/type=division_area/*.parquet"
 
@@ -652,26 +609,26 @@ def fetch_boundaries(con: duckdb.DuckDBPyConnection) -> int:
         if geom_dict is None:
             continue
         area_val = float(area_m2 or 0.0)
-        if name == "Bacolod" and subtype == "locality":
+        if name == PLACE.setting("overture_locality", PLACE.name) and subtype == "locality":
             city_feature = (str(div_id), geom_dict)
-        elif name in BACOLOD_BARANGAYS:
+        elif name in BARANGAYS:
             # Prefer larger official barangay polygon when duplicate neighborhood names exist (e.g. Cabug)
             prev = overture_barangays.get(name)
             if prev is None or area_val > prev[0]:
                 overture_barangays[name] = (area_val, str(div_id), geom_dict)
 
-    print(f"Overture divisions matched {len(overture_barangays)} of {len(BACOLOD_BARANGAYS)} barangays.")
+    print(f"Overture divisions matched {len(overture_barangays)} of {len(BARANGAYS)} barangays.")
 
-    osm_city_geom, osm_barangays = fetch_overpass_boundaries()
+    osm_city_geom, osm_barangays = fetch_osm_boundaries()
 
     features: list[dict[str, Any]] = []
 
     if city_feature is not None:
         cid, cgeom = city_feature
     elif osm_city_geom is not None:
-        cid, cgeom = "osm-rel-11349321", osm_city_geom
+        cid, cgeom = f"osm-rel-{PLACE.need('osm_relation')}", osm_city_geom
     else:
-        raise RuntimeError("Could not obtain Bacolod City boundary from Overture or Overpass!")
+        raise RuntimeError(f"Could not obtain the {PLACE.display_name} boundary from Overture or the OSM snapshot!")
 
     clon, clat, cbbox = compute_centroid_and_bbox(cgeom)
     features.append(
@@ -680,7 +637,7 @@ def fetch_boundaries(con: duckdb.DuckDBPyConnection) -> int:
             "geometry": cgeom,
             "properties": {
                 "id": cid,
-                "name": "Bacolod City",
+                "name": PLACE.display_name,
                 "level": "city",
                 "centroid_lon": clon,
                 "centroid_lat": clat,
@@ -690,7 +647,7 @@ def fetch_boundaries(con: duckdb.DuckDBPyConnection) -> int:
     )
 
     missing_barangays: list[str] = []
-    for brgy_name in sorted(BACOLOD_BARANGAYS):
+    for brgy_name in sorted(BARANGAYS):
         if brgy_name in overture_barangays:
             _, bid, bgeom = overture_barangays[brgy_name]
         elif brgy_name in osm_barangays:
@@ -727,10 +684,15 @@ def fetch_boundaries(con: duckdb.DuckDBPyConnection) -> int:
 
 
 def main() -> int:
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
+    ap.parse_args()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     con = create_duckdb_connection()
 
-    with tempfile.TemporaryDirectory(prefix="bacolod_fetch_") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_fetch_") as tmp:
         tmp_dir = Path(tmp)
         building_counts = fetch_buildings(con, tmp_dir)
         roads_count = fetch_roads(con, tmp_dir)
@@ -738,8 +700,8 @@ def main() -> int:
         barangay_count = fetch_boundaries(con)
 
     manifest = {
-        "city": "Bacolod City",
-        "region": "Negros Occidental, Philippines",
+        "city": PLACE.display_name,
+        "region": f"{PLACE.province_display}, Philippines",
         "overture_release": OVERTURE_RELEASE,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "bbox": BBOX,
@@ -754,10 +716,10 @@ def main() -> int:
             "barangays": barangay_count,
         },
         "files": {
-            "buildings": "data/bacolod/bacolod_buildings.pmtiles",
-            "roads": "data/bacolod/bacolod_roads.pmtiles",
-            "base": "data/bacolod/bacolod_base.pmtiles",
-            "boundaries": "data/bacolod/boundaries.geojson",
+            "buildings": f"{PLACE.data_url_dir}/{PLACE.file_prefix}_buildings.pmtiles",
+            "roads": f"{PLACE.data_url_dir}/{PLACE.file_prefix}_roads.pmtiles",
+            "base": f"{PLACE.data_url_dir}/{PLACE.file_prefix}_base.pmtiles",
+            "boundaries": f"{PLACE.data_url_dir}/boundaries.geojson",
         },
     }
     manifest_path = OUT_DIR / "manifest.json"
@@ -770,8 +732,8 @@ def main() -> int:
         from enrich_osm_buildings import enrich_buildings_with_osm  # type: ignore[no-redef]
 
     enrich_buildings_with_osm(
-        pmtiles_path=OUT_DIR / "bacolod_buildings.pmtiles",
-        base_pmtiles_path=OUT_DIR / "bacolod_base.pmtiles",
+        pmtiles_path=PLACE.pmtiles("buildings"),
+        base_pmtiles_path=PLACE.pmtiles("base"),
         out_building_pois_path=OUT_DIR / "building_pois.json",
         out_labels_path=OUT_DIR / "building_labels.geojson",
         manifest_path=manifest_path,

@@ -24,6 +24,7 @@ import {
   SITE_CATEGORIES,
 } from '../utils/siteSelection';
 import { MobilityTabPanel } from './MobilityTabPanel';
+import { getPlaceMeta } from '../utils/place';
 
 interface AnalyticsPanelProps {
   open: boolean;
@@ -916,7 +917,7 @@ export function AnalyticsPanel({
 
             {!siteAnalysis && topCommercialHubs.length > 0 && (
               <section>
-                <h3 className="section-label">Top Commercial Hubs in Bacolod</h3>
+                <h3 className="section-label">Top Commercial Hubs in {getPlaceMeta().name}</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   {topCommercialHubs.map((hub) => (
                     <button

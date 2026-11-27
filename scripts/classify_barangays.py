@@ -22,8 +22,13 @@ from typing import Any
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = REPO_ROOT / "public" / "data" / "bacolod"
+OUT_DIR = PLACE.out_dir
 
 K = 4
 FEATURES = [
@@ -153,6 +158,7 @@ def classify(
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--out", type=Path, default=OUT_DIR / "barangay_typology.json")
     args = ap.parse_args()
 

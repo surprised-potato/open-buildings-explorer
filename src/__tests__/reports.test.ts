@@ -98,7 +98,7 @@ describe('reports', () => {
       0
     );
     expect(reached).toBe(expected);
-    expect(out.caveats.some((c) => c.includes('flood maps') && c.includes('do not cover'))).toBe(true);
+    expect(out.caveats.some((c) => c.includes('River and rain flooding') && c.includes('not counted per building'))).toBe(true);
     expect(def.build(ctx({ property: null })).subtitle).toBe('Loading data…');
   });
 

@@ -23,22 +23,28 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from place import add_place_argument, current_place  # noqa: E402
+
+PLACE = current_place()
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 IN_DIR = REPO_ROOT / "data" / "noah"
-OUT = REPO_ROOT / "public" / "data" / "bacolod" / "hazards.geojson"
-BOUNDARIES = REPO_ROOT / "public" / "data" / "bacolod" / "boundaries.geojson"
+NOAH_PROVINCE = PLACE.setting("noah_province", "NegrosOccidental")
+OUT = PLACE.out_dir / "hazards.geojson"
+BOUNDARIES = PLACE.out_dir / "boundaries.geojson"
 MIN_CITY_KM2 = 0.01  # a hazard with less area than this inside the city is treated as not covering it
-BBOX = (122.88, 10.57, 123.15, 10.75)  # west, south, east, north: Bacolod plus a margin
+BBOX = PLACE.analysis_bbox  # west, south, east, north: the place plus a margin
 SIMPLIFY_DEG = 2e-5  # about 2 m, far below the hazard model's own accuracy
 
 HAZARDS: list[dict[str, Any]] = [
-    {"key": "flood_5yr", "label": "Flood, 5-year rain", "zip": "flood_5yr_NegrosOccidental.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
-    {"key": "flood_25yr", "label": "Flood, 25-year rain", "zip": "flood_25yr_NegrosOccidental.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
-    {"key": "flood_100yr", "label": "Flood, 100-year rain", "zip": "flood_100yr_NegrosOccidental.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
-    {"key": "surge_ssa1", "label": "Storm surge 2-3 m", "zip": "surge_ssa1_NegrosOccidental.zip", "levels": {1: "Reached"}},
-    {"key": "surge_ssa2", "label": "Storm surge 3-4 m", "zip": "surge_ssa2_NegrosOccidental.zip", "levels": {1: "Reached"}},
-    {"key": "surge_ssa3", "label": "Storm surge 4-5 m", "zip": "surge_ssa3_NegrosOccidental.zip", "levels": {1: "Reached"}},
-    {"key": "surge_ssa4", "label": "Storm surge over 5 m", "zip": "surge_ssa4_NegrosOccidental.zip", "levels": {1: "Reached"}},
+    {"key": "flood_5yr", "label": "Flood, 5-year rain", "zip": f"flood_5yr_{NOAH_PROVINCE}.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
+    {"key": "flood_25yr", "label": "Flood, 25-year rain", "zip": f"flood_25yr_{NOAH_PROVINCE}.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
+    {"key": "flood_100yr", "label": "Flood, 100-year rain", "zip": f"flood_100yr_{NOAH_PROVINCE}.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
+    {"key": "surge_ssa1", "label": "Storm surge 2-3 m", "zip": f"surge_ssa1_{NOAH_PROVINCE}.zip", "levels": {1: "Reached"}},
+    {"key": "surge_ssa2", "label": "Storm surge 3-4 m", "zip": f"surge_ssa2_{NOAH_PROVINCE}.zip", "levels": {1: "Reached"}},
+    {"key": "surge_ssa3", "label": "Storm surge 4-5 m", "zip": f"surge_ssa3_{NOAH_PROVINCE}.zip", "levels": {1: "Reached"}},
+    {"key": "surge_ssa4", "label": "Storm surge over 5 m", "zip": f"surge_ssa4_{NOAH_PROVINCE}.zip", "levels": {1: "Reached"}},
 ]
 
 
@@ -80,7 +86,7 @@ def city_polygon(path: Path) -> Any:
     return unary_union([shape(f["geometry"]) for f in fc["features"] if f["properties"].get("level") == "barangay"])
 
 
-def km2(area_deg2: float, lat: float = 10.676) -> float:
+def km2(area_deg2: float, lat: float = PLACE.lat0) -> float:
     import math
 
     return area_deg2 * 111.32**2 * math.cos(math.radians(lat))
@@ -117,7 +123,7 @@ def build(in_dir: Path, boundaries: Path = BOUNDARIES) -> dict[str, Any]:
         merged = {lv: unary_union(geoms).simplify(SIMPLIFY_DEG, preserve_topology=True) for lv, geoms in sorted(by_level.items())}
         inside = sum(km2(g.intersection(city).area) for g in merged.values()) if city is not None else None
         if inside is not None and inside < MIN_CITY_KM2:
-            dropped.append({"key": h["key"], "reason": "no mapped hazard area inside Bacolod City", "city_km2": round(inside, 3)})
+            dropped.append({"key": h["key"], "reason": f"no mapped hazard area inside {PLACE.display_name}", "city_km2": round(inside, 3)})
             print(f"{h['key']}: {inside:.3f} km2 inside the city, dropped (not covered by NOAH here)")
             continue
         for lv, g in merged.items():
@@ -141,7 +147,7 @@ def build(in_dir: Path, boundaries: Path = BOUNDARIES) -> dict[str, Any]:
         print(f"{h['key']}: levels {sorted(by_level)}")
     return {
         "type": "FeatureCollection",
-        "name": "bacolod_hazards",
+        "name": f"{PLACE.file_prefix}_hazards",
         "meta": {
             "source": "Project NOAH, UP Resilience Institute (noah.up.edu.ph)",
             "licence": "Open Data Commons ODbL 1.0; attribute Project NOAH and its contributors",
@@ -156,6 +162,7 @@ def build(in_dir: Path, boundaries: Path = BOUNDARIES) -> dict[str, Any]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
+    add_place_argument(ap)
     ap.add_argument("--in-dir", type=Path, default=IN_DIR)
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--boundaries", type=Path, default=BOUNDARIES)

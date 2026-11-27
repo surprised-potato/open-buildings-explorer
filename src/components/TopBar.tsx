@@ -9,71 +9,14 @@ import {
   X,
 } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
-import { BACOLOD_LANDMARKS } from '../layers/builtins';
+import { placeLandmarks } from '../layers/builtins';
+import { getPlaceMeta, type CameraPreset } from '../utils/place';
 import { useTwinStore } from '../layers/registry';
 import type { BasemapTheme, SearchablePlaceItem } from '../layers/types';
 import type { MeasureMode } from './MeasureControl';
 import { ViewSwitcher } from './ViewSwitcher';
 
-export interface CameraPreset {
-  id: string;
-  label: string;
-  center: [number, number];
-  zoom: number;
-  pitch: number;
-  bearing: number;
-}
-
-export const CAMERA_PRESETS: CameraPreset[] = [
-  {
-    id: 'overview',
-    label: 'City Overview',
-    center: [122.9509, 10.6765],
-    zoom: 12.8,
-    pitch: 46,
-    bearing: -12,
-  },
-  {
-    id: 'plaza-reclamation',
-    label: 'Public Plaza & Reclamation',
-    center: [122.9454, 10.6708],
-    zoom: 15.8,
-    pitch: 58,
-    bearing: -20,
-  },
-  {
-    id: 'lacson',
-    label: 'Lacson Corridor',
-    center: [122.9522, 10.6795],
-    zoom: 15.8,
-    pitch: 56,
-    bearing: -18,
-  },
-  {
-    id: 'ngc',
-    label: 'New Government Center',
-    center: [122.96658, 10.65885],
-    zoom: 16.0,
-    pitch: 56,
-    bearing: -35,
-  },
-  {
-    id: 'bredco',
-    label: 'Bredco Port',
-    center: [122.94479, 10.68261],
-    zoom: 15.2,
-    pitch: 54,
-    bearing: 40,
-  },
-  {
-    id: 'granada',
-    label: 'Granada Foothills',
-    center: [123.025, 10.676],
-    zoom: 13.8,
-    pitch: 60,
-    bearing: -45,
-  },
-];
+export type { CameraPreset } from '../utils/place';
 
 interface TopBarProps {
   measureMode: MeasureMode;
@@ -133,7 +76,7 @@ export function TopBar({
   const searchOptions = useMemo<SearchOption[]>(() => {
     const q = query.trim().toLowerCase();
 
-    const landmarkMatches: SearchOption[] = BACOLOD_LANDMARKS.filter(
+    const landmarkMatches: SearchOption[] = placeLandmarks().filter(
       (lm) =>
         !q ||
         lm.name.toLowerCase().includes(q) ||
@@ -230,7 +173,7 @@ export function TopBar({
       });
     } else if (opt.camera) {
       onFlyTo(opt.camera);
-      const lm = BACOLOD_LANDMARKS.find((item) => `lm-${item.id}` === opt.id);
+      const lm = placeLandmarks().find((item) => `lm-${item.id}` === opt.id);
       if (lm) {
         setSelectedFeature({
           layerId: 'landmarks',
@@ -337,7 +280,7 @@ export function TopBar({
           <Building2 size={17} />
         </div>
         <div className="hud-topbar-brand">
-          <h1 className="hud-topbar-title">Bacolod City</h1>
+          <h1 className="hud-topbar-title">{getPlaceMeta().displayName}</h1>
           <span className="hud-topbar-subtitle">
             3D Graphical Digital Twin · Overture {manifest?.overture_release ?? '2026-11-18.0'}
           </span>
@@ -383,7 +326,7 @@ export function TopBar({
               type="text"
               role="combobox"
               aria-expanded={dropdownOpen}
-              aria-controls="bacolod-search-listbox"
+              aria-controls="place-search-listbox"
               aria-label="Search barangay or landmark"
               className="text-input"
               style={{ paddingLeft: 28, paddingRight: query ? 26 : 9 }}
@@ -430,7 +373,7 @@ export function TopBar({
 
           {dropdownOpen && searchOptions.length > 0 && (
             <div
-              id="bacolod-search-listbox"
+              id="place-search-listbox"
               role="listbox"
               className="search-results scrollable-panel"
             >
@@ -509,7 +452,7 @@ export function TopBar({
           aria-label="Camera presets"
           style={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}
         >
-          {CAMERA_PRESETS.map((preset) => (
+          {getPlaceMeta().cameraPresets.map((preset) => (
             <button
               key={preset.id}
               type="button"
