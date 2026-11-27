@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:23.978557+00:00",
+  "bbox": [
+    123.0307,
+    10.8098,
+    123.192,
+    11.049
+  ],
+  "stats": {
+    "min_m": -0.0,
+    "max_m": 516.11,
+    "mean_m": 34.55,
+    "p50_m": 9.6,
+    "p90_m": 101.72
+  },
+  "grid": {
+    "file": "data/manapla/dem/manapla_dem_grid.bin",
+    "width": 290,
+    "height": 431,
+    "bbox": [
+      123.0307,
+      10.8098,
+      123.192,
+      11.049
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/manapla/dem/manapla_elevation_relief.png",
+    "coordinates": [
+      [
+        123.03069999999998,
+        11.049000000000003
+      ],
+      [
+        123.19188144218391,
+        11.049000000000003
+      ],
+      [
+        123.19188144218391,
+        10.809818155873115
+      ],
+      [
+        123.03069999999998,
+        10.809818155873115
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/manapla/dem/manapla_slope.png",
+    "coordinates": [
+      [
+        123.03067540796121,
+        11.049059346305468
+      ],
+      [
+        123.19213880287276,
+        11.049059346305468
+      ],
+      [
+        123.19213880287276,
+        10.809600270151988
+      ],
+      [
+        123.03067540796121,
+        10.809600270151988
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

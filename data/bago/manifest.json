@@ -1,0 +1,69 @@
+{
+  "city": "Bago City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T12:34:51.716991+00:00",
+  "bbox": [
+    122.7852,
+    10.4064,
+    123.1609,
+    10.6539
+  ],
+  "center": [
+    122.95953,
+    10.5303
+  ],
+  "counts": {
+    "buildings": 64941,
+    "buildings_measured": 0,
+    "buildings_floors": 37,
+    "buildings_estimated": 64904,
+    "roads": 5836,
+    "base_features": 315,
+    "barangays": 24,
+    "pois_total": 2945,
+    "pois_matched": 500,
+    "poi_sources": {
+      "osm": 221,
+      "overture": 278,
+      "foursquare": 1
+    },
+    "osm_pois": 1091,
+    "osm_pois_matched": 221,
+    "buildings_with_pois": 435,
+    "buildings_classified": 48777,
+    "buildings_commercial": 458,
+    "buildings_mixed_use": 103,
+    "class_sources": {
+      "unknown": 16169,
+      "morph_residential": 37079,
+      "osm_landuse": 10171,
+      "osm_poi_inside": 51,
+      "overture": 657,
+      "osm_poi_nearest": 36,
+      "osm_compound": 465,
+      "overture_poi_inside": 51,
+      "overture_poi_nearest": 86,
+      "name_keyword": 14,
+      "morph_arterial": 105,
+      "morph_industrial": 56,
+      "foursquare_poi_nearest": 1
+    },
+    "class_confidence": {
+      "unknown": 16169,
+      "inferred": 37240,
+      "medium": 10292,
+      "verified": 1240
+    }
+  },
+  "files": {
+    "buildings": "data/bago/bago_buildings.pmtiles",
+    "roads": "data/bago/bago_roads.pmtiles",
+    "base": "data/bago/bago_base.pmtiles",
+    "boundaries": "data/bago/boundaries.geojson",
+    "building_pois": "data/bago/building_pois.json",
+    "building_labels": "data/bago/building_labels.geojson",
+    "barangay_analytics": "data/bago/barangay_analytics.json",
+    "catchment_grid": "data/bago/catchment_grid.json"
+  }
+}

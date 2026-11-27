@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:13.520631+00:00",
+  "bbox": [
+    123.1225,
+    10.3067,
+    123.5678,
+    10.6125
+  ],
+  "stats": {
+    "min_m": -0.0,
+    "max_m": 2459.08,
+    "mean_m": 307.93,
+    "p50_m": 168.19,
+    "p90_m": 730.06
+  },
+  "grid": {
+    "file": "data/san-carlos/dem/san-carlos_dem_grid.bin",
+    "width": 802,
+    "height": 550,
+    "bbox": [
+      123.1225,
+      10.3067,
+      123.5678,
+      10.6125
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/san-carlos/dem/san-carlos_elevation_relief.png",
+    "coordinates": [
+      [
+        123.1225,
+        10.6125
+      ],
+      [
+        123.5676888865102,
+        10.6125
+      ],
+      [
+        123.5676888865102,
+        10.306815584958454
+      ],
+      [
+        123.1225,
+        10.306815584958454
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/san-carlos/dem/san-carlos_slope.png",
+    "coordinates": [
+      [
+        123.12238017329197,
+        10.612988753236577
+      ],
+      [
+        123.56841065674176,
+        10.612988753236577
+      ],
+      [
+        123.56841065674176,
+        10.306203120950101
+      ],
+      [
+        123.12238017329197,
+        10.306203120950101
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

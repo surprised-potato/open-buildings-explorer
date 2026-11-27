@@ -1,0 +1,55 @@
+{
+  "slug": "silay",
+  "name": "Silay",
+  "displayName": "Silay City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604526000",
+  "filePrefix": "silay",
+  "center": [
+    123.08906,
+    10.7654
+  ],
+  "bbox": [
+    122.8559,
+    10.6537,
+    123.2732,
+    10.8772
+  ],
+  "barangayCount": 16,
+  "population2020": 130478,
+  "homeView": {
+    "center": [
+      122.97561,
+      10.79941
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Silay Town Centre",
+      "center": [
+        122.97561,
+        10.79941
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Silay Overview",
+      "center": [
+        123.06455,
+        10.76545
+      ],
+      "zoom": 11.7,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

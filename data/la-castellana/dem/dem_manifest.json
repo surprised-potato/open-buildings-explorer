@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:18.116829+00:00",
+  "bbox": [
+    122.9365,
+    10.2608,
+    123.1976,
+    10.4214
+  ],
+  "stats": {
+    "min_m": 11.4,
+    "max_m": 2458.99,
+    "mean_m": 291.53,
+    "p50_m": 144.65,
+    "p90_m": 730.84
+  },
+  "grid": {
+    "file": "data/la-castellana/dem/la-castellana_dem_grid.bin",
+    "width": 470,
+    "height": 289,
+    "bbox": [
+      122.9365,
+      10.2608,
+      123.1976,
+      10.4214
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/la-castellana/dem/la-castellana_elevation_relief.png",
+    "coordinates": [
+      [
+        122.93649999999998,
+        10.421400000000014
+      ],
+      [
+        123.19769721040595,
+        10.421400000000014
+      ],
+      [
+        123.19769721040595,
+        10.260803519514225
+      ],
+      [
+        122.93649999999998,
+        10.260803519514225
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/la-castellana/dem/la-castellana_slope.png",
+    "coordinates": [
+      [
+        122.93646771288721,
+        10.421461008643401
+      ],
+      [
+        123.19794461609092,
+        10.421461008643401
+      ],
+      [
+        123.19794461609092,
+        10.260589574012513
+      ],
+      [
+        122.93646771288721,
+        10.260589574012513
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

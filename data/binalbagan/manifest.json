@@ -1,0 +1,68 @@
+{
+  "city": "Binalbagan",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:21:57.629251+00:00",
+  "bbox": [
+    122.6959,
+    10.0155,
+    123.1108,
+    10.2567
+  ],
+  "center": [
+    123.02174,
+    10.13666
+  ],
+  "counts": {
+    "buildings": 19987,
+    "buildings_measured": 0,
+    "buildings_floors": 4,
+    "buildings_estimated": 19983,
+    "roads": 1381,
+    "base_features": 167,
+    "barangays": 16,
+    "pois_total": 765,
+    "pois_matched": 254,
+    "poi_sources": {
+      "osm": 129,
+      "overture": 124,
+      "foursquare": 1
+    },
+    "osm_pois": 339,
+    "osm_pois_matched": 129,
+    "buildings_with_pois": 201,
+    "buildings_classified": 15652,
+    "buildings_commercial": 169,
+    "buildings_mixed_use": 55,
+    "class_sources": {
+      "unknown": 4342,
+      "morph_residential": 8416,
+      "osm_landuse": 6570,
+      "osm_compound": 195,
+      "overture": 311,
+      "overture_poi_inside": 29,
+      "osm_poi_inside": 28,
+      "overture_poi_nearest": 32,
+      "osm_poi_nearest": 11,
+      "morph_industrial": 1,
+      "name_keyword": 1,
+      "morph_arterial": 51
+    },
+    "class_confidence": {
+      "unknown": 4342,
+      "inferred": 8468,
+      "medium": 6621,
+      "verified": 556
+    }
+  },
+  "files": {
+    "buildings": "data/binalbagan/binalbagan_buildings.pmtiles",
+    "roads": "data/binalbagan/binalbagan_roads.pmtiles",
+    "base": "data/binalbagan/binalbagan_base.pmtiles",
+    "boundaries": "data/binalbagan/boundaries.geojson",
+    "building_pois": "data/binalbagan/building_pois.json",
+    "building_labels": "data/binalbagan/building_labels.geojson",
+    "barangay_analytics": "data/binalbagan/barangay_analytics.json",
+    "catchment_grid": "data/binalbagan/catchment_grid.json"
+  }
+}

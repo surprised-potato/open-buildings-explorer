@@ -1,0 +1,55 @@
+{
+  "slug": "calatrava",
+  "name": "Calatrava",
+  "displayName": "Calatrava",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604505000",
+  "filePrefix": "calatrava",
+  "center": [
+    123.48725,
+    10.59561
+  ],
+  "bbox": [
+    123.2308,
+    10.4632,
+    123.6203,
+    10.728
+  ],
+  "barangayCount": 40,
+  "population2020": 82540,
+  "homeView": {
+    "center": [
+      123.48071,
+      10.59362
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Calatrava Town Centre",
+      "center": [
+        123.48071,
+        10.59362
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Calatrava Overview",
+      "center": [
+        123.42555,
+        10.5956
+      ],
+      "zoom": 11.8,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

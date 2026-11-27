@@ -1,0 +1,55 @@
+{
+  "slug": "bago",
+  "name": "Bago",
+  "displayName": "Bago City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604502000",
+  "filePrefix": "bago",
+  "center": [
+    122.95953,
+    10.5303
+  ],
+  "bbox": [
+    122.7852,
+    10.4064,
+    123.1609,
+    10.6539
+  ],
+  "barangayCount": 24,
+  "population2020": 191210,
+  "homeView": {
+    "center": [
+      122.83528,
+      10.53763
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Bago Town Centre",
+      "center": [
+        122.83528,
+        10.53763
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Bago Overview",
+      "center": [
+        122.97305,
+        10.53015
+      ],
+      "zoom": 11.8,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

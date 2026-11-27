@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:16.919090+00:00",
+  "bbox": [
+    122.692,
+    10.1922,
+    123.005,
+    10.3719
+  ],
+  "stats": {
+    "min_m": -2.47,
+    "max_m": 197.46,
+    "mean_m": 14.73,
+    "p50_m": 0.0,
+    "p90_m": 55.55
+  },
+  "grid": {
+    "file": "data/hinigaran/dem/hinigaran_dem_grid.bin",
+    "width": 563,
+    "height": 323,
+    "bbox": [
+      122.692,
+      10.1922,
+      123.005,
+      10.3719
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/hinigaran/dem/hinigaran_elevation_relief.png",
+    "coordinates": [
+      [
+        122.69199999999998,
+        10.37190000000001
+      ],
+      [
+        123.00488406734908,
+        10.37190000000001
+      ],
+      [
+        123.00488406734908,
+        10.19217819272528
+      ],
+      [
+        122.69199999999998,
+        10.19217819272528
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/hinigaran/dem/hinigaran_slope.png",
+    "coordinates": [
+      [
+        122.69182584611654,
+        10.372047524050409
+      ],
+      [
+        123.00498776919585,
+        10.372047524050409
+      ],
+      [
+        123.00498776919585,
+        10.192051917466666
+      ],
+      [
+        122.69182584611654,
+        10.192051917466666
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

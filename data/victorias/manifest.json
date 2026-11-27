@@ -1,0 +1,68 @@
+{
+  "city": "Victorias City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T14:05:05.195612+00:00",
+  "bbox": [
+    123.0256,
+    10.7245,
+    123.2273,
+    11.0097
+  ],
+  "center": [
+    123.08772,
+    10.86724
+  ],
+  "counts": {
+    "buildings": 22955,
+    "buildings_measured": 0,
+    "buildings_floors": 14,
+    "buildings_estimated": 22941,
+    "roads": 2715,
+    "base_features": 274,
+    "barangays": 7,
+    "pois_total": 619,
+    "pois_matched": 296,
+    "poi_sources": {
+      "osm": 114,
+      "overture": 179,
+      "foursquare": 3
+    },
+    "osm_pois": 264,
+    "osm_pois_matched": 114,
+    "buildings_with_pois": 245,
+    "buildings_classified": 20315,
+    "buildings_commercial": 141,
+    "buildings_mixed_use": 38,
+    "class_sources": {
+      "unknown": 2642,
+      "morph_residential": 5193,
+      "osm_landuse": 13707,
+      "osm_compound": 193,
+      "overture": 1061,
+      "osm_poi_inside": 29,
+      "overture_poi_nearest": 45,
+      "osm_poi_nearest": 8,
+      "morph_industrial": 18,
+      "overture_poi_inside": 46,
+      "morph_arterial": 11,
+      "foursquare_poi_nearest": 2
+    },
+    "class_confidence": {
+      "unknown": 2642,
+      "inferred": 5222,
+      "medium": 13795,
+      "verified": 1296
+    }
+  },
+  "files": {
+    "buildings": "data/victorias/victorias_buildings.pmtiles",
+    "roads": "data/victorias/victorias_roads.pmtiles",
+    "base": "data/victorias/victorias_base.pmtiles",
+    "boundaries": "data/victorias/boundaries.geojson",
+    "building_pois": "data/victorias/building_pois.json",
+    "building_labels": "data/victorias/building_labels.geojson",
+    "barangay_analytics": "data/victorias/barangay_analytics.json",
+    "catchment_grid": "data/victorias/catchment_grid.json"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:25.237497+00:00",
+  "bbox": [
+    123.3161,
+    10.6283,
+    123.652,
+    10.779
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 735.12,
+    "mean_m": 109.07,
+    "p50_m": 45.51,
+    "p90_m": 288.88
+  },
+  "grid": {
+    "file": "data/toboso/dem/toboso_dem_grid.bin",
+    "width": 605,
+    "height": 271,
+    "bbox": [
+      123.3161,
+      10.6283,
+      123.652,
+      10.779
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/toboso/dem/toboso_elevation_relief.png",
+    "coordinates": [
+      [
+        123.31610000000002,
+        10.779000000000007
+      ],
+      [
+        123.65187579488907,
+        10.779000000000007
+      ],
+      [
+        123.65187579488907,
+        10.628259219701407
+      ],
+      [
+        123.31610000000002,
+        10.628259219701407
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/toboso/dem/toboso_slope.png",
+    "coordinates": [
+      [
+        123.31594384369274,
+        10.779524776347868
+      ],
+      [
+        123.6525592254547,
+        10.779524776347868
+      ],
+      [
+        123.6525592254547,
+        10.627687727807857
+      ],
+      [
+        123.31594384369274,
+        10.627687727807857
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

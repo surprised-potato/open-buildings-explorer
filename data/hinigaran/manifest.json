@@ -1,0 +1,66 @@
+{
+  "city": "Hinigaran",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:02:21.638087+00:00",
+  "bbox": [
+    122.697,
+    10.1972,
+    123.0,
+    10.3669
+  ],
+  "center": [
+    122.84967,
+    10.28205
+  ],
+  "counts": {
+    "buildings": 28879,
+    "buildings_measured": 0,
+    "buildings_floors": 10,
+    "buildings_estimated": 28869,
+    "roads": 1732,
+    "base_features": 152,
+    "barangays": 24,
+    "pois_total": 501,
+    "pois_matched": 271,
+    "poi_sources": {
+      "osm": 119,
+      "overture": 152
+    },
+    "osm_pois": 215,
+    "osm_pois_matched": 119,
+    "buildings_with_pois": 236,
+    "buildings_classified": 22286,
+    "buildings_commercial": 186,
+    "buildings_mixed_use": 81,
+    "class_sources": {
+      "unknown": 6599,
+      "morph_residential": 15370,
+      "overture_poi_nearest": 52,
+      "osm_landuse": 6075,
+      "morph_industrial": 13,
+      "overture": 335,
+      "osm_compound": 266,
+      "overture_poi_inside": 40,
+      "osm_poi_inside": 27,
+      "morph_arterial": 88,
+      "osm_poi_nearest": 14
+    },
+    "class_confidence": {
+      "unknown": 6599,
+      "inferred": 15471,
+      "medium": 6155,
+      "verified": 654
+    }
+  },
+  "files": {
+    "buildings": "data/hinigaran/hinigaran_buildings.pmtiles",
+    "roads": "data/hinigaran/hinigaran_roads.pmtiles",
+    "base": "data/hinigaran/hinigaran_base.pmtiles",
+    "boundaries": "data/hinigaran/boundaries.geojson",
+    "building_pois": "data/hinigaran/building_pois.json",
+    "building_labels": "data/hinigaran/building_labels.geojson",
+    "barangay_analytics": "data/hinigaran/barangay_analytics.json",
+    "catchment_grid": "data/hinigaran/catchment_grid.json"
+  }
+}

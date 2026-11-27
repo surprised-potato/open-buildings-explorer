@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:15.036657+00:00",
+  "bbox": [
+    122.8277,
+    10.6272,
+    123.2688,
+    10.7938
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 1865.35,
+    "mean_m": 303.2,
+    "p50_m": 92.12,
+    "p90_m": 948.96
+  },
+  "grid": {
+    "file": "data/talisay/dem/talisay_dem_grid.bin",
+    "width": 794,
+    "height": 300,
+    "bbox": [
+      122.8277,
+      10.6272,
+      123.2688,
+      10.7938
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/talisay/dem/talisay_elevation_relief.png",
+    "coordinates": [
+      [
+        122.82769999999998,
+        10.793800000000003
+      ],
+      [
+        123.26892811306195,
+        10.793800000000003
+      ],
+      [
+        123.26892811306195,
+        10.627221712813604
+      ],
+      [
+        122.82769999999998,
+        10.627221712813604
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/talisay/dem/talisay_slope.png",
+    "coordinates": [
+      [
+        122.8276057873268,
+        10.793916721441674
+      ],
+      [
+        123.26883449433592,
+        10.793916721441674
+      ],
+      [
+        123.26883449433592,
+        10.627064671190006
+      ],
+      [
+        122.8276057873268,
+        10.627064671190006
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

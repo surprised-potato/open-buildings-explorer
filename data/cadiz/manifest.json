@@ -1,0 +1,66 @@
+{
+  "city": "Cadiz City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T12:38:27.559276+00:00",
+  "bbox": [
+    123.1193,
+    10.6817,
+    123.3798,
+    11.1428
+  ],
+  "center": [
+    123.26359,
+    10.91086
+  ],
+  "counts": {
+    "buildings": 33371,
+    "buildings_measured": 1,
+    "buildings_floors": 4,
+    "buildings_estimated": 33366,
+    "roads": 3766,
+    "base_features": 413,
+    "barangays": 16,
+    "pois_total": 819,
+    "pois_matched": 433,
+    "poi_sources": {
+      "osm": 175,
+      "overture": 258
+    },
+    "osm_pois": 363,
+    "osm_pois_matched": 175,
+    "buildings_with_pois": 370,
+    "buildings_classified": 26956,
+    "buildings_commercial": 174,
+    "buildings_mixed_use": 48,
+    "class_sources": {
+      "morph_residential": 13006,
+      "unknown": 6417,
+      "osm_landuse": 12857,
+      "osm_compound": 278,
+      "overture": 550,
+      "osm_poi_inside": 55,
+      "osm_poi_nearest": 28,
+      "overture_poi_nearest": 79,
+      "overture_poi_inside": 45,
+      "morph_industrial": 53,
+      "morph_arterial": 3
+    },
+    "class_confidence": {
+      "inferred": 13062,
+      "unknown": 6417,
+      "medium": 12961,
+      "verified": 931
+    }
+  },
+  "files": {
+    "buildings": "data/cadiz/cadiz_buildings.pmtiles",
+    "roads": "data/cadiz/cadiz_roads.pmtiles",
+    "base": "data/cadiz/cadiz_base.pmtiles",
+    "boundaries": "data/cadiz/boundaries.geojson",
+    "building_pois": "data/cadiz/building_pois.json",
+    "building_labels": "data/cadiz/building_labels.geojson",
+    "barangay_analytics": "data/cadiz/barangay_analytics.json",
+    "catchment_grid": "data/cadiz/catchment_grid.json"
+  }
+}

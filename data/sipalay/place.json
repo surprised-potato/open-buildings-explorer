@@ -1,0 +1,55 @@
+{
+  "slug": "sipalay",
+  "name": "Sipalay",
+  "displayName": "Sipalay City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604527000",
+  "filePrefix": "sipalay",
+  "center": [
+    122.4153,
+    9.71613
+  ],
+  "bbox": [
+    122.2229,
+    9.5474,
+    122.5942,
+    9.8835
+  ],
+  "barangayCount": 17,
+  "population2020": 72448,
+  "homeView": {
+    "center": [
+      122.40406,
+      9.74913
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Sipalay Town Centre",
+      "center": [
+        122.40406,
+        9.74913
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Sipalay Overview",
+      "center": [
+        122.40855,
+        9.71545
+      ],
+      "zoom": 11.5,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

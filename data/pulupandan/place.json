@@ -1,0 +1,55 @@
+{
+  "slug": "pulupandan",
+  "name": "Pulupandan",
+  "displayName": "Pulupandan",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604522000",
+  "filePrefix": "pulupandan",
+  "center": [
+    122.7961,
+    10.54088
+  ],
+  "bbox": [
+    122.752,
+    10.4647,
+    122.842,
+    10.6193
+  ],
+  "barangayCount": 20,
+  "population2020": 30117,
+  "homeView": {
+    "center": [
+      122.80346,
+      10.5192
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Pulupandan Town Centre",
+      "center": [
+        122.80346,
+        10.5192
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Pulupandan Overview",
+      "center": [
+        122.797,
+        10.542
+      ],
+      "zoom": 12.6,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

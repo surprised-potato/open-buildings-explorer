@@ -1,0 +1,55 @@
+{
+  "slug": "moises-padilla",
+  "name": "Moises Padilla",
+  "displayName": "Moises Padilla",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604519000",
+  "filePrefix": "moises-padilla",
+  "center": [
+    123.10227,
+    10.26119
+  ],
+  "bbox": [
+    123.0065,
+    10.1979,
+    123.2001,
+    10.3254
+  ],
+  "barangayCount": 15,
+  "population2020": 43462,
+  "homeView": {
+    "center": [
+      123.07337,
+      10.27083
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Moises Padilla Town Centre",
+      "center": [
+        123.07337,
+        10.27083
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Moises Padilla Overview",
+      "center": [
+        123.1033,
+        10.26165
+      ],
+      "zoom": 12.8,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

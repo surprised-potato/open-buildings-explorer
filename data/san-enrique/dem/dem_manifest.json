@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:24.747223+00:00",
+  "bbox": [
+    122.7459,
+    10.3519,
+    122.9126,
+    10.4498
+  ],
+  "stats": {
+    "min_m": -0.64,
+    "max_m": 23.74,
+    "mean_m": 2.39,
+    "p50_m": 0.0,
+    "p90_m": 8.47
+  },
+  "grid": {
+    "file": "data/san-enrique/dem/san-enrique_dem_grid.bin",
+    "width": 300,
+    "height": 176,
+    "bbox": [
+      122.7459,
+      10.3519,
+      122.9126,
+      10.4498
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/san-enrique/dem/san-enrique_elevation_relief.png",
+    "coordinates": [
+      [
+        122.74590000000002,
+        10.449799999999996
+      ],
+      [
+        122.91252629821851,
+        10.449799999999996
+      ],
+      [
+        122.91252629821851,
+        10.351796364279991
+      ],
+      [
+        122.74590000000002,
+        10.351796364279991
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/san-enrique/dem/san-enrique_slope.png",
+    "coordinates": [
+      [
+        122.74582081071675,
+        10.449889152755457
+      ],
+      [
+        122.91244690776179,
+        10.449889152755457
+      ],
+      [
+        122.91244690776179,
+        10.351885663371702
+      ],
+      [
+        122.74582081071675,
+        10.351885663371702
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

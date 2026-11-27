@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:19.165088+00:00",
+  "bbox": [
+    122.8873,
+    10.3582,
+    123.1425,
+    10.4763
+  ],
+  "stats": {
+    "min_m": 2.56,
+    "max_m": 2459.08,
+    "mean_m": 378.76,
+    "p50_m": 144.65,
+    "p90_m": 1205.13
+  },
+  "grid": {
+    "file": "data/la-carlota/dem/la-carlota_dem_grid.bin",
+    "width": 459,
+    "height": 213,
+    "bbox": [
+      122.8873,
+      10.3582,
+      123.1425,
+      10.4763
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/la-carlota/dem/la-carlota_elevation_relief.png",
+    "coordinates": [
+      [
+        122.88730000000001,
+        10.47630000000001
+      ],
+      [
+        123.14245466541551,
+        10.47630000000001
+      ],
+      [
+        123.14245466541551,
+        10.35822250863687
+      ],
+      [
+        122.88730000000001,
+        10.35822250863687
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/la-carlota/dem/la-carlota_slope.png",
+    "coordinates": [
+      [
+        122.887257556721,
+        10.476331883633145
+      ],
+      [
+        123.14241262718787,
+        10.476331883633145
+      ],
+      [
+        123.14241262718787,
+        10.358254216871943
+      ],
+      [
+        122.887257556721,
+        10.358254216871943
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

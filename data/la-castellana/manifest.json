@@ -1,0 +1,67 @@
+{
+  "city": "La Castellana",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:17:50.293700+00:00",
+  "bbox": [
+    122.9415,
+    10.2658,
+    123.1926,
+    10.4164
+  ],
+  "center": [
+    123.08907,
+    10.33984
+  ],
+  "counts": {
+    "buildings": 25177,
+    "buildings_measured": 0,
+    "buildings_floors": 7,
+    "buildings_estimated": 25170,
+    "roads": 2131,
+    "base_features": 237,
+    "barangays": 13,
+    "pois_total": 442,
+    "pois_matched": 202,
+    "poi_sources": {
+      "osm": 116,
+      "overture": 86
+    },
+    "osm_pois": 262,
+    "osm_pois_matched": 116,
+    "buildings_with_pois": 174,
+    "buildings_classified": 18464,
+    "buildings_commercial": 143,
+    "buildings_mixed_use": 31,
+    "class_sources": {
+      "unknown": 6714,
+      "morph_residential": 9557,
+      "overture": 239,
+      "osm_landuse": 8355,
+      "osm_compound": 211,
+      "osm_poi_inside": 28,
+      "osm_poi_nearest": 20,
+      "morph_arterial": 4,
+      "overture_poi_inside": 19,
+      "overture_poi_nearest": 21,
+      "name_keyword": 8,
+      "morph_industrial": 1
+    },
+    "class_confidence": {
+      "unknown": 6714,
+      "inferred": 9562,
+      "verified": 515,
+      "medium": 8386
+    }
+  },
+  "files": {
+    "buildings": "data/la-castellana/la-castellana_buildings.pmtiles",
+    "roads": "data/la-castellana/la-castellana_roads.pmtiles",
+    "base": "data/la-castellana/la-castellana_base.pmtiles",
+    "boundaries": "data/la-castellana/boundaries.geojson",
+    "building_pois": "data/la-castellana/building_pois.json",
+    "building_labels": "data/la-castellana/building_labels.geojson",
+    "barangay_analytics": "data/la-castellana/barangay_analytics.json",
+    "catchment_grid": "data/la-castellana/catchment_grid.json"
+  }
+}

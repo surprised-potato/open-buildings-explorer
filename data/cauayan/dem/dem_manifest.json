@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:15.627731+00:00",
+  "bbox": [
+    122.2263,
+    9.8185,
+    122.7225,
+    10.1313
+  ],
+  "stats": {
+    "min_m": -0.5,
+    "max_m": 600.24,
+    "mean_m": 79.36,
+    "p50_m": 0.0,
+    "p90_m": 306.46
+  },
+  "grid": {
+    "file": "data/cauayan/dem/cauayan_dem_grid.bin",
+    "width": 893,
+    "height": 563,
+    "bbox": [
+      122.2263,
+      9.8185,
+      122.7225,
+      10.1313
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/cauayan/dem/cauayan_elevation_relief.png",
+    "coordinates": [
+      [
+        122.22630000000001,
+        10.131300000000007
+      ],
+      [
+        122.72243020086931,
+        10.131300000000007
+      ],
+      [
+        122.72243020086931,
+        9.818554892837302
+      ],
+      [
+        122.22630000000001,
+        9.818554892837302
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/cauayan/dem/cauayan_slope.png",
+    "coordinates": [
+      [
+        122.22556154417809,
+        10.132093319563724
+      ],
+      [
+        122.72252664853522,
+        10.132093319563724
+      ],
+      [
+        122.72252664853522,
+        9.8177006667737
+      ],
+      [
+        122.22556154417809,
+        9.8177006667737
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

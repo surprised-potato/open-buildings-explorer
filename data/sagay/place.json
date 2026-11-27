@@ -1,0 +1,55 @@
+{
+  "slug": "sagay",
+  "name": "Sagay",
+  "displayName": "Sagay City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604523000",
+  "filePrefix": "sagay",
+  "center": [
+    123.4243,
+    10.87494
+  ],
+  "bbox": [
+    123.2538,
+    10.6552,
+    123.7146,
+    11.0956
+  ],
+  "barangayCount": 25,
+  "population2020": 148894,
+  "homeView": {
+    "center": [
+      123.41546,
+      10.89607
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Sagay Town Centre",
+      "center": [
+        123.41546,
+        10.89607
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Sagay Overview",
+      "center": [
+        123.4842,
+        10.8754
+      ],
+      "zoom": 11.1,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

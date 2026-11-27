@@ -1,0 +1,55 @@
+{
+  "slug": "valladolid",
+  "name": "Valladolid",
+  "displayName": "Valladolid",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604530000",
+  "filePrefix": "valladolid",
+  "center": [
+    122.82871,
+    10.46198
+  ],
+  "bbox": [
+    122.7642,
+    10.4117,
+    122.9031,
+    10.5129
+  ],
+  "barangayCount": 16,
+  "population2020": 39996,
+  "homeView": {
+    "center": [
+      122.82345,
+      10.46155
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Valladolid Town Centre",
+      "center": [
+        122.82345,
+        10.46155
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Valladolid Overview",
+      "center": [
+        122.83365,
+        10.4623
+      ],
+      "zoom": 13.2,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

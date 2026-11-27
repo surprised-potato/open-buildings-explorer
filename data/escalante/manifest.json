@@ -1,0 +1,66 @@
+{
+  "city": "Escalante City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T16:09:17.009213+00:00",
+  "bbox": [
+    123.3455,
+    10.6866,
+    123.7092,
+    10.9169
+  ],
+  "center": [
+    123.55701,
+    10.80824
+  ],
+  "counts": {
+    "buildings": 23077,
+    "buildings_measured": 0,
+    "buildings_floors": 1,
+    "buildings_estimated": 23076,
+    "roads": 2356,
+    "base_features": 712,
+    "barangays": 18,
+    "pois_total": 747,
+    "pois_matched": 223,
+    "poi_sources": {
+      "osm": 88,
+      "overture": 135
+    },
+    "osm_pois": 281,
+    "osm_pois_matched": 88,
+    "buildings_with_pois": 195,
+    "buildings_classified": 18753,
+    "buildings_commercial": 127,
+    "buildings_mixed_use": 52,
+    "class_sources": {
+      "unknown": 4325,
+      "osm_landuse": 7928,
+      "morph_residential": 9584,
+      "overture": 936,
+      "osm_compound": 150,
+      "overture_poi_nearest": 48,
+      "morph_industrial": 4,
+      "osm_poi_nearest": 12,
+      "osm_poi_inside": 21,
+      "overture_poi_inside": 31,
+      "morph_arterial": 38
+    },
+    "class_confidence": {
+      "unknown": 4325,
+      "medium": 8001,
+      "inferred": 9626,
+      "verified": 1125
+    }
+  },
+  "files": {
+    "buildings": "data/escalante/escalante_buildings.pmtiles",
+    "roads": "data/escalante/escalante_roads.pmtiles",
+    "base": "data/escalante/escalante_base.pmtiles",
+    "boundaries": "data/escalante/boundaries.geojson",
+    "building_pois": "data/escalante/building_pois.json",
+    "building_labels": "data/escalante/building_labels.geojson",
+    "barangay_analytics": "data/escalante/barangay_analytics.json",
+    "catchment_grid": "data/escalante/catchment_grid.json"
+  }
+}

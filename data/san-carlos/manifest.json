@@ -1,0 +1,67 @@
+{
+  "city": "San Carlos City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T12:49:10.262762+00:00",
+  "bbox": [
+    123.1275,
+    10.3117,
+    123.5628,
+    10.6075
+  ],
+  "center": [
+    123.35589,
+    10.46331
+  ],
+  "counts": {
+    "buildings": 45538,
+    "buildings_measured": 4,
+    "buildings_floors": 24,
+    "buildings_estimated": 45510,
+    "roads": 2355,
+    "base_features": 308,
+    "barangays": 13,
+    "pois_total": 1451,
+    "pois_matched": 670,
+    "poi_sources": {
+      "osm": 354,
+      "overture": 316
+    },
+    "osm_pois": 795,
+    "osm_pois_matched": 354,
+    "buildings_with_pois": 547,
+    "buildings_classified": 29281,
+    "buildings_commercial": 409,
+    "buildings_mixed_use": 124,
+    "class_sources": {
+      "unknown": 16262,
+      "morph_residential": 21141,
+      "osm_compound": 446,
+      "overture": 428,
+      "osm_poi_nearest": 97,
+      "overture_poi_nearest": 69,
+      "osm_landuse": 6810,
+      "osm_poi_inside": 92,
+      "name_keyword": 2,
+      "overture_poi_inside": 68,
+      "morph_arterial": 118,
+      "morph_industrial": 5
+    },
+    "class_confidence": {
+      "unknown": 16262,
+      "inferred": 21264,
+      "verified": 1097,
+      "medium": 6915
+    }
+  },
+  "files": {
+    "buildings": "data/san-carlos/san-carlos_buildings.pmtiles",
+    "roads": "data/san-carlos/san-carlos_roads.pmtiles",
+    "base": "data/san-carlos/san-carlos_base.pmtiles",
+    "boundaries": "data/san-carlos/boundaries.geojson",
+    "building_pois": "data/san-carlos/building_pois.json",
+    "building_labels": "data/san-carlos/building_labels.geojson",
+    "barangay_analytics": "data/san-carlos/barangay_analytics.json",
+    "catchment_grid": "data/san-carlos/catchment_grid.json"
+  }
+}

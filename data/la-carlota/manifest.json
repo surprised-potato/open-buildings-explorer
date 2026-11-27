@@ -1,0 +1,70 @@
+{
+  "city": "La Carlota City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:10:17.797483+00:00",
+  "bbox": [
+    122.8923,
+    10.3631,
+    123.1375,
+    10.4713
+  ],
+  "center": [
+    123.00399,
+    10.41825
+  ],
+  "counts": {
+    "buildings": 19950,
+    "buildings_measured": 0,
+    "buildings_floors": 10,
+    "buildings_estimated": 19940,
+    "roads": 1808,
+    "base_features": 120,
+    "barangays": 14,
+    "pois_total": 453,
+    "pois_matched": 348,
+    "poi_sources": {
+      "osm": 166,
+      "overture": 179,
+      "foursquare": 3
+    },
+    "osm_pois": 222,
+    "osm_pois_matched": 166,
+    "buildings_with_pois": 283,
+    "buildings_classified": 16741,
+    "buildings_commercial": 309,
+    "buildings_mixed_use": 106,
+    "class_sources": {
+      "unknown": 3209,
+      "morph_residential": 7692,
+      "osm_landuse": 7678,
+      "overture": 809,
+      "osm_compound": 255,
+      "osm_poi_inside": 59,
+      "osm_poi_nearest": 20,
+      "name_keyword": 10,
+      "morph_industrial": 9,
+      "overture_poi_nearest": 37,
+      "morph_arterial": 122,
+      "overture_poi_inside": 48,
+      "foursquare_poi_nearest": 1,
+      "foursquare_poi_inside": 1
+    },
+    "class_confidence": {
+      "unknown": 3209,
+      "inferred": 7823,
+      "medium": 7747,
+      "verified": 1171
+    }
+  },
+  "files": {
+    "buildings": "data/la-carlota/la-carlota_buildings.pmtiles",
+    "roads": "data/la-carlota/la-carlota_roads.pmtiles",
+    "base": "data/la-carlota/la-carlota_base.pmtiles",
+    "boundaries": "data/la-carlota/boundaries.geojson",
+    "building_pois": "data/la-carlota/building_pois.json",
+    "building_labels": "data/la-carlota/building_labels.geojson",
+    "barangay_analytics": "data/la-carlota/barangay_analytics.json",
+    "catchment_grid": "data/la-carlota/catchment_grid.json"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "city": "Valladolid",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:43:14.801565+00:00",
+  "bbox": [
+    122.7642,
+    10.4117,
+    122.9031,
+    10.5129
+  ],
+  "center": [
+    122.82871,
+    10.46198
+  ],
+  "counts": {
+    "buildings": 14643,
+    "buildings_measured": 0,
+    "buildings_floors": 12,
+    "buildings_estimated": 14631,
+    "roads": 368,
+    "base_features": 87,
+    "barangays": 16,
+    "pois_total": 262,
+    "pois_matched": 132,
+    "poi_sources": {
+      "osm": 61,
+      "overture": 71
+    },
+    "osm_pois": 127,
+    "osm_pois_matched": 61,
+    "buildings_with_pois": 122,
+    "buildings_classified": 11499,
+    "buildings_commercial": 103,
+    "buildings_mixed_use": 44,
+    "class_sources": {
+      "unknown": 3146,
+      "morph_residential": 9108,
+      "osm_landuse": 2007,
+      "overture": 114,
+      "osm_compound": 133,
+      "overture_poi_nearest": 30,
+      "name_keyword": 7,
+      "morph_arterial": 48,
+      "morph_industrial": 14,
+      "osm_poi_inside": 11,
+      "overture_poi_inside": 20,
+      "osm_poi_nearest": 5
+    },
+    "class_confidence": {
+      "unknown": 3146,
+      "inferred": 9170,
+      "medium": 2047,
+      "verified": 280
+    }
+  },
+  "files": {
+    "buildings": "data/valladolid/valladolid_buildings.pmtiles",
+    "roads": "data/valladolid/valladolid_roads.pmtiles",
+    "base": "data/valladolid/valladolid_base.pmtiles",
+    "boundaries": "data/valladolid/boundaries.geojson",
+    "building_pois": "data/valladolid/building_pois.json",
+    "building_labels": "data/valladolid/building_labels.geojson",
+    "barangay_analytics": "data/valladolid/barangay_analytics.json",
+    "catchment_grid": "data/valladolid/catchment_grid.json"
+  }
+}

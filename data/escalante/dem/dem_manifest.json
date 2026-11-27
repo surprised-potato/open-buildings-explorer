@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T16:09:04.560864+00:00",
+  "bbox": [
+    123.3405,
+    10.6816,
+    123.7142,
+    10.9219
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 506.62,
+    "mean_m": 52.91,
+    "p50_m": 17.11,
+    "p90_m": 181.82
+  },
+  "grid": {
+    "file": "data/escalante/dem/escalante_dem_grid.bin",
+    "width": 673,
+    "height": 433,
+    "bbox": [
+      123.3405,
+      10.6816,
+      123.7142,
+      10.9219
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/escalante/dem/escalante_elevation_relief.png",
+    "coordinates": [
+      [
+        123.34049999999999,
+        10.9219
+      ],
+      [
+        123.71421336259617,
+        10.9219
+      ],
+      [
+        123.71421336259617,
+        10.681562088915017
+      ],
+      [
+        123.34049999999999,
+        10.681562088915017
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/escalante/dem/escalante_slope.png",
+    "coordinates": [
+      [
+        123.34022946352361,
+        10.92254408213377
+      ],
+      [
+        123.71478598922177,
+        10.92254408213377
+      ],
+      [
+        123.71478598922177,
+        10.681105436562481
+      ],
+      [
+        123.34022946352361,
+        10.681105436562481
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

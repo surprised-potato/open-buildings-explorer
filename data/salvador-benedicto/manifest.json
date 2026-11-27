@@ -1,0 +1,67 @@
+{
+  "city": "Salvador Benedicto",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:45:15.898057+00:00",
+  "bbox": [
+    123.1399,
+    10.513,
+    123.3505,
+    10.6422
+  ],
+  "center": [
+    123.25279,
+    10.57728
+  ],
+  "counts": {
+    "buildings": 10219,
+    "buildings_measured": 0,
+    "buildings_floors": 15,
+    "buildings_estimated": 10204,
+    "roads": 374,
+    "base_features": 63,
+    "barangays": 7,
+    "pois_total": 175,
+    "pois_matched": 100,
+    "poi_sources": {
+      "osm": 71,
+      "overture": 29
+    },
+    "osm_pois": 110,
+    "osm_pois_matched": 71,
+    "buildings_with_pois": 93,
+    "buildings_classified": 5995,
+    "buildings_commercial": 110,
+    "buildings_mixed_use": 34,
+    "class_sources": {
+      "unknown": 4224,
+      "morph_residential": 4373,
+      "overture_poi_inside": 6,
+      "morph_arterial": 38,
+      "osm_poi_inside": 18,
+      "osm_landuse": 1365,
+      "osm_poi_nearest": 14,
+      "osm_compound": 76,
+      "overture": 87,
+      "overture_poi_nearest": 8,
+      "name_keyword": 9,
+      "morph_industrial": 1
+    },
+    "class_confidence": {
+      "unknown": 4224,
+      "inferred": 4412,
+      "medium": 1379,
+      "verified": 204
+    }
+  },
+  "files": {
+    "buildings": "data/salvador-benedicto/salvador-benedicto_buildings.pmtiles",
+    "roads": "data/salvador-benedicto/salvador-benedicto_roads.pmtiles",
+    "base": "data/salvador-benedicto/salvador-benedicto_base.pmtiles",
+    "boundaries": "data/salvador-benedicto/boundaries.geojson",
+    "building_pois": "data/salvador-benedicto/building_pois.json",
+    "building_labels": "data/salvador-benedicto/building_labels.geojson",
+    "barangay_analytics": "data/salvador-benedicto/barangay_analytics.json",
+    "catchment_grid": "data/salvador-benedicto/catchment_grid.json"
+  }
+}

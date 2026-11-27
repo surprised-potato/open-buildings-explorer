@@ -1,0 +1,55 @@
+{
+  "slug": "cadiz",
+  "name": "Cadiz",
+  "displayName": "Cadiz City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604504000",
+  "filePrefix": "cadiz",
+  "center": [
+    123.26359,
+    10.91086
+  ],
+  "bbox": [
+    123.1193,
+    10.6817,
+    123.3798,
+    11.1428
+  ],
+  "barangayCount": 22,
+  "population2020": 158544,
+  "homeView": {
+    "center": [
+      123.3101,
+      10.95596
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Cadiz Town Centre",
+      "center": [
+        123.3101,
+        10.95596
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Cadiz Overview",
+      "center": [
+        123.24955,
+        10.91225
+      ],
+      "zoom": 11.1,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

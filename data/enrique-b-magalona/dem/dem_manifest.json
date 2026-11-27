@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:23.802671+00:00",
+  "bbox": [
+    122.8565,
+    10.6767,
+    123.2782,
+    11.0111
+  ],
+  "stats": {
+    "min_m": -1.0,
+    "max_m": 1521.82,
+    "mean_m": 137.17,
+    "p50_m": 13.6,
+    "p90_m": 541.68
+  },
+  "grid": {
+    "file": "data/enrique-b-magalona/dem/enrique-b-magalona_dem_grid.bin",
+    "width": 759,
+    "height": 602,
+    "bbox": [
+      122.8565,
+      10.6767,
+      123.2782,
+      11.0111
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/enrique-b-magalona/dem/enrique-b-magalona_elevation_relief.png",
+    "coordinates": [
+      [
+        122.85649999999998,
+        11.011100000000013
+      ],
+      [
+        123.27806471538689,
+        11.011100000000013
+      ],
+      [
+        123.27806471538689,
+        10.676738866849098
+      ],
+      [
+        122.85649999999998,
+        10.676738866849098
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/enrique-b-magalona/dem/enrique-b-magalona_slope.png",
+    "coordinates": [
+      [
+        122.856340470765,
+        11.011227435249614
+      ],
+      [
+        123.27846529362256,
+        11.011227435249614
+      ],
+      [
+        123.27846529362256,
+        10.676591048370298
+      ],
+      [
+        122.856340470765,
+        10.676591048370298
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

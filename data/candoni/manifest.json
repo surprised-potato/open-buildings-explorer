@@ -1,0 +1,64 @@
+{
+  "city": "Candoni",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:46:42.086932+00:00",
+  "bbox": [
+    122.5787,
+    9.6589,
+    122.7059,
+    9.8635
+  ],
+  "center": [
+    122.63684,
+    9.74762
+  ],
+  "counts": {
+    "buildings": 6983,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 6983,
+    "roads": 372,
+    "base_features": 53,
+    "barangays": 9,
+    "pois_total": 79,
+    "pois_matched": 56,
+    "poi_sources": {
+      "osm": 33,
+      "overture": 23
+    },
+    "osm_pois": 43,
+    "osm_pois_matched": 33,
+    "buildings_with_pois": 51,
+    "buildings_classified": 4832,
+    "buildings_commercial": 81,
+    "buildings_mixed_use": 5,
+    "class_sources": {
+      "unknown": 2151,
+      "overture": 93,
+      "morph_residential": 1767,
+      "osm_poi_inside": 4,
+      "osm_landuse": 2821,
+      "osm_poi_nearest": 5,
+      "overture_poi_nearest": 8,
+      "osm_compound": 132,
+      "overture_poi_inside": 2
+    },
+    "class_confidence": {
+      "unknown": 2151,
+      "verified": 235,
+      "inferred": 1767,
+      "medium": 2830
+    }
+  },
+  "files": {
+    "buildings": "data/candoni/candoni_buildings.pmtiles",
+    "roads": "data/candoni/candoni_roads.pmtiles",
+    "base": "data/candoni/candoni_base.pmtiles",
+    "boundaries": "data/candoni/boundaries.geojson",
+    "building_pois": "data/candoni/building_pois.json",
+    "building_labels": "data/candoni/building_labels.geojson",
+    "barangay_analytics": "data/candoni/barangay_analytics.json",
+    "catchment_grid": "data/candoni/catchment_grid.json"
+  }
+}

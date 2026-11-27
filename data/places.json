@@ -1,0 +1,516 @@
+{
+  "places": [
+    {
+      "slug": "bacolod",
+      "displayName": "Bacolod City",
+      "kind": "city",
+      "status": "live",
+      "center": [
+        122.9509,
+        10.6765
+      ],
+      "bbox": [
+        122.89,
+        10.58,
+        123.14,
+        10.74
+      ]
+    },
+    {
+      "slug": "kabankalan",
+      "displayName": "Kabankalan City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        122.82807,
+        9.83176
+      ],
+      "bbox": [
+        122.7125,
+        9.5717,
+        122.986,
+        10.127
+      ]
+    },
+    {
+      "slug": "bago",
+      "displayName": "Bago City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        122.95953,
+        10.5303
+      ],
+      "bbox": [
+        122.7852,
+        10.4064,
+        123.1609,
+        10.6539
+      ]
+    },
+    {
+      "slug": "cadiz",
+      "displayName": "Cadiz City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.26359,
+        10.91086
+      ],
+      "bbox": [
+        123.1193,
+        10.6817,
+        123.3798,
+        11.1428
+      ]
+    },
+    {
+      "slug": "sagay",
+      "displayName": "Sagay City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.4243,
+        10.87494
+      ],
+      "bbox": [
+        123.2538,
+        10.6552,
+        123.7146,
+        11.0956
+      ]
+    },
+    {
+      "slug": "san-carlos",
+      "displayName": "San Carlos City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.35589,
+        10.46331
+      ],
+      "bbox": [
+        123.1275,
+        10.3117,
+        123.5628,
+        10.6075
+      ]
+    },
+    {
+      "slug": "silay",
+      "displayName": "Silay City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.08906,
+        10.7654
+      ],
+      "bbox": [
+        122.8559,
+        10.6537,
+        123.2732,
+        10.8772
+      ]
+    },
+    {
+      "slug": "himamaylan",
+      "displayName": "Himamaylan City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        122.91368,
+        10.05928
+      ],
+      "bbox": [
+        122.7869,
+        9.9111,
+        123.033,
+        10.2075
+      ]
+    },
+    {
+      "slug": "talisay",
+      "displayName": "Talisay City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.05712,
+        10.71146
+      ],
+      "bbox": [
+        122.8327,
+        10.6322,
+        123.2638,
+        10.7888
+      ]
+    },
+    {
+      "slug": "cauayan",
+      "displayName": "Cauayan",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.49376,
+        9.97363
+      ],
+      "bbox": [
+        122.2313,
+        9.8235,
+        122.7175,
+        10.1263
+      ]
+    },
+    {
+      "slug": "escalante",
+      "displayName": "Escalante City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.55701,
+        10.80824
+      ],
+      "bbox": [
+        123.3455,
+        10.6866,
+        123.7092,
+        10.9169
+      ]
+    },
+    {
+      "slug": "victorias",
+      "displayName": "Victorias City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.08772,
+        10.86724
+      ],
+      "bbox": [
+        123.0256,
+        10.7245,
+        123.2273,
+        11.0097
+      ]
+    },
+    {
+      "slug": "hinigaran",
+      "displayName": "Hinigaran",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.84967,
+        10.28205
+      ],
+      "bbox": [
+        122.697,
+        10.1972,
+        123.0,
+        10.3669
+      ]
+    },
+    {
+      "slug": "murcia",
+      "displayName": "Murcia",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.1066,
+        10.55779
+      ],
+      "bbox": [
+        122.972,
+        10.4534,
+        123.2408,
+        10.6618
+      ]
+    },
+    {
+      "slug": "calatrava",
+      "displayName": "Calatrava",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.48725,
+        10.59561
+      ],
+      "bbox": [
+        123.2308,
+        10.4632,
+        123.6203,
+        10.728
+      ]
+    },
+    {
+      "slug": "la-castellana",
+      "displayName": "La Castellana",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.08907,
+        10.33984
+      ],
+      "bbox": [
+        122.9415,
+        10.2658,
+        123.1926,
+        10.4164
+      ]
+    },
+    {
+      "slug": "sipalay",
+      "displayName": "Sipalay City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        122.4153,
+        9.71613
+      ],
+      "bbox": [
+        122.2229,
+        9.5474,
+        122.5942,
+        9.8835
+      ]
+    },
+    {
+      "slug": "binalbagan",
+      "displayName": "Binalbagan",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.02174,
+        10.13666
+      ],
+      "bbox": [
+        122.6959,
+        10.0155,
+        123.1108,
+        10.2567
+      ]
+    },
+    {
+      "slug": "la-carlota",
+      "displayName": "La Carlota City",
+      "kind": "city",
+      "status": "pilot",
+      "center": [
+        123.00399,
+        10.41825
+      ],
+      "bbox": [
+        122.8923,
+        10.3631,
+        123.1375,
+        10.4713
+      ]
+    },
+    {
+      "slug": "isabela",
+      "displayName": "Isabela",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.03468,
+        10.21064
+      ],
+      "bbox": [
+        122.9214,
+        10.1433,
+        123.1476,
+        10.278
+      ]
+    },
+    {
+      "slug": "enrique-b-magalona",
+      "displayName": "Enrique B. Magalona",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.9887,
+        10.8438
+      ],
+      "bbox": [
+        122.8615,
+        10.6817,
+        123.2732,
+        11.0061
+      ]
+    },
+    {
+      "slug": "hinoba-an",
+      "displayName": "Hinoba-an",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.50893,
+        9.49685
+      ],
+      "bbox": [
+        122.3201,
+        9.327,
+        122.682,
+        9.6693
+      ]
+    },
+    {
+      "slug": "ilog",
+      "displayName": "Ilog",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.71779,
+        9.82101
+      ],
+      "bbox": [
+        122.6184,
+        9.4936,
+        122.819,
+        10.1898
+      ]
+    },
+    {
+      "slug": "manapla",
+      "displayName": "Manapla",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.12224,
+        10.92318
+      ],
+      "bbox": [
+        123.0357,
+        10.8148,
+        123.187,
+        11.044
+      ]
+    },
+    {
+      "slug": "pontevedra",
+      "displayName": "Pontevedra",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.88464,
+        10.35631
+      ],
+      "bbox": [
+        122.7509,
+        10.3083,
+        123.0237,
+        10.4016
+      ]
+    },
+    {
+      "slug": "moises-padilla",
+      "displayName": "Moises Padilla",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.10227,
+        10.26119
+      ],
+      "bbox": [
+        123.0065,
+        10.1979,
+        123.2001,
+        10.3254
+      ]
+    },
+    {
+      "slug": "toboso",
+      "displayName": "Toboso",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.51454,
+        10.70298
+      ],
+      "bbox": [
+        123.3211,
+        10.6333,
+        123.647,
+        10.774
+      ]
+    },
+    {
+      "slug": "valladolid",
+      "displayName": "Valladolid",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.82871,
+        10.46198
+      ],
+      "bbox": [
+        122.7642,
+        10.4117,
+        122.9031,
+        10.5129
+      ]
+    },
+    {
+      "slug": "pulupandan",
+      "displayName": "Pulupandan",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.7961,
+        10.54088
+      ],
+      "bbox": [
+        122.752,
+        10.4647,
+        122.842,
+        10.6193
+      ]
+    },
+    {
+      "slug": "salvador-benedicto",
+      "displayName": "Salvador Benedicto",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        123.25279,
+        10.57728
+      ],
+      "bbox": [
+        123.1399,
+        10.513,
+        123.3505,
+        10.6422
+      ]
+    },
+    {
+      "slug": "san-enrique",
+      "displayName": "San Enrique",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.83346,
+        10.40172
+      ],
+      "bbox": [
+        122.7509,
+        10.3569,
+        122.9076,
+        10.4448
+      ]
+    },
+    {
+      "slug": "candoni",
+      "displayName": "Candoni",
+      "kind": "municipality",
+      "status": "pilot",
+      "center": [
+        122.63684,
+        9.74762
+      ],
+      "bbox": [
+        122.5787,
+        9.6589,
+        122.7059,
+        9.8635
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "slug": "binalbagan",
+  "name": "Binalbagan",
+  "displayName": "Binalbagan",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604503000",
+  "filePrefix": "binalbagan",
+  "center": [
+    123.02174,
+    10.13666
+  ],
+  "bbox": [
+    122.6959,
+    10.0155,
+    123.1108,
+    10.2567
+  ],
+  "barangayCount": 16,
+  "population2020": 71407,
+  "homeView": {
+    "center": [
+      122.85877,
+      10.19375
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Binalbagan Town Centre",
+      "center": [
+        122.85877,
+        10.19375
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Binalbagan Overview",
+      "center": [
+        122.90335,
+        10.1361
+      ],
+      "zoom": 11.7,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

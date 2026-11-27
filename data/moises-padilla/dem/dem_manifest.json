@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:22.668406+00:00",
+  "bbox": [
+    123.0015,
+    10.1929,
+    123.2051,
+    10.3304
+  ],
+  "stats": {
+    "min_m": 13.93,
+    "max_m": 858.19,
+    "mean_m": 209.5,
+    "p50_m": 141.4,
+    "p90_m": 511.77
+  },
+  "grid": {
+    "file": "data/moises-padilla/dem/moises-padilla_dem_grid.bin",
+    "width": 366,
+    "height": 247,
+    "bbox": [
+      123.0015,
+      10.1929,
+      123.2051,
+      10.3304
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/moises-padilla/dem/moises-padilla_elevation_relief.png",
+    "coordinates": [
+      [
+        123.00149999999998,
+        10.330399999999997
+      ],
+      [
+        123.20502918355322,
+        10.330399999999997
+      ],
+      [
+        123.20502918355322,
+        10.192763394499082
+      ],
+      [
+        123.00149999999998,
+        10.192763394499082
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/moises-padilla/dem/moises-padilla_slope.png",
+    "coordinates": [
+      [
+        123.00149935205695,
+        10.33046518125083
+      ],
+      [
+        123.2053087171907,
+        10.33046518125083
+      ],
+      [
+        123.2053087171907,
+        10.192827934017613
+      ],
+      [
+        123.00149935205695,
+        10.192827934017613
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

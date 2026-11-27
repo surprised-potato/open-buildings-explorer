@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:19.809296+00:00",
+  "bbox": [
+    122.967,
+    10.4484,
+    123.2458,
+    10.6668
+  ],
+  "stats": {
+    "min_m": 12.77,
+    "max_m": 2093.3,
+    "mean_m": 453.39,
+    "p50_m": 317.28,
+    "p90_m": 1111.85
+  },
+  "grid": {
+    "file": "data/murcia/dem/murcia_dem_grid.bin",
+    "width": 502,
+    "height": 393,
+    "bbox": [
+      122.967,
+      10.4484,
+      123.2458,
+      10.6668
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/murcia/dem/murcia_elevation_relief.png",
+    "coordinates": [
+      [
+        122.96699999999998,
+        10.666800000000004
+      ],
+      [
+        123.24574501059926,
+        10.666800000000004
+      ],
+      [
+        123.24574501059926,
+        10.448293760451838
+      ],
+      [
+        122.96699999999998,
+        10.448293760451838
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/murcia/dem/murcia_slope.png",
+    "coordinates": [
+      [
+        122.96697668872602,
+        10.666896487878592
+      ],
+      [
+        123.24600219312144,
+        10.666896487878592
+      ],
+      [
+        123.24600219312144,
+        10.448114655122966
+      ],
+      [
+        122.96697668872602,
+        10.448114655122966
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

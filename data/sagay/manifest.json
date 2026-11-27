@@ -1,0 +1,67 @@
+{
+  "city": "Sagay City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:47:02.578260+00:00",
+  "bbox": [
+    123.2538,
+    10.6552,
+    123.7146,
+    11.0956
+  ],
+  "center": [
+    123.4243,
+    10.87494
+  ],
+  "counts": {
+    "buildings": 29254,
+    "buildings_measured": 0,
+    "buildings_floors": 2,
+    "buildings_estimated": 29252,
+    "roads": 2967,
+    "base_features": 455,
+    "barangays": 23,
+    "pois_total": 1259,
+    "pois_matched": 386,
+    "poi_sources": {
+      "osm": 158,
+      "overture": 227,
+      "foursquare": 1
+    },
+    "osm_pois": 485,
+    "osm_pois_matched": 158,
+    "buildings_with_pois": 334,
+    "buildings_classified": 23553,
+    "buildings_commercial": 167,
+    "buildings_mixed_use": 40,
+    "class_sources": {
+      "unknown": 5708,
+      "morph_residential": 10272,
+      "osm_landuse": 11770,
+      "overture": 1120,
+      "osm_compound": 196,
+      "overture_poi_nearest": 67,
+      "overture_poi_inside": 45,
+      "osm_poi_nearest": 24,
+      "osm_poi_inside": 36,
+      "morph_arterial": 12,
+      "morph_industrial": 4
+    },
+    "class_confidence": {
+      "unknown": 5708,
+      "inferred": 10288,
+      "medium": 11872,
+      "verified": 1386
+    }
+  },
+  "files": {
+    "buildings": "data/sagay/sagay_buildings.pmtiles",
+    "roads": "data/sagay/sagay_roads.pmtiles",
+    "base": "data/sagay/sagay_base.pmtiles",
+    "boundaries": "data/sagay/boundaries.geojson",
+    "building_pois": "data/sagay/building_pois.json",
+    "building_labels": "data/sagay/building_labels.geojson",
+    "barangay_analytics": "data/sagay/barangay_analytics.json",
+    "catchment_grid": "data/sagay/catchment_grid.json"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "city": "Murcia",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:15:07.022730+00:00",
+  "bbox": [
+    122.972,
+    10.4534,
+    123.2408,
+    10.6618
+  ],
+  "center": [
+    123.1066,
+    10.55779
+  ],
+  "counts": {
+    "buildings": 31209,
+    "buildings_measured": 0,
+    "buildings_floors": 16,
+    "buildings_estimated": 31193,
+    "roads": 3084,
+    "base_features": 354,
+    "barangays": 23,
+    "pois_total": 819,
+    "pois_matched": 274,
+    "poi_sources": {
+      "osm": 155,
+      "overture": 118,
+      "foursquare": 1
+    },
+    "osm_pois": 367,
+    "osm_pois_matched": 155,
+    "buildings_with_pois": 239,
+    "buildings_classified": 22137,
+    "buildings_commercial": 194,
+    "buildings_mixed_use": 24,
+    "class_sources": {
+      "unknown": 9078,
+      "morph_residential": 14434,
+      "overture_poi_nearest": 38,
+      "osm_compound": 432,
+      "overture": 394,
+      "osm_poi_inside": 39,
+      "osm_landuse": 6680,
+      "name_keyword": 13,
+      "osm_poi_nearest": 17,
+      "morph_industrial": 57,
+      "overture_poi_inside": 23,
+      "morph_arterial": 3,
+      "foursquare_poi_nearest": 1
+    },
+    "class_confidence": {
+      "unknown": 9078,
+      "inferred": 14494,
+      "medium": 6737,
+      "verified": 900
+    }
+  },
+  "files": {
+    "buildings": "data/murcia/murcia_buildings.pmtiles",
+    "roads": "data/murcia/murcia_roads.pmtiles",
+    "base": "data/murcia/murcia_base.pmtiles",
+    "boundaries": "data/murcia/boundaries.geojson",
+    "building_pois": "data/murcia/building_pois.json",
+    "building_labels": "data/murcia/building_labels.geojson",
+    "barangay_analytics": "data/murcia/barangay_analytics.json",
+    "catchment_grid": "data/murcia/catchment_grid.json"
+  }
+}

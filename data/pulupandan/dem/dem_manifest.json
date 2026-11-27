@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:23.473754+00:00",
+  "bbox": [
+    122.747,
+    10.4597,
+    122.847,
+    10.6243
+  ],
+  "stats": {
+    "min_m": -1.29,
+    "max_m": 14.93,
+    "mean_m": 0.94,
+    "p50_m": 0.0,
+    "p90_m": 4.67
+  },
+  "grid": {
+    "file": "data/pulupandan/dem/pulupandan_dem_grid.bin",
+    "width": 180,
+    "height": 296,
+    "bbox": [
+      122.747,
+      10.4597,
+      122.847,
+      10.6243
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/pulupandan/dem/pulupandan_elevation_relief.png",
+    "coordinates": [
+      [
+        122.74699999999999,
+        10.624300000000007
+      ],
+      [
+        122.84707755231547,
+        10.624300000000007
+      ],
+      [
+        122.84707755231547,
+        10.459582456008693
+      ],
+      [
+        122.74699999999999,
+        10.459582456008693
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/pulupandan/dem/pulupandan_slope.png",
+    "coordinates": [
+      [
+        122.74686557921751,
+        10.62436464616648
+      ],
+      [
+        122.84722365079135,
+        10.62436464616648
+      ],
+      [
+        122.84722365079135,
+        10.459648117638775
+      ],
+      [
+        122.74686557921751,
+        10.459648117638775
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

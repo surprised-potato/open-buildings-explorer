@@ -1,0 +1,67 @@
+{
+  "city": "Himamaylan City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T12:51:24.363672+00:00",
+  "bbox": [
+    122.7869,
+    9.9111,
+    123.033,
+    10.2075
+  ],
+  "center": [
+    122.91368,
+    10.05928
+  ],
+  "counts": {
+    "buildings": 31180,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 31180,
+    "roads": 1596,
+    "base_features": 345,
+    "barangays": 19,
+    "pois_total": 1289,
+    "pois_matched": 248,
+    "poi_sources": {
+      "osm": 121,
+      "overture": 127
+    },
+    "osm_pois": 582,
+    "osm_pois_matched": 121,
+    "buildings_with_pois": 221,
+    "buildings_classified": 22624,
+    "buildings_commercial": 188,
+    "buildings_mixed_use": 61,
+    "class_sources": {
+      "unknown": 8557,
+      "morph_residential": 17675,
+      "osm_landuse": 4014,
+      "osm_compound": 354,
+      "overture": 382,
+      "osm_poi_inside": 25,
+      "overture_poi_nearest": 41,
+      "morph_industrial": 14,
+      "overture_poi_inside": 25,
+      "osm_poi_nearest": 22,
+      "morph_arterial": 70,
+      "name_keyword": 1
+    },
+    "class_confidence": {
+      "unknown": 8557,
+      "inferred": 17759,
+      "medium": 4075,
+      "verified": 789
+    }
+  },
+  "files": {
+    "buildings": "data/himamaylan/himamaylan_buildings.pmtiles",
+    "roads": "data/himamaylan/himamaylan_roads.pmtiles",
+    "base": "data/himamaylan/himamaylan_base.pmtiles",
+    "boundaries": "data/himamaylan/boundaries.geojson",
+    "building_pois": "data/himamaylan/building_pois.json",
+    "building_labels": "data/himamaylan/building_labels.geojson",
+    "barangay_analytics": "data/himamaylan/barangay_analytics.json",
+    "catchment_grid": "data/himamaylan/catchment_grid.json"
+  }
+}

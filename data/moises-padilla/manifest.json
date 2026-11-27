@@ -1,0 +1,66 @@
+{
+  "city": "Moises Padilla",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:40:18.324349+00:00",
+  "bbox": [
+    123.0065,
+    10.1979,
+    123.2001,
+    10.3254
+  ],
+  "center": [
+    123.10227,
+    10.26119
+  ],
+  "counts": {
+    "buildings": 16256,
+    "buildings_measured": 0,
+    "buildings_floors": 3,
+    "buildings_estimated": 16253,
+    "roads": 1262,
+    "base_features": 105,
+    "barangays": 15,
+    "pois_total": 239,
+    "pois_matched": 85,
+    "poi_sources": {
+      "osm": 62,
+      "overture": 23
+    },
+    "osm_pois": 135,
+    "osm_pois_matched": 62,
+    "buildings_with_pois": 79,
+    "buildings_classified": 11436,
+    "buildings_commercial": 64,
+    "buildings_mixed_use": 10,
+    "class_sources": {
+      "unknown": 4821,
+      "morph_residential": 5115,
+      "osm_landuse": 5938,
+      "overture": 188,
+      "osm_compound": 163,
+      "osm_poi_nearest": 9,
+      "overture_poi_inside": 5,
+      "osm_poi_inside": 12,
+      "overture_poi_nearest": 3,
+      "morph_industrial": 1,
+      "name_keyword": 1
+    },
+    "class_confidence": {
+      "unknown": 4821,
+      "inferred": 5116,
+      "medium": 5944,
+      "verified": 375
+    }
+  },
+  "files": {
+    "buildings": "data/moises-padilla/moises-padilla_buildings.pmtiles",
+    "roads": "data/moises-padilla/moises-padilla_roads.pmtiles",
+    "base": "data/moises-padilla/moises-padilla_base.pmtiles",
+    "boundaries": "data/moises-padilla/boundaries.geojson",
+    "building_pois": "data/moises-padilla/building_pois.json",
+    "building_labels": "data/moises-padilla/building_labels.geojson",
+    "barangay_analytics": "data/moises-padilla/barangay_analytics.json",
+    "catchment_grid": "data/moises-padilla/catchment_grid.json"
+  }
+}

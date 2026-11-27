@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:16.545289+00:00",
+  "bbox": [
+    123.0206,
+    10.7195,
+    123.2323,
+    11.0147
+  ],
+  "stats": {
+    "min_m": -0.0,
+    "max_m": 1511.98,
+    "mean_m": 142.22,
+    "p50_m": 41.84,
+    "p90_m": 447.5
+  },
+  "grid": {
+    "file": "data/victorias/dem/victorias_dem_grid.bin",
+    "width": 381,
+    "height": 531,
+    "bbox": [
+      123.0206,
+      10.7195,
+      123.2323,
+      11.0147
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/victorias/dem/victorias_elevation_relief.png",
+    "coordinates": [
+      [
+        123.02060000000002,
+        11.0147
+      ],
+      [
+        123.23227131908692,
+        11.0147
+      ],
+      [
+        123.23227131908692,
+        10.719589038409
+      ],
+      [
+        123.02060000000002,
+        10.719589038409
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/victorias/dem/victorias_slope.png",
+    "coordinates": [
+      [
+        123.02057977242282,
+        11.014788191651933
+      ],
+      [
+        123.23253224124326,
+        11.014788191651933
+      ],
+      [
+        123.23253224124326,
+        10.719401054971428
+      ],
+      [
+        123.02057977242282,
+        10.719401054971428
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

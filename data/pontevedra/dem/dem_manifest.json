@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:23.110462+00:00",
+  "bbox": [
+    122.7459,
+    10.3033,
+    123.0287,
+    10.4066
+  ],
+  "stats": {
+    "min_m": -0.44,
+    "max_m": 294.8,
+    "mean_m": 31.76,
+    "p50_m": 7.6,
+    "p90_m": 98.09
+  },
+  "grid": {
+    "file": "data/pontevedra/dem/pontevedra_dem_grid.bin",
+    "width": 509,
+    "height": 186,
+    "bbox": [
+      122.7459,
+      10.3033,
+      123.0287,
+      10.4066
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/pontevedra/dem/pontevedra_elevation_relief.png",
+    "coordinates": [
+      [
+        122.74590000000002,
+        10.406600000000005
+      ],
+      [
+        123.0286851571008,
+        10.406600000000005
+      ],
+      [
+        123.0286851571008,
+        10.303377923244495
+      ],
+      [
+        122.74590000000002,
+        10.303377923244495
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/pontevedra/dem/pontevedra_slope.png",
+    "coordinates": [
+      [
+        122.74581681918896,
+        10.406700756651814
+      ],
+      [
+        123.02860141513216,
+        10.406700756651814
+      ],
+      [
+        123.02860141513216,
+        10.30320507484299
+      ],
+      [
+        122.74581681918896,
+        10.30320507484299
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

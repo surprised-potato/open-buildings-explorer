@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:20.293566+00:00",
+  "bbox": [
+    122.6909,
+    10.0105,
+    123.1158,
+    10.2617
+  ],
+  "stats": {
+    "min_m": -1.42,
+    "max_m": 1455.37,
+    "mean_m": 163.15,
+    "p50_m": 15.49,
+    "p90_m": 634.5
+  },
+  "grid": {
+    "file": "data/binalbagan/dem/binalbagan_dem_grid.bin",
+    "width": 765,
+    "height": 452,
+    "bbox": [
+      122.6909,
+      10.0105,
+      123.1158,
+      10.2617
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/binalbagan/dem/binalbagan_elevation_relief.png",
+    "coordinates": [
+      [
+        122.69089999999997,
+        10.261700000000003
+      ],
+      [
+        123.11566785499743,
+        10.261700000000003
+      ],
+      [
+        123.11566785499743,
+        10.010487777897755
+      ],
+      [
+        122.69089999999997,
+        10.010487777897755
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/binalbagan/dem/binalbagan_slope.png",
+    "coordinates": [
+      [
+        122.69065920084178,
+        10.261846967531305
+      ],
+      [
+        123.11598398698949,
+        10.261846967531305
+      ],
+      [
+        123.11598398698949,
+        10.01036072101588
+      ],
+      [
+        122.69065920084178,
+        10.01036072101588
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

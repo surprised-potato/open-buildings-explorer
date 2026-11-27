@@ -1,0 +1,69 @@
+{
+  "city": "Sipalay City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:05:13.992049+00:00",
+  "bbox": [
+    122.2229,
+    9.5474,
+    122.5942,
+    9.8835
+  ],
+  "center": [
+    122.4153,
+    9.71613
+  ],
+  "counts": {
+    "buildings": 19050,
+    "buildings_measured": 0,
+    "buildings_floors": 5,
+    "buildings_estimated": 19045,
+    "roads": 1089,
+    "base_features": 166,
+    "barangays": 17,
+    "pois_total": 525,
+    "pois_matched": 272,
+    "poi_sources": {
+      "osm": 136,
+      "overture": 134,
+      "foursquare": 2
+    },
+    "osm_pois": 254,
+    "osm_pois_matched": 136,
+    "buildings_with_pois": 236,
+    "buildings_classified": 12895,
+    "buildings_commercial": 181,
+    "buildings_mixed_use": 26,
+    "class_sources": {
+      "unknown": 6159,
+      "morph_residential": 10238,
+      "osm_landuse": 1956,
+      "overture": 271,
+      "overture_poi_nearest": 53,
+      "osm_compound": 243,
+      "overture_poi_inside": 29,
+      "name_keyword": 5,
+      "osm_poi_inside": 35,
+      "osm_poi_nearest": 30,
+      "morph_arterial": 20,
+      "foursquare_poi_nearest": 2,
+      "morph_industrial": 9
+    },
+    "class_confidence": {
+      "unknown": 6159,
+      "inferred": 10267,
+      "medium": 2029,
+      "verified": 595
+    }
+  },
+  "files": {
+    "buildings": "data/sipalay/sipalay_buildings.pmtiles",
+    "roads": "data/sipalay/sipalay_roads.pmtiles",
+    "base": "data/sipalay/sipalay_base.pmtiles",
+    "boundaries": "data/sipalay/boundaries.geojson",
+    "building_pois": "data/sipalay/building_pois.json",
+    "building_labels": "data/sipalay/building_labels.geojson",
+    "barangay_analytics": "data/sipalay/barangay_analytics.json",
+    "catchment_grid": "data/sipalay/catchment_grid.json"
+  }
+}

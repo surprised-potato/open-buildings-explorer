@@ -1,0 +1,65 @@
+{
+  "city": "Enrique B. Magalona",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T14:34:34.450761+00:00",
+  "bbox": [
+    122.8615,
+    10.6817,
+    123.2732,
+    11.0061
+  ],
+  "center": [
+    122.9887,
+    10.8438
+  ],
+  "counts": {
+    "buildings": 18831,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 18831,
+    "roads": 2349,
+    "base_features": 997,
+    "barangays": 20,
+    "pois_total": 3129,
+    "pois_matched": 126,
+    "poi_sources": {
+      "osm": 63,
+      "overture": 63
+    },
+    "osm_pois": 1255,
+    "osm_pois_matched": 63,
+    "buildings_with_pois": 116,
+    "buildings_classified": 16015,
+    "buildings_commercial": 35,
+    "buildings_mixed_use": 16,
+    "class_sources": {
+      "unknown": 2817,
+      "morph_residential": 5359,
+      "osm_landuse": 10267,
+      "overture": 172,
+      "osm_compound": 149,
+      "osm_poi_nearest": 9,
+      "morph_industrial": 14,
+      "overture_poi_inside": 14,
+      "overture_poi_nearest": 18,
+      "osm_poi_inside": 12
+    },
+    "class_confidence": {
+      "unknown": 2817,
+      "inferred": 5373,
+      "medium": 10296,
+      "verified": 345
+    }
+  },
+  "files": {
+    "buildings": "data/enrique-b-magalona/enrique-b-magalona_buildings.pmtiles",
+    "roads": "data/enrique-b-magalona/enrique-b-magalona_roads.pmtiles",
+    "base": "data/enrique-b-magalona/enrique-b-magalona_base.pmtiles",
+    "boundaries": "data/enrique-b-magalona/boundaries.geojson",
+    "building_pois": "data/enrique-b-magalona/building_pois.json",
+    "building_labels": "data/enrique-b-magalona/building_labels.geojson",
+    "barangay_analytics": "data/enrique-b-magalona/barangay_analytics.json",
+    "catchment_grid": "data/enrique-b-magalona/catchment_grid.json"
+  }
+}

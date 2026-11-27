@@ -1,0 +1,66 @@
+{
+  "city": "Ilog",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:19:02.765004+00:00",
+  "bbox": [
+    122.6184,
+    9.4936,
+    122.819,
+    10.1898
+  ],
+  "center": [
+    122.71779,
+    9.82101
+  ],
+  "counts": {
+    "buildings": 20605,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 20605,
+    "roads": 924,
+    "base_features": 324,
+    "barangays": 15,
+    "pois_total": 960,
+    "pois_matched": 153,
+    "poi_sources": {
+      "osm": 83,
+      "overture": 70
+    },
+    "osm_pois": 461,
+    "osm_pois_matched": 83,
+    "buildings_with_pois": 140,
+    "buildings_classified": 14926,
+    "buildings_commercial": 76,
+    "buildings_mixed_use": 13,
+    "class_sources": {
+      "morph_residential": 10045,
+      "unknown": 5679,
+      "osm_landuse": 4301,
+      "osm_compound": 235,
+      "osm_poi_inside": 13,
+      "overture": 263,
+      "overture_poi_nearest": 29,
+      "overture_poi_inside": 17,
+      "osm_poi_nearest": 11,
+      "morph_arterial": 9,
+      "name_keyword": 3
+    },
+    "class_confidence": {
+      "inferred": 10054,
+      "unknown": 5679,
+      "medium": 4341,
+      "verified": 531
+    }
+  },
+  "files": {
+    "buildings": "data/ilog/ilog_buildings.pmtiles",
+    "roads": "data/ilog/ilog_roads.pmtiles",
+    "base": "data/ilog/ilog_base.pmtiles",
+    "boundaries": "data/ilog/boundaries.geojson",
+    "building_pois": "data/ilog/building_pois.json",
+    "building_labels": "data/ilog/building_labels.geojson",
+    "barangay_analytics": "data/ilog/barangay_analytics.json",
+    "catchment_grid": "data/ilog/catchment_grid.json"
+  }
+}

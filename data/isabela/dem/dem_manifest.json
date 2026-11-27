@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:22.895519+00:00",
+  "bbox": [
+    122.9164,
+    10.1383,
+    123.1526,
+    10.283
+  ],
+  "stats": {
+    "min_m": 5.85,
+    "max_m": 980.14,
+    "mean_m": 179.29,
+    "p50_m": 53.17,
+    "p90_m": 576.16
+  },
+  "grid": {
+    "file": "data/isabela/dem/isabela_dem_grid.bin",
+    "width": 425,
+    "height": 260,
+    "bbox": [
+      122.9164,
+      10.1383,
+      123.1526,
+      10.283
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/isabela/dem/isabela_elevation_relief.png",
+    "coordinates": [
+      [
+        122.9164,
+        10.283000000000001
+      ],
+      [
+        123.15249269214178,
+        10.283000000000001
+      ],
+      [
+        123.15249269214178,
+        10.138259659080347
+      ],
+      [
+        122.9164,
+        10.138259659080347
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/isabela/dem/isabela_slope.png",
+    "coordinates": [
+      [
+        122.9163622024375,
+        10.283035924987157
+      ],
+      [
+        123.15273472172642,
+        10.283035924987157
+      ],
+      [
+        123.15273472172642,
+        10.138020423382233
+      ],
+      [
+        122.9163622024375,
+        10.138020423382233
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

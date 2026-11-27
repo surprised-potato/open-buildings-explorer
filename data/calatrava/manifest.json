@@ -1,0 +1,66 @@
+{
+  "city": "Calatrava",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:03:17.025326+00:00",
+  "bbox": [
+    123.2308,
+    10.4632,
+    123.6203,
+    10.728
+  ],
+  "center": [
+    123.48725,
+    10.59561
+  ],
+  "counts": {
+    "buildings": 19529,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 19529,
+    "roads": 1664,
+    "base_features": 421,
+    "barangays": 35,
+    "pois_total": 978,
+    "pois_matched": 150,
+    "poi_sources": {
+      "osm": 84,
+      "overture": 66
+    },
+    "osm_pois": 490,
+    "osm_pois_matched": 84,
+    "buildings_with_pois": 141,
+    "buildings_classified": 12605,
+    "buildings_commercial": 44,
+    "buildings_mixed_use": 8,
+    "class_sources": {
+      "unknown": 6928,
+      "morph_residential": 5914,
+      "osm_landuse": 5921,
+      "osm_compound": 131,
+      "overture": 558,
+      "morph_industrial": 3,
+      "osm_poi_inside": 16,
+      "overture_poi_inside": 16,
+      "overture_poi_nearest": 22,
+      "osm_poi_nearest": 16,
+      "morph_arterial": 4
+    },
+    "class_confidence": {
+      "unknown": 6928,
+      "inferred": 5921,
+      "medium": 5957,
+      "verified": 723
+    }
+  },
+  "files": {
+    "buildings": "data/calatrava/calatrava_buildings.pmtiles",
+    "roads": "data/calatrava/calatrava_roads.pmtiles",
+    "base": "data/calatrava/calatrava_base.pmtiles",
+    "boundaries": "data/calatrava/boundaries.geojson",
+    "building_pois": "data/calatrava/building_pois.json",
+    "building_labels": "data/calatrava/building_labels.geojson",
+    "barangay_analytics": "data/calatrava/barangay_analytics.json",
+    "catchment_grid": "data/calatrava/catchment_grid.json"
+  }
+}

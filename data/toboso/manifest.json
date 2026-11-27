@@ -1,0 +1,66 @@
+{
+  "city": "Toboso",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:22:13.646472+00:00",
+  "bbox": [
+    123.3211,
+    10.6333,
+    123.647,
+    10.774
+  ],
+  "center": [
+    123.51454,
+    10.70298
+  ],
+  "counts": {
+    "buildings": 11141,
+    "buildings_measured": 0,
+    "buildings_floors": 1,
+    "buildings_estimated": 11140,
+    "roads": 1240,
+    "base_features": 530,
+    "barangays": 9,
+    "pois_total": 190,
+    "pois_matched": 84,
+    "poi_sources": {
+      "osm": 48,
+      "overture": 36
+    },
+    "osm_pois": 95,
+    "osm_pois_matched": 48,
+    "buildings_with_pois": 75,
+    "buildings_classified": 8180,
+    "buildings_commercial": 37,
+    "buildings_mixed_use": 23,
+    "class_sources": {
+      "morph_residential": 3481,
+      "overture": 705,
+      "unknown": 2962,
+      "osm_compound": 79,
+      "overture_poi_nearest": 11,
+      "osm_landuse": 3859,
+      "overture_poi_inside": 11,
+      "morph_arterial": 21,
+      "osm_poi_inside": 5,
+      "name_keyword": 2,
+      "osm_poi_nearest": 5
+    },
+    "class_confidence": {
+      "inferred": 3502,
+      "verified": 796,
+      "unknown": 2962,
+      "medium": 3881
+    }
+  },
+  "files": {
+    "buildings": "data/toboso/toboso_buildings.pmtiles",
+    "roads": "data/toboso/toboso_roads.pmtiles",
+    "base": "data/toboso/toboso_base.pmtiles",
+    "boundaries": "data/toboso/boundaries.geojson",
+    "building_pois": "data/toboso/building_pois.json",
+    "building_labels": "data/toboso/building_labels.geojson",
+    "barangay_analytics": "data/toboso/barangay_analytics.json",
+    "catchment_grid": "data/toboso/catchment_grid.json"
+  }
+}

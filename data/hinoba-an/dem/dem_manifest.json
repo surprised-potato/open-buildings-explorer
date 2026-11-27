@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:22.196338+00:00",
+  "bbox": [
+    122.3151,
+    9.322,
+    122.687,
+    9.6743
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 532.5,
+    "mean_m": 88.36,
+    "p50_m": 0.0,
+    "p90_m": 327.02
+  },
+  "grid": {
+    "file": "data/hinoba-an/dem/hinoba-an_dem_grid.bin",
+    "width": 669,
+    "height": 634,
+    "bbox": [
+      122.3151,
+      9.322,
+      122.687,
+      9.6743
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/hinoba-an/dem/hinoba-an_elevation_relief.png",
+    "coordinates": [
+      [
+        122.31510000000002,
+        9.674300000000002
+      ],
+      [
+        122.68699767273726,
+        9.674300000000002
+      ],
+      [
+        122.68699767273726,
+        9.322118158924756
+      ],
+      [
+        122.31510000000002,
+        9.322118158924756
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/hinoba-an/dem/hinoba-an_slope.png",
+    "coordinates": [
+      [
+        122.31439960606227,
+        9.67484004691645
+      ],
+      [
+        122.68741241129302,
+        9.67484004691645
+      ],
+      [
+        122.68741241129302,
+        9.321558224675739
+      ],
+      [
+        122.31439960606227,
+        9.321558224675739
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

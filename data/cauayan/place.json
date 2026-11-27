@@ -1,0 +1,55 @@
+{
+  "slug": "cauayan",
+  "name": "Cauayan",
+  "displayName": "Cauayan",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604507000",
+  "filePrefix": "cauayan",
+  "center": [
+    122.49376,
+    9.97363
+  ],
+  "bbox": [
+    122.2313,
+    9.8235,
+    122.7175,
+    10.1263
+  ],
+  "barangayCount": 25,
+  "population2020": 108480,
+  "homeView": {
+    "center": [
+      122.62602,
+      9.97336
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Cauayan Town Centre",
+      "center": [
+        122.62602,
+        9.97336
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Cauayan Overview",
+      "center": [
+        122.4744,
+        9.9749
+      ],
+      "zoom": 11.5,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

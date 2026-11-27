@@ -1,0 +1,69 @@
+{
+  "city": "Hinoba-an",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:35:48.674421+00:00",
+  "bbox": [
+    122.3201,
+    9.327,
+    122.682,
+    9.6693
+  ],
+  "center": [
+    122.50893,
+    9.49685
+  ],
+  "counts": {
+    "buildings": 13041,
+    "buildings_measured": 6,
+    "buildings_floors": 5,
+    "buildings_estimated": 13030,
+    "roads": 513,
+    "base_features": 74,
+    "barangays": 13,
+    "pois_total": 256,
+    "pois_matched": 151,
+    "poi_sources": {
+      "osm": 75,
+      "overture": 75,
+      "foursquare": 1
+    },
+    "osm_pois": 127,
+    "osm_pois_matched": 75,
+    "buildings_with_pois": 133,
+    "buildings_classified": 9028,
+    "buildings_commercial": 86,
+    "buildings_mixed_use": 39,
+    "class_sources": {
+      "morph_residential": 6994,
+      "unknown": 4015,
+      "osm_compound": 81,
+      "overture": 250,
+      "osm_poi_inside": 18,
+      "overture_poi_nearest": 19,
+      "morph_arterial": 32,
+      "morph_industrial": 3,
+      "osm_poi_nearest": 13,
+      "overture_poi_inside": 13,
+      "osm_landuse": 1600,
+      "name_keyword": 2,
+      "foursquare_poi_nearest": 1
+    },
+    "class_confidence": {
+      "inferred": 7029,
+      "unknown": 4015,
+      "verified": 367,
+      "medium": 1630
+    }
+  },
+  "files": {
+    "buildings": "data/hinoba-an/hinoba-an_buildings.pmtiles",
+    "roads": "data/hinoba-an/hinoba-an_roads.pmtiles",
+    "base": "data/hinoba-an/hinoba-an_base.pmtiles",
+    "boundaries": "data/hinoba-an/boundaries.geojson",
+    "building_pois": "data/hinoba-an/building_pois.json",
+    "building_labels": "data/hinoba-an/building_labels.geojson",
+    "barangay_analytics": "data/hinoba-an/barangay_analytics.json",
+    "catchment_grid": "data/hinoba-an/catchment_grid.json"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "city": "Manapla",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:37:24.169005+00:00",
+  "bbox": [
+    123.0357,
+    10.8148,
+    123.187,
+    11.044
+  ],
+  "center": [
+    123.12224,
+    10.92318
+  ],
+  "counts": {
+    "buildings": 11960,
+    "buildings_measured": 0,
+    "buildings_floors": 0,
+    "buildings_estimated": 11960,
+    "roads": 1323,
+    "base_features": 217,
+    "barangays": 11,
+    "pois_total": 491,
+    "pois_matched": 115,
+    "poi_sources": {
+      "osm": 52,
+      "overture": 63
+    },
+    "osm_pois": 192,
+    "osm_pois_matched": 52,
+    "buildings_with_pois": 102,
+    "buildings_classified": 9558,
+    "buildings_commercial": 52,
+    "buildings_mixed_use": 8,
+    "class_sources": {
+      "unknown": 2402,
+      "morph_residential": 5394,
+      "osm_landuse": 3777,
+      "overture": 212,
+      "osm_compound": 106,
+      "overture_poi_nearest": 22,
+      "osm_poi_inside": 9,
+      "overture_poi_inside": 15,
+      "osm_poi_nearest": 12,
+      "morph_industrial": 8,
+      "name_keyword": 2,
+      "morph_arterial": 1
+    },
+    "class_confidence": {
+      "unknown": 2402,
+      "inferred": 5403,
+      "medium": 3810,
+      "verified": 345
+    }
+  },
+  "files": {
+    "buildings": "data/manapla/manapla_buildings.pmtiles",
+    "roads": "data/manapla/manapla_roads.pmtiles",
+    "base": "data/manapla/manapla_base.pmtiles",
+    "boundaries": "data/manapla/boundaries.geojson",
+    "building_pois": "data/manapla/building_pois.json",
+    "building_labels": "data/manapla/building_labels.geojson",
+    "barangay_analytics": "data/manapla/barangay_analytics.json",
+    "catchment_grid": "data/manapla/catchment_grid.json"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:21.657796+00:00",
+  "bbox": [
+    122.6134,
+    9.4886,
+    122.824,
+    10.1948
+  ],
+  "stats": {
+    "min_m": -1.44,
+    "max_m": 692.21,
+    "mean_m": 167.27,
+    "p50_m": 169.0,
+    "p90_m": 367.87
+  },
+  "grid": {
+    "file": "data/ilog/dem/ilog_dem_grid.bin",
+    "width": 379,
+    "height": 1271,
+    "bbox": [
+      122.6134,
+      9.4886,
+      122.824,
+      10.1948
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/ilog/dem/ilog_elevation_relief.png",
+    "coordinates": [
+      [
+        122.61339999999998,
+        10.1948
+      ],
+      [
+        122.82405870074665,
+        10.1948
+      ],
+      [
+        122.82405870074665,
+        9.48860604511714
+      ],
+      [
+        122.61339999999998,
+        9.48860604511714
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/ilog/dem/ilog_slope.png",
+    "coordinates": [
+      [
+        122.61257783977533,
+        10.194981233644567
+      ],
+      [
+        122.82436200995853,
+        10.194981233644567
+      ],
+      [
+        122.82436200995853,
+        9.488513389129904
+      ],
+      [
+        122.61257783977533,
+        9.488513389129904
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

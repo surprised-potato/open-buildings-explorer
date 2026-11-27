@@ -1,0 +1,67 @@
+{
+  "city": "Pontevedra",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:21:40.862646+00:00",
+  "bbox": [
+    122.7509,
+    10.3083,
+    123.0237,
+    10.4016
+  ],
+  "center": [
+    122.88464,
+    10.35631
+  ],
+  "counts": {
+    "buildings": 17703,
+    "buildings_measured": 8,
+    "buildings_floors": 7,
+    "buildings_estimated": 17688,
+    "roads": 953,
+    "base_features": 144,
+    "barangays": 20,
+    "pois_total": 320,
+    "pois_matched": 159,
+    "poi_sources": {
+      "osm": 87,
+      "overture": 72
+    },
+    "osm_pois": 168,
+    "osm_pois_matched": 87,
+    "buildings_with_pois": 133,
+    "buildings_classified": 13726,
+    "buildings_commercial": 111,
+    "buildings_mixed_use": 51,
+    "class_sources": {
+      "morph_residential": 9293,
+      "unknown": 3979,
+      "overture_poi_nearest": 19,
+      "overture_poi_inside": 13,
+      "osm_compound": 155,
+      "overture": 313,
+      "osm_landuse": 3834,
+      "osm_poi_inside": 18,
+      "morph_arterial": 58,
+      "morph_industrial": 12,
+      "name_keyword": 5,
+      "osm_poi_nearest": 4
+    },
+    "class_confidence": {
+      "inferred": 9363,
+      "unknown": 3979,
+      "medium": 3866,
+      "verified": 495
+    }
+  },
+  "files": {
+    "buildings": "data/pontevedra/pontevedra_buildings.pmtiles",
+    "roads": "data/pontevedra/pontevedra_roads.pmtiles",
+    "base": "data/pontevedra/pontevedra_base.pmtiles",
+    "boundaries": "data/pontevedra/boundaries.geojson",
+    "building_pois": "data/pontevedra/building_pois.json",
+    "building_labels": "data/pontevedra/building_labels.geojson",
+    "barangay_analytics": "data/pontevedra/barangay_analytics.json",
+    "catchment_grid": "data/pontevedra/catchment_grid.json"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "city": "Cauayan",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:10:21.355988+00:00",
+  "bbox": [
+    122.2313,
+    9.8235,
+    122.7175,
+    10.1263
+  ],
+  "center": [
+    122.49376,
+    9.97363
+  ],
+  "counts": {
+    "buildings": 30322,
+    "buildings_measured": 0,
+    "buildings_floors": 1,
+    "buildings_estimated": 30321,
+    "roads": 844,
+    "base_features": 234,
+    "barangays": 25,
+    "pois_total": 364,
+    "pois_matched": 243,
+    "poi_sources": {
+      "osm": 135,
+      "overture": 107,
+      "foursquare": 1
+    },
+    "osm_pois": 178,
+    "osm_pois_matched": 135,
+    "buildings_with_pois": 220,
+    "buildings_classified": 20179,
+    "buildings_commercial": 94,
+    "buildings_mixed_use": 30,
+    "class_sources": {
+      "unknown": 10145,
+      "morph_residential": 15182,
+      "overture": 903,
+      "osm_landuse": 3583,
+      "osm_compound": 380,
+      "overture_poi_inside": 29,
+      "osm_poi_inside": 33,
+      "osm_poi_nearest": 12,
+      "morph_arterial": 14,
+      "overture_poi_nearest": 33,
+      "name_keyword": 2,
+      "morph_industrial": 5,
+      "foursquare_poi_nearest": 1
+    },
+    "class_confidence": {
+      "unknown": 10145,
+      "inferred": 15201,
+      "verified": 1346,
+      "medium": 3630
+    }
+  },
+  "files": {
+    "buildings": "data/cauayan/cauayan_buildings.pmtiles",
+    "roads": "data/cauayan/cauayan_roads.pmtiles",
+    "base": "data/cauayan/cauayan_base.pmtiles",
+    "boundaries": "data/cauayan/boundaries.geojson",
+    "building_pois": "data/cauayan/building_pois.json",
+    "building_labels": "data/cauayan/building_labels.geojson",
+    "barangay_analytics": "data/cauayan/barangay_analytics.json",
+    "catchment_grid": "data/cauayan/catchment_grid.json"
+  }
+}

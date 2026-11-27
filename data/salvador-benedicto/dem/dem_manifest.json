@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:26.271834+00:00",
+  "bbox": [
+    123.1349,
+    10.508,
+    123.3555,
+    10.6472
+  ],
+  "stats": {
+    "min_m": 116.0,
+    "max_m": 1865.14,
+    "mean_m": 671.74,
+    "p50_m": 621.91,
+    "p90_m": 1053.84
+  },
+  "grid": {
+    "file": "data/salvador-benedicto/dem/salvador-benedicto_dem_grid.bin",
+    "width": 397,
+    "height": 251,
+    "bbox": [
+      123.1349,
+      10.508,
+      123.3555,
+      10.6472
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/salvador-benedicto/dem/salvador-benedicto_elevation_relief.png",
+    "coordinates": [
+      [
+        123.1349,
+        10.647200000000009
+      ],
+      [
+        123.35547822462209,
+        10.647200000000009
+      ],
+      [
+        123.35547822462209,
+        10.508044603281514
+      ],
+      [
+        123.1349,
+        10.508044603281514
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/salvador-benedicto/dem/salvador-benedicto_slope.png",
+    "coordinates": [
+      [
+        123.13483926174573,
+        10.647372542434685
+      ],
+      [
+        123.35569764318593,
+        10.647372542434685
+      ],
+      [
+        123.35569764318593,
+        10.507942097657265
+      ],
+      [
+        123.13483926174573,
+        10.507942097657265
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

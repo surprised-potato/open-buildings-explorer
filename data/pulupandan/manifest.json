@@ -1,0 +1,67 @@
+{
+  "city": "Pulupandan",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:24:01.250755+00:00",
+  "bbox": [
+    122.752,
+    10.4647,
+    122.842,
+    10.6193
+  ],
+  "center": [
+    122.7961,
+    10.54088
+  ],
+  "counts": {
+    "buildings": 9513,
+    "buildings_measured": 0,
+    "buildings_floors": 10,
+    "buildings_estimated": 9503,
+    "roads": 483,
+    "base_features": 138,
+    "barangays": 20,
+    "pois_total": 355,
+    "pois_matched": 148,
+    "poi_sources": {
+      "osm": 90,
+      "overture": 58
+    },
+    "osm_pois": 156,
+    "osm_pois_matched": 90,
+    "buildings_with_pois": 118,
+    "buildings_classified": 8143,
+    "buildings_commercial": 119,
+    "buildings_mixed_use": 22,
+    "class_sources": {
+      "morph_residential": 4102,
+      "unknown": 1372,
+      "overture": 140,
+      "osm_compound": 37,
+      "osm_landuse": 3789,
+      "overture_poi_nearest": 17,
+      "name_keyword": 2,
+      "morph_industrial": 5,
+      "morph_arterial": 17,
+      "osm_poi_inside": 13,
+      "overture_poi_inside": 10,
+      "osm_poi_nearest": 9
+    },
+    "class_confidence": {
+      "inferred": 4124,
+      "unknown": 1372,
+      "verified": 203,
+      "medium": 3814
+    }
+  },
+  "files": {
+    "buildings": "data/pulupandan/pulupandan_buildings.pmtiles",
+    "roads": "data/pulupandan/pulupandan_roads.pmtiles",
+    "base": "data/pulupandan/pulupandan_base.pmtiles",
+    "boundaries": "data/pulupandan/boundaries.geojson",
+    "building_pois": "data/pulupandan/building_pois.json",
+    "building_labels": "data/pulupandan/building_labels.geojson",
+    "barangay_analytics": "data/pulupandan/barangay_analytics.json",
+    "catchment_grid": "data/pulupandan/catchment_grid.json"
+  }
+}

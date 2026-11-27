@@ -1,0 +1,55 @@
+{
+  "slug": "escalante",
+  "name": "Escalante",
+  "displayName": "Escalante City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604509000",
+  "filePrefix": "escalante",
+  "center": [
+    123.55701,
+    10.80824
+  ],
+  "bbox": [
+    123.3455,
+    10.6866,
+    123.7092,
+    10.9169
+  ],
+  "barangayCount": 21,
+  "population2020": 96159,
+  "homeView": {
+    "center": [
+      123.49931,
+      10.84126
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Escalante Town Centre",
+      "center": [
+        123.49931,
+        10.84126
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Escalante Overview",
+      "center": [
+        123.52735,
+        10.80175
+      ],
+      "zoom": 11.9,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

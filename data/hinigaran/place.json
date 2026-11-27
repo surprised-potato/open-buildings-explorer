@@ -1,0 +1,55 @@
+{
+  "slug": "hinigaran",
+  "name": "Hinigaran",
+  "displayName": "Hinigaran",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604511000",
+  "filePrefix": "hinigaran",
+  "center": [
+    122.84967,
+    10.28205
+  ],
+  "bbox": [
+    122.697,
+    10.1972,
+    123.0,
+    10.3669
+  ],
+  "barangayCount": 24,
+  "population2020": 88909,
+  "homeView": {
+    "center": [
+      122.85199,
+      10.27138
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Hinigaran Town Centre",
+      "center": [
+        122.85199,
+        10.27138
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Hinigaran Overview",
+      "center": [
+        122.8485,
+        10.28205
+      ],
+      "zoom": 12.1,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

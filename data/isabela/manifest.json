@@ -1,0 +1,65 @@
+{
+  "city": "Isabela",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:30:56.663465+00:00",
+  "bbox": [
+    122.9214,
+    10.1433,
+    123.1476,
+    10.278
+  ],
+  "center": [
+    123.03468,
+    10.21064
+  ],
+  "counts": {
+    "buildings": 17024,
+    "buildings_measured": 0,
+    "buildings_floors": 3,
+    "buildings_estimated": 17021,
+    "roads": 1345,
+    "base_features": 168,
+    "barangays": 29,
+    "pois_total": 226,
+    "pois_matched": 109,
+    "poi_sources": {
+      "osm": 57,
+      "overture": 52
+    },
+    "osm_pois": 118,
+    "osm_pois_matched": 57,
+    "buildings_with_pois": 99,
+    "buildings_classified": 12907,
+    "buildings_commercial": 62,
+    "buildings_mixed_use": 10,
+    "class_sources": {
+      "unknown": 4119,
+      "osm_landuse": 7852,
+      "morph_residential": 4618,
+      "overture_poi_nearest": 11,
+      "overture": 218,
+      "osm_poi_nearest": 9,
+      "osm_compound": 168,
+      "morph_industrial": 1,
+      "overture_poi_inside": 19,
+      "osm_poi_inside": 9
+    },
+    "class_confidence": {
+      "unknown": 4119,
+      "medium": 7880,
+      "inferred": 4619,
+      "verified": 406
+    }
+  },
+  "files": {
+    "buildings": "data/isabela/isabela_buildings.pmtiles",
+    "roads": "data/isabela/isabela_roads.pmtiles",
+    "base": "data/isabela/isabela_base.pmtiles",
+    "boundaries": "data/isabela/boundaries.geojson",
+    "building_pois": "data/isabela/building_pois.json",
+    "building_labels": "data/isabela/building_labels.geojson",
+    "barangay_analytics": "data/isabela/barangay_analytics.json",
+    "catchment_grid": "data/isabela/catchment_grid.json"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "slug": "kabankalan",
+  "name": "Kabankalan",
+  "displayName": "Kabankalan City",
+  "kind": "city",
+  "province": "Negros Occidental",
+  "psgc": "PH0604515000",
+  "filePrefix": "kabankalan",
+  "center": [
+    122.82807,
+    9.83176
+  ],
+  "bbox": [
+    122.7125,
+    9.5717,
+    122.986,
+    10.127
+  ],
+  "barangayCount": 32,
+  "population2020": 200198,
+  "homeView": {
+    "center": [
+      122.81345,
+      9.98888
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Kabankalan Town Centre",
+      "center": [
+        122.81345,
+        9.98888
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Kabankalan Overview",
+      "center": [
+        122.84925,
+        9.84935
+      ],
+      "zoom": 10.8,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

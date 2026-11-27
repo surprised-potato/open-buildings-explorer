@@ -1,0 +1,55 @@
+{
+  "slug": "san-enrique",
+  "name": "San Enrique",
+  "displayName": "San Enrique",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604525000",
+  "filePrefix": "san-enrique",
+  "center": [
+    122.83346,
+    10.40172
+  ],
+  "bbox": [
+    122.7509,
+    10.3569,
+    122.9076,
+    10.4448
+  ],
+  "barangayCount": 10,
+  "population2020": 24177,
+  "homeView": {
+    "center": [
+      122.84955,
+      10.41968
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "San Enrique Town Centre",
+      "center": [
+        122.84955,
+        10.41968
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "San Enrique Overview",
+      "center": [
+        122.82925,
+        10.40085
+      ],
+      "zoom": 13.1,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

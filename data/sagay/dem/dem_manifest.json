@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:15.084656+00:00",
+  "bbox": [
+    123.2488,
+    10.6502,
+    123.7196,
+    11.1006
+  ],
+  "stats": {
+    "min_m": -0.47,
+    "max_m": 1586.44,
+    "mean_m": 75.98,
+    "p50_m": 0.0,
+    "p90_m": 263.11
+  },
+  "grid": {
+    "file": "data/sagay/dem/sagay_dem_grid.bin",
+    "width": 847,
+    "height": 811,
+    "bbox": [
+      123.2488,
+      10.6502,
+      123.7196,
+      11.1006
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/sagay/dem/sagay_elevation_relief.png",
+    "coordinates": [
+      [
+        123.24879999999999,
+        11.100600000000002
+      ],
+      [
+        123.71960868947573,
+        11.100600000000002
+      ],
+      [
+        123.71960868947573,
+        10.650082313135117
+      ],
+      [
+        123.24879999999999,
+        10.650082313135117
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/sagay/dem/sagay_slope.png",
+    "coordinates": [
+      [
+        123.24842690323415,
+        11.101356616527537
+      ],
+      [
+        123.72064186910487,
+        11.101356616527537
+      ],
+      [
+        123.72064186910487,
+        10.64945814864375
+      ],
+      [
+        123.24842690323415,
+        10.64945814864375
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

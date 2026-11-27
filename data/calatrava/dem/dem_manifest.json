@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:18.441217+00:00",
+  "bbox": [
+    123.2258,
+    10.4582,
+    123.6253,
+    10.733
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 1867.06,
+    "mean_m": 249.6,
+    "p50_m": 116.22,
+    "p90_m": 673.79
+  },
+  "grid": {
+    "file": "data/calatrava/dem/calatrava_dem_grid.bin",
+    "width": 719,
+    "height": 495,
+    "bbox": [
+      123.2258,
+      10.4582,
+      123.6253,
+      10.733
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/calatrava/dem/calatrava_elevation_relief.png",
+    "coordinates": [
+      [
+        123.2258,
+        10.732999999999999
+      ],
+      [
+        123.62532240368786,
+        10.732999999999999
+      ],
+      [
+        123.62532240368786,
+        10.458103003365208
+      ],
+      [
+        123.2258,
+        10.458103003365208
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/calatrava/dem/calatrava_slope.png",
+    "coordinates": [
+      [
+        123.22559886121984,
+        10.733546476952922
+      ],
+      [
+        123.62568455892702,
+        10.733546476952922
+      ],
+      [
+        123.62568455892702,
+        10.457822618673902
+      ],
+      [
+        123.22559886121984,
+        10.457822618673902
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

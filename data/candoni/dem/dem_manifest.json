@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-27T14:34:24.602686+00:00",
+  "bbox": [
+    122.5737,
+    9.6539,
+    122.7109,
+    9.8685
+  ],
+  "stats": {
+    "min_m": 130.36,
+    "max_m": 540.96,
+    "mean_m": 333.13,
+    "p50_m": 352.93,
+    "p90_m": 463.73
+  },
+  "grid": {
+    "file": "data/candoni/dem/candoni_dem_grid.bin",
+    "width": 247,
+    "height": 386,
+    "bbox": [
+      122.5737,
+      9.6539,
+      122.7109,
+      9.8685
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/candoni/dem/candoni_elevation_relief.png",
+    "coordinates": [
+      [
+        122.57369999999999,
+        9.868500000000006
+      ],
+      [
+        122.71089087678874,
+        9.868500000000006
+      ],
+      [
+        122.71089087678874,
+        9.653942088172125
+      ],
+      [
+        122.57369999999999,
+        9.653942088172125
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/candoni/dem/candoni_slope.png",
+    "coordinates": [
+      [
+        122.57342700992021,
+        9.868645545315395
+      ],
+      [
+        122.71117777573306,
+        9.868645545315395
+      ],
+      [
+        122.71117777573306,
+        9.65381304789358
+      ],
+      [
+        122.57342700992021,
+        9.65381304789358
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/_region/contours.pmtiles",
+    "interval_m": 20,
+    "major_interval_m": 100,
+    "feature_count": 47295
+  },
+  "terrarium": {
+    "tiles_template": "data/_region/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.3,
+      9.35,
+      123.65,
+      11.1
+    ],
+    "tile_count": 1783
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "slug": "pontevedra",
+  "name": "Pontevedra",
+  "displayName": "Pontevedra",
+  "kind": "municipality",
+  "province": "Negros Occidental",
+  "psgc": "PH0604521000",
+  "filePrefix": "pontevedra",
+  "center": [
+    122.88464,
+    10.35631
+  ],
+  "bbox": [
+    122.7509,
+    10.3083,
+    123.0237,
+    10.4016
+  ],
+  "barangayCount": 20,
+  "population2020": 54502,
+  "homeView": {
+    "center": [
+      122.86682,
+      10.37512
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Pontevedra Town Centre",
+      "center": [
+        122.86682,
+        10.37512
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Pontevedra Overview",
+      "center": [
+        122.8873,
+        10.35495
+      ],
+      "zoom": 12.3,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

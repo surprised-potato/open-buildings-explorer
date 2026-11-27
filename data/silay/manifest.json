@@ -1,0 +1,70 @@
+{
+  "city": "Silay City",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T12:56:55.947195+00:00",
+  "bbox": [
+    122.8559,
+    10.6537,
+    123.2732,
+    10.8772
+  ],
+  "center": [
+    123.08906,
+    10.7654
+  ],
+  "counts": {
+    "buildings": 34561,
+    "buildings_measured": 1,
+    "buildings_floors": 32,
+    "buildings_estimated": 34528,
+    "roads": 5864,
+    "base_features": 952,
+    "barangays": 16,
+    "pois_total": 6438,
+    "pois_matched": 625,
+    "poi_sources": {
+      "osm": 247,
+      "overture": 376,
+      "foursquare": 2
+    },
+    "osm_pois": 2283,
+    "osm_pois_matched": 247,
+    "buildings_with_pois": 489,
+    "buildings_classified": 28188,
+    "buildings_commercial": 456,
+    "buildings_mixed_use": 133,
+    "class_sources": {
+      "morph_residential": 17260,
+      "unknown": 6379,
+      "morph_industrial": 24,
+      "osm_landuse": 9342,
+      "overture": 887,
+      "osm_compound": 232,
+      "overture_poi_nearest": 99,
+      "osm_poi_nearest": 46,
+      "osm_poi_inside": 71,
+      "overture_poi_inside": 75,
+      "foursquare_poi_inside": 1,
+      "morph_arterial": 142,
+      "name_keyword": 2,
+      "foursquare_poi_nearest": 1
+    },
+    "class_confidence": {
+      "inferred": 17426,
+      "unknown": 6379,
+      "medium": 9489,
+      "verified": 1267
+    }
+  },
+  "files": {
+    "buildings": "data/silay/silay_buildings.pmtiles",
+    "roads": "data/silay/silay_roads.pmtiles",
+    "base": "data/silay/silay_base.pmtiles",
+    "boundaries": "data/silay/boundaries.geojson",
+    "building_pois": "data/silay/building_pois.json",
+    "building_labels": "data/silay/building_labels.geojson",
+    "barangay_analytics": "data/silay/barangay_analytics.json",
+    "catchment_grid": "data/silay/catchment_grid.json"
+  }
+}

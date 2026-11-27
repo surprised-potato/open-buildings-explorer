@@ -1,0 +1,67 @@
+{
+  "city": "San Enrique",
+  "region": "Negros Occidental, Philippines",
+  "overture_release": "2026-11-18.0",
+  "generated_at": "2026-11-27T13:25:45.735740+00:00",
+  "bbox": [
+    122.7509,
+    10.3569,
+    122.9076,
+    10.4448
+  ],
+  "center": [
+    122.83346,
+    10.40172
+  ],
+  "counts": {
+    "buildings": 8635,
+    "buildings_measured": 0,
+    "buildings_floors": 5,
+    "buildings_estimated": 8630,
+    "roads": 177,
+    "base_features": 156,
+    "barangays": 10,
+    "pois_total": 205,
+    "pois_matched": 89,
+    "poi_sources": {
+      "osm": 42,
+      "overture": 47
+    },
+    "osm_pois": 94,
+    "osm_pois_matched": 42,
+    "buildings_with_pois": 85,
+    "buildings_classified": 7019,
+    "buildings_commercial": 111,
+    "buildings_mixed_use": 53,
+    "class_sources": {
+      "morph_residential": 4880,
+      "unknown": 1616,
+      "overture_poi_inside": 8,
+      "overture": 82,
+      "osm_compound": 53,
+      "name_keyword": 6,
+      "morph_arterial": 61,
+      "overture_poi_nearest": 15,
+      "osm_poi_inside": 10,
+      "osm_landuse": 1900,
+      "osm_poi_nearest": 2,
+      "morph_industrial": 2
+    },
+    "class_confidence": {
+      "inferred": 4943,
+      "unknown": 1616,
+      "medium": 1921,
+      "verified": 155
+    }
+  },
+  "files": {
+    "buildings": "data/san-enrique/san-enrique_buildings.pmtiles",
+    "roads": "data/san-enrique/san-enrique_roads.pmtiles",
+    "base": "data/san-enrique/san-enrique_base.pmtiles",
+    "boundaries": "data/san-enrique/boundaries.geojson",
+    "building_pois": "data/san-enrique/building_pois.json",
+    "building_labels": "data/san-enrique/building_labels.geojson",
+    "barangay_analytics": "data/san-enrique/barangay_analytics.json",
+    "catchment_grid": "data/san-enrique/catchment_grid.json"
+  }
+}
