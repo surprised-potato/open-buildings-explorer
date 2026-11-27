@@ -1,0 +1,20 @@
+[project]
+name = "bacolod-digital-twin-pipeline"
+version = "0.1.0"
+description = "Geospatial data extraction and PMTiles build pipeline for the Bacolod City 3D Digital Twin"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.1.0",
+    "numpy>=2.0.0",
+    "pillow>=11.0.0",
+    "shapely>=2.0.0",
+    "requests>=2.32.0",
+    "xlrd>=2.0.2",
+    "openpyxl>=3.1.5",
+]
+
+[project.optional-dependencies]
+raster = [
+    "rasterio>=1.4.0",
+    "rasterstats>=0.20.0",
+]

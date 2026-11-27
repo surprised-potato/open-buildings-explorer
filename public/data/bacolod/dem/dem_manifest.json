@@ -1,0 +1,91 @@
+{
+  "source": "Copernicus DEM GLO-30 (30m)",
+  "resolution_m": 30,
+  "generated_at": "2026-11-26T13:44:08.690380+00:00",
+  "bbox": [
+    122.88,
+    10.57,
+    123.15,
+    10.75
+  ],
+  "stats": {
+    "min_m": 0.0,
+    "max_m": 1054.45,
+    "mean_m": 130.47,
+    "p50_m": 63.74,
+    "p90_m": 360.14
+  },
+  "grid": {
+    "file": "data/bacolod/dem/bacolod_dem_grid.bin",
+    "width": 486,
+    "height": 324,
+    "bbox": [
+      122.88,
+      10.57,
+      123.15,
+      10.75
+    ],
+    "scale": 0.1,
+    "nodata": -32768
+  },
+  "relief": {
+    "file": "data/bacolod/dem/bacolod_elevation_relief.png",
+    "coordinates": [
+      [
+        122.87999999999998,
+        10.749999999999993
+      ],
+      [
+        123.15007132346706,
+        10.749999999999993
+      ],
+      [
+        123.15007132346706,
+        10.569949107621657
+      ],
+      [
+        122.87999999999998,
+        10.569949107621657
+      ]
+    ]
+  },
+  "slope": {
+    "file": "data/bacolod/dem/bacolod_slope.png",
+    "coordinates": [
+      [
+        122.87992947220303,
+        10.750036211705412
+      ],
+      [
+        123.15000075807338,
+        10.750036211705412
+      ],
+      [
+        123.15000075807338,
+        10.569985365825207
+      ],
+      [
+        122.87992947220303,
+        10.569985365825207
+      ]
+    ]
+  },
+  "contours": {
+    "file": "data/bacolod/dem/bacolod_contours.pmtiles",
+    "interval_m": 5,
+    "major_interval_m": 25,
+    "feature_count": 3887
+  },
+  "terrarium": {
+    "tiles_template": "data/bacolod/dem/terrarium/{z}/{x}/{y}.png",
+    "minzoom": 10,
+    "maxzoom": 13,
+    "bounds": [
+      122.85,
+      10.54,
+      123.2,
+      10.78
+    ],
+    "tile_count": 82
+  }
+}

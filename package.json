@@ -1,0 +1,45 @@
+{
+  "name": "bacolod-3d-digital-twin",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "data:fetch": "uv run scripts/fetch_bacolod.py",
+    "data:osm": "uv run scripts/enrich_osm_buildings.py",
+    "data:analytics": "uv run scripts/compute_barangay_analytics.py",
+    "data:dem": "uv run scripts/fetch_dem.py",
+    "data:mobility": "uv run scripts/export_trafficsim_network.py && uv run python -I scripts/export_edge_streets.py",
+    "data:zonal": "uv run python -I scripts/parse_bir_zonal_values.py",
+    "data:landcover": "uv run python -I scripts/compute_landcover_stats.py",
+    "data:hazards": "uv run python -I scripts/build_hazard_layers.py",
+    "data:transport": "uv run python -I scripts/fetch_osm_transport.py",
+    "data:demand": "uv run python -I scripts/parse_psa_age_sex.py && uv run python -I scripts/build_barangay_demand.py && uv run python -I scripts/classify_barangays.py"
+  },
+  "dependencies": {
+    "@deck.gl/core": "^9.4.2",
+    "@deck.gl/layers": "^9.4.2",
+    "@deck.gl/maplibre": "^9.4.2",
+    "input-switch-polyfill": "^1.12.0",
+    "lucide-react": "^1.81.0",
+    "maplibre-gl": "^5.4.0",
+    "pmtiles": "^4.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.7.0",
+    "jsdom": "^26.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.4.6",
+    "vitest": "^3.2.7"
+  }
+}
