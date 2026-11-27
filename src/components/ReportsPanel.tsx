@@ -22,6 +22,7 @@ import { REPORTS } from '../reports/catalog';
 import { downloadText, openPrintable, reportToCsv, reportToHtml } from '../reports/export';
 import type { PropertyData, PurposeMixData, ReportContext, ReportOutput } from '../reports/types';
 import { chartToSvg } from '../reports/charts';
+import type { BuildingPopulationMeta } from '../utils/buildingPopulation';
 import { loadBuildingZonal } from '../utils/buildingZonal';
 import {
   BACKGROUND_LABEL,
@@ -71,6 +72,7 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
   const [simVersion, setSimVersion] = useState(0);
   const [purposeMix, setPurposeMix] = useState<PurposeMixData | null>(null);
   const [property, setProperty] = useState<PropertyData | null>(null);
+  const [population, setPopulation] = useState<BuildingPopulationMeta | null>(null);
   const [zonal, setZonal] = useState<{ counts: number[]; labels: string[] } | null>(null);
 
   useEffect(() => {
@@ -89,6 +91,12 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
       .then((r) => (r.ok ? (r.json() as Promise<PropertyData>) : null))
       .then((d) => {
         if (live && d) setProperty(d);
+      })
+      .catch(() => undefined);
+    fetch(`${import.meta.env.BASE_URL}${placeFile('building_population.json')}`)
+      .then((r) => (r.ok ? (r.json() as Promise<BuildingPopulationMeta>) : null))
+      .then((d) => {
+        if (live && d) setPopulation(d);
       })
       .catch(() => undefined);
     return () => {
@@ -203,6 +211,7 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
     if (!barangayAnalytics) return null;
     const ctx: ReportContext = {
       property,
+      population,
       purposeMix,
       tripGen,
       corridors,
@@ -216,7 +225,7 @@ export function ReportsPanel({ onClose }: { onClose: () => void }) {
       zonalTierLabels: zonal?.labels ?? null,
     };
     return def.build(ctx);
-  }, [def, barangayAnalytics, buildingPois, selectedBarangayName, mobilityStats, simVersion, zonal, property, purposeMix, tripGen, corridors, corridorA, corridorB]);
+  }, [def, barangayAnalytics, buildingPois, selectedBarangayName, mobilityStats, simVersion, zonal, property, population, purposeMix, tripGen, corridors, corridorA, corridorB]);
 
   const slug = `${def.id}${def.needsBarangay && selectedBarangayName ? `-${selectedBarangayName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` : ''}`;
   const blocked = Boolean(def.needsBarangay && !selectedBarangayName);

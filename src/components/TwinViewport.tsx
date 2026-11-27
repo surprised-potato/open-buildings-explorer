@@ -46,6 +46,7 @@ import type {
 import { decodeUrlState, encodeUrlState } from '../utils/urlState';
 import type { MeasureMode } from './MeasureControl';
 import { PLACE_SLUG, getPlaceMeta } from '../utils/place';
+import { idAt, loadBuildingPopulation, residentsAt } from '../utils/buildingPopulation';
 
 
 const ESRI_SATELLITE_STYLE: StyleSpecification = {
@@ -440,6 +441,33 @@ export function TwinViewport({
 
   const mobilityDatasetRef = useRef<MobilityDataset | null>(null);
   const mobilitySimRef = useRef<MobilitySimulation | null>(null);
+
+  // "People" colour mode: give every building its estimated residents as feature state 'res'
+  // (building_population.bin), in chunks so the map stays responsive.
+  useEffect(() => {
+    if (buildingColorMode !== 'population') return;
+    let cancelled = false;
+    void loadBuildingPopulation(import.meta.env?.BASE_URL ?? '/').then((table) => {
+      if (!table || cancelled) return;
+      let i = 0;
+      const step = () => {
+        const map = mapRef.current;
+        if (cancelled || !map || !map.getSource(BUILDINGS_SOURCE_ID)) return;
+        const end = Math.min(table.n, i + 6000);
+        for (; i < end; i += 1) {
+          map.setFeatureState(
+            { source: BUILDINGS_SOURCE_ID, sourceLayer: 'buildings', id: idAt(table, i) },
+            { res: residentsAt(table, i) }
+          );
+        }
+        if (i < table.n) requestAnimationFrame(step);
+      };
+      step();
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [buildingColorMode, theme]);
   const groundTimerRef = useRef<number | null>(null);
 
   /**
@@ -1082,6 +1110,7 @@ export function TwinViewport({
     });
 
     mapRef.current = map;
+    if (import.meta.env.DEV) (window as unknown as { __twinMap?: unknown }).__twinMap = map;
     if (window.matchMedia('(max-width: 720px)').matches) {
       // Start with the credits collapsed behind the (i) button on phones.
       const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib');

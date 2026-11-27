@@ -58,6 +58,7 @@ const COLOR_MODES: Array<{ value: BuildingColorMode; label: string }> = [
   { value: 'source', label: 'Source' },
   { value: 'class', label: 'Class' },
   { value: 'clay', label: 'Clay' },
+  { value: 'population', label: 'People' },
 ];
 
 const CONFIDENCE_FILTERS: Array<{

@@ -1,5 +1,6 @@
 import { getActiveSimulation } from '../utils/mobilitySim';
 import { loadBuildingHazard, lookupBuildingHazard, type BuildingHazard } from '../utils/buildingHazard';
+import { loadBuildingPopulation, lookupBuildingPopulation, type BuildingPopulation } from '../utils/buildingPopulation';
 import { buildGersIndex, gersKey } from '../reports/tripGeneration';
 import type { MobilityBuildings } from '../utils/mobilityTypes';
 import {
@@ -314,6 +315,7 @@ export function FeatureInspector({ onFlyTo }: FeatureInspectorProps = {}) {
   const [valueInfoOpen, setValueInfoOpen] = useState(false);
   const [zonal, setZonal] = useState<BuildingZonalEstimate | null>(null);
   const [hazard, setHazard] = useState<BuildingHazard | null>(null);
+  const [population, setPopulation] = useState<BuildingPopulation | null>(null);
   const [tripStat, setTripStat] = useState<{ out: number; in: number; hours: number } | null>(null);
 
   useEffect(() => {
@@ -352,10 +354,14 @@ export function FeatureInspector({ onFlyTo }: FeatureInspectorProps = {}) {
 
   useEffect(() => {
     setHazard(null);
+    setPopulation(null);
     if (!isBuildingFeature || !gersId) return;
     let live = true;
     void loadBuildingHazard(import.meta.env?.BASE_URL ?? '/').then((t) => {
       if (live && t) setHazard(lookupBuildingHazard(t, gersId));
+    });
+    void loadBuildingPopulation(import.meta.env?.BASE_URL ?? '/').then((t) => {
+      if (live && t) setPopulation(lookupBuildingPopulation(t, gersId));
     });
     return () => {
       live = false;
@@ -954,6 +960,25 @@ export function FeatureInspector({ onFlyTo }: FeatureInspectorProps = {}) {
                 <div style={{ fontSize: 10, opacity: 0.7 }}>
                   {zonal.street ?? zonal.tierLabel}
                 </div>
+              </div>
+            )}
+            {population !== null && (
+              <div
+                className="metric-box"
+                title={`Estimate: ${population.barangay ?? 'the barangay'}'s PSA 2020 population spread over its buildings by residential floor area and the WorldPop density grid. Barangay totals match the census; this building's figure is modelled, not counted. Age mix is the barangay's.`}
+              >
+                <div className="metric-label">Estimated residents</div>
+                <div className="metric-value" style={{ fontSize: 13 }}>
+                  {population.residents < 0.5 ? 'None (est.)' : `≈ ${population.residents < 10 ? population.residents.toFixed(1) : Math.round(population.residents)}`}
+                </div>
+                {population.residents >= 0.5 && (
+                  <div style={{ fontSize: 10, opacity: 0.7 }}>
+                    {population.byAge
+                      .filter((a) => a.band === 'age_0_4' || a.band === 'age_5_14' || a.band === 'age_60_plus')
+                      .map((a) => `${a.label} ${a.count < 1 ? a.count.toFixed(1) : Math.round(a.count)}`)
+                      .join(' · ')}
+                  </div>
+                )}
               </div>
             )}
             {hazard !== null && (

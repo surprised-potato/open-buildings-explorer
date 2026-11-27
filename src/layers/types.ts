@@ -3,7 +3,7 @@ import type maplibregl from 'maplibre-gl';
 
 export type BasemapTheme = 'dark' | 'light' | 'satellite';
 
-export type BuildingColorMode = 'height' | 'source' | 'class' | 'clay';
+export type BuildingColorMode = 'height' | 'source' | 'class' | 'clay' | 'population';
 
 export type BuildingClassConfidenceFilter = 'all' | 'hide_inferred' | 'verified_only';
 
@@ -17,7 +17,10 @@ export type BarangayChoroplethMetric =
   | 'green_space_pct'
   | 'zonal_res_median'
   | 'zonal_com_median'
-  | 'tree_cover_pct';
+  | 'tree_cover_pct'
+  | 'pop_density_per_km2'
+  | 'children_pct'
+  | 'seniors_pct';
 
 export interface BarangayAnalyticsHub {
   id: string;
@@ -62,6 +65,10 @@ export interface BarangayAnalyticsItem {
   zonal_com_median?: number | null;
   /** ESA WorldCover 10 m shares of the barangay's area (scripts/compute_landcover_stats.py). */
   tree_cover_pct?: number;
+  population?: number;
+  pop_density_per_km2?: number | null;
+  children_pct?: number;
+  seniors_pct?: number;
   built_up_pct?: number;
   cropland_pct?: number;
   zonal_com_max?: number | null;

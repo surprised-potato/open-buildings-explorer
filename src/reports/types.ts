@@ -3,6 +3,7 @@ import type {
   BuildingPoiRecord,
 } from '../layers/types';
 import type { ReportChart } from './charts';
+import type { BuildingPopulationMeta } from '../utils/buildingPopulation';
 import type { MobilitySimStats } from '../utils/mobilityTypes';
 import type { CorridorSnapshot } from './corridors';
 import type { TripGenSnapshot } from './tripGeneration';
@@ -78,6 +79,8 @@ export interface ReportContext {
   corridorB: string | null;
   /** Null until barangay_property.json has loaded. */
   property: PropertyData | null;
+  /** Estimated residents per building / barangay (building_population.json); absent until loaded. */
+  population?: BuildingPopulationMeta | null;
   analytics: BarangayAnalyticsDataset;
   pois: Record<string, BuildingPoiRecord>;
   barangay: string | null;

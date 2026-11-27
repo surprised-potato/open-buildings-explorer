@@ -24,6 +24,7 @@ const VALID_COLOR_MODES = new Set<BuildingColorMode>([
   'source',
   'class',
   'clay',
+  'population',
 ]);
 
 function parseFinite(value: string | null): number | undefined {

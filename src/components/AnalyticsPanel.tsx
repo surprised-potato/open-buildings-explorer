@@ -60,6 +60,9 @@ const CHOROPLETH_OPTIONS: Array<{
   { value: 'mean_elev_m', label: 'Elevation' },
   { value: 'green_space_pct', label: 'Green %' },
   { value: 'tree_cover_pct', label: 'Tree cover' },
+  { value: 'pop_density_per_km2', label: 'Population density' },
+  { value: 'children_pct', label: 'Children (0–14)' },
+  { value: 'seniors_pct', label: 'Seniors (60+)' },
   { value: 'zonal_res_median', label: 'Land ₱ (res)' },
   { value: 'zonal_com_median', label: 'Land ₱ (com)' },
 ];

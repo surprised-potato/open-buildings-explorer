@@ -627,7 +627,8 @@ def fetch_boundaries_filled(con: duckdb.DuckDBPyConnection) -> int:
               AND d.subtype NOT IN ('country', 'region', 'county')"""
     ).fetchall():
         g = make_valid(shape(json.loads(geom_json))).buffer(0)
-        if name and not g.is_empty and inside.contains(g.representative_point()) and g.area < city.area * 0.9:
+        # Skip slivers (under ~0.5 ha): Overture has a few misplaced barangay polygons of that size.
+        if name and not g.is_empty and inside.contains(g.representative_point()) and city.area * 0.9 > g.area > 4e-7:
             k = match_key(name)
             if k not in areas or g.area > areas[k][0]:
                 areas[k] = (g.area, f"overture-{did}", g)

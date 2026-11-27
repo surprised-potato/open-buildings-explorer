@@ -38,6 +38,16 @@ export function getBuildingLegend(mode: BuildingColorMode): LegendItem[] {
       ];
     case 'clay':
       return [{ label: 'Architectural Clay', color: '#cbd5e1', shape: 'swatch' }];
+    case 'population':
+      return [
+        { label: 'No residents (est.)', color: '#334155', shape: 'swatch' },
+        { label: '1–2 residents', color: '#38bdf8', shape: 'swatch' },
+        { label: '3–5', color: '#2dd4bf', shape: 'swatch' },
+        { label: '6–11', color: '#f59e0b', shape: 'swatch' },
+        { label: '12–29', color: '#f97316', shape: 'swatch' },
+        { label: '30+', color: '#ef4444', shape: 'swatch' },
+        { label: 'No estimate', color: '#64748b', shape: 'swatch' },
+      ];
     case 'height':
     default:
       return [
@@ -178,6 +188,26 @@ function buildBuildingColorExpression(
       '#e879f9',
       '#94a3b8',
     ];
+  } else if (mode === 'population') {
+    // Estimated residents per building, set as feature state 'res' (see TwinViewport) from
+    // building_population.bin; -1 = building not in the table.
+    baseExpr = [
+      'step',
+      ['coalesce', ['feature-state', 'res'], -1],
+      '#64748b',
+      0,
+      '#334155',
+      0.5,
+      '#38bdf8',
+      2.5,
+      '#2dd4bf',
+      5.5,
+      '#f59e0b',
+      11.5,
+      '#f97316',
+      29.5,
+      '#ef4444',
+    ] as unknown as ExpressionSpecification;
   } else if (mode === 'clay') {
     const clayColor = theme === 'dark' ? '#cbd5e1' : '#e2e8f0';
     baseExpr = ['literal', clayColor] as unknown as ExpressionSpecification;

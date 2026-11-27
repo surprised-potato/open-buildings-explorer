@@ -13,6 +13,16 @@ import { tryGetPlaceMeta } from '../utils/place';
 
 const placeName = () => tryGetPlaceMeta()?.displayName ?? 'City';
 
+const AGE_LABELS: Record<string, string> = {
+  age_0_4: 'Under 5', age_5_14: '5–14', age_15_24: '15–24', age_25_59: '25–59', age_60_plus: '60+',
+};
+
+/** Estimated residents in buildings reached by any modelled storm surge (building_population.json). */
+function surgeResidents(ctx: ReportContext): number {
+  if (!ctx.population) return 0;
+  return Object.values(ctx.population.perBarangay).reduce((s, b) => s + b.surge_residents.slice(1).reduce((t, v) => t + v, 0), 0);
+}
+
 const n0 = (v: number | null | undefined) =>
   v === null || v === undefined || !Number.isFinite(v) ? '–' : Math.round(v).toLocaleString('en-PH');
 const n1 = (v: number | null | undefined) =>
@@ -64,6 +74,7 @@ const citySnapshot: ReportDefinition = {
           heading: 'Built environment',
           facts: [
             ['Barangays', n0(c.barangays)],
+            ...(ctx.population ? ([['Residents (PSA 2020)', n0(ctx.population.population)]] as Array<[string, string]>) : []),
             ['Area', `${n1(c.area_km2)} km²`],
             ['Buildings', n0(c.building_count)],
             ['Built coverage', `${n1(c.built_coverage_pct)}%`],
@@ -234,6 +245,35 @@ const barangayProfile: ReportDefinition = {
                   },
                 ] as ReportChart[],
                 note: 'Tree cover includes canopy over houses and gardens, so it is much higher than mapped parks.',
+              },
+            ]
+          : []),
+        ...(b.population !== undefined
+          ? [
+              {
+                heading: 'Population (PSA 2020)',
+                facts: [
+                  ['Residents', n0(b.population)],
+                  ['Density', b.pop_density_per_km2 ? `${n0(b.pop_density_per_km2)} per km²` : '–'],
+                  ['Children (0–14)', `${n1(b.children_pct)}%`],
+                  ['Seniors (60+)', `${n1(b.seniors_pct)}%`],
+                  ...(ctx.population?.perBarangay[b.name]
+                    ? ([['Buildings with estimated residents', n0(ctx.population.perBarangay[b.name].buildings_with_residents)]] as Array<[string, string]>)
+                    : []),
+                ] as Array<[string, string]>,
+                charts: ctx.population?.perBarangay[b.name]
+                  ? ([
+                      {
+                        kind: 'bar',
+                        title: 'Residents by age',
+                        items: ctx.population.ageBands.map((band) => ({
+                          label: AGE_LABELS[band] ?? band,
+                          value: Math.round((b.population ?? 0) * (ctx.population?.perBarangay[b.name]?.age_shares[band] ?? 0)),
+                        })),
+                      },
+                    ] as ReportChart[])
+                  : undefined,
+                note: 'Per-building residents (inspector, "People" colour mode) spread this total over the barangay\'s buildings by residential floor area; they are estimates.',
               },
             ]
           : []),
@@ -708,6 +748,12 @@ const terrainReport: ReportDefinition = {
             ...(hasSurge
               ? ([
                   ['Reached by any modelled surge (up to over 5 m)', `${n0(nSurge)} buildings (${pct(nSurge, nAll || 1)})`],
+                  ...(ctx.population
+                    ? ([[
+                        'Residents in those buildings (estimate)',
+                        `${n0(surgeResidents(ctx))} of ${n0(ctx.population.population)} (${pct(surgeResidents(ctx), ctx.population.population)})`,
+                      ]] as Array<[string, string]>)
+                    : []),
                   ['Estimated value in that area', `₱${mPeso(vSurge)} M (${pct(vSurge, vAll)} of total)`],
                 ] as Array<[string, string]>)
               : []),
@@ -751,9 +797,11 @@ const terrainReport: ReportDefinition = {
                   },
                 ] as ReportChart[],
                 table: {
-                  columns: ['Barangay', 'Buildings reached', 'Share of buildings', 'Reached at 2-3 m', 'Value exposed ₱M'],
+                  columns: ['Barangay', 'Buildings reached', 'Share of buildings', 'Reached at 2-3 m', 'Residents reached (est.)', 'Value exposed ₱M'],
                   rows: surgeRows.map((r) => [
-                    r.a.name, surgeN(r), pct(surgeN(r), r.b.buildings), r.b.surge?.[1] ?? 0, mPeso(surgeV(r)),
+                    r.a.name, surgeN(r), pct(surgeN(r), r.b.buildings), r.b.surge?.[1] ?? 0,
+                    ctx.population?.perBarangay[r.a.name] ? n0(ctx.population.perBarangay[r.a.name].surge_residents.slice(1).reduce((s, v) => s + v, 0)) : '–',
+                    mPeso(surgeV(r)),
                   ]),
                 },
               },
