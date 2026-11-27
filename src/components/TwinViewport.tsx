@@ -1049,6 +1049,12 @@ export function TwinViewport({
     });
 
     mapRef.current = map;
+    if (window.matchMedia('(max-width: 720px)').matches) {
+      // Start with the credits collapsed behind the (i) button on phones.
+      const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib');
+      attrib?.classList.remove('maplibregl-compact-show');
+      attrib?.removeAttribute('open');
+    }
     map.on('dragstart', () => setFollowAgent(false));
     onMapReady(map);
 

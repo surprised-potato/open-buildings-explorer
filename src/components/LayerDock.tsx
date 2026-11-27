@@ -9,6 +9,7 @@ import {
   SlidersHorizontal,
   Sun,
   Trash2,
+  X,
 } from 'lucide-react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useTwinStore } from '../layers/registry';
@@ -27,6 +28,9 @@ declare module 'react' {
 
 interface LayerDockProps {
   onOpenAddModal: () => void;
+  /** Phones: the dock is a bottom sheet that is shown only while this is true. */
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 const CATEGORY_LABELS: Record<LayerCategory, string> = {
@@ -120,7 +124,7 @@ function RangeSlider({
   );
 }
 
-export function LayerDock({ onOpenAddModal }: LayerDockProps) {
+export function LayerDock({ onOpenAddModal, mobileOpen = false, onMobileClose }: LayerDockProps) {
   const {
     layers,
     layerState,
@@ -159,7 +163,7 @@ export function LayerDock({ onOpenAddModal }: LayerDockProps) {
 
   return (
     <aside
-      className={`hud-dock glass-panel ${collapsed ? 'collapsed' : ''}`}
+      className={`hud-dock glass-panel ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}
       aria-label="Layers and environment controls"
     >
       <div className="hud-dock-header">
@@ -173,7 +177,15 @@ export function LayerDock({ onOpenAddModal }: LayerDockProps) {
         </div>
         <button
           type="button"
-          className="btn btn-icon btn-ghost"
+          className="btn btn-icon btn-ghost mobile-only"
+          onClick={onMobileClose}
+          aria-label="Close layers"
+        >
+          <X size={16} />
+        </button>
+        <button
+          type="button"
+          className="btn btn-icon btn-ghost desktop-only"
           onClick={() => setCollapsed((c) => !c)}
           aria-label={collapsed ? 'Expand layer dock' : 'Collapse layer dock'}
           title={collapsed ? 'Expand' : 'Collapse'}

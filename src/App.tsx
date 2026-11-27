@@ -6,6 +6,7 @@ import { FeatureInspector } from './components/FeatureInspector';
 import { LayerDock } from './components/LayerDock';
 import { LegendBar } from './components/LegendBar';
 import { MeasureControl, type MeasureMode } from './components/MeasureControl';
+import { MobileNav } from './components/MobileNav';
 import { MobilityPlaybackBar } from './components/MobilityPlaybackBar';
 import { ReportsPanel } from './components/ReportsPanel';
 import { TopBar } from './components/TopBar';
@@ -20,6 +21,7 @@ function TwinWorkspace() {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const toastTimerRef = useRef<number | null>(null);
 
+  const [layersOpen, setLayersOpen] = useState(false);
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>('off');
   const [measurePoints, setMeasurePoints] = useState<[number, number][]>([]);
@@ -183,7 +185,13 @@ function TwinWorkspace() {
         onNotify={notify}
       />
 
-      {activeView !== 'reports' && <LayerDock onOpenAddModal={() => setAddModalOpen(true)} />}
+      {activeView !== 'reports' && (
+        <LayerDock
+          onOpenAddModal={() => setAddModalOpen(true)}
+          mobileOpen={layersOpen}
+          onMobileClose={() => setLayersOpen(false)}
+        />
+      )}
 
       {activeView === 'reports' && <ReportsPanel onClose={() => setActiveView('explore')} />}
 
@@ -226,6 +234,12 @@ function TwinWorkspace() {
       />
 
       <ViewControl map={mapInstance} />
+
+      <MobileNav
+        layersOpen={layersOpen && activeView !== 'reports'}
+        onToggleLayers={() => setLayersOpen((v) => !v)}
+        onSelectView={() => setLayersOpen(false)}
+      />
 
       <LegendBar />
 
