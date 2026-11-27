@@ -31,7 +31,9 @@ export const contoursLayer: TwinLayerDefinition = {
   maplibre(ctx) {
     const { map, visible, opacity, theme, demManifest } = ctx;
     // Shared province contours for most LGUs (dem_manifest points at them); Bacolod keeps its own 5 m set.
-    const file = demManifest?.contours.file ?? placeFile(`dem/${getPlaceMeta().filePrefix}_contours.pmtiles`);
+    // Wait for the manifest so the source is not created from a guessed path.
+    if (!demManifest) return [];
+    const file = demManifest.contours.file ?? placeFile(`dem/${getPlaceMeta().filePrefix}_contours.pmtiles`);
     const url = `pmtiles://${getOriginAndBase()}${file}`;
 
     if (!map.getSource(CONTOURS_SOURCE_ID)) {

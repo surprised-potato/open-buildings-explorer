@@ -23,7 +23,7 @@ jobs:
         with:
           ref: data
           path: _data
-      - run: rm -rf public/data && mv _data/data public/data && rm -rf _data
+      - run: mkdir -p public && rm -rf public/data && mv _data/data public/data && rm -rf _data
       - uses: actions/setup-node@v4
         with:
           node-version: 22

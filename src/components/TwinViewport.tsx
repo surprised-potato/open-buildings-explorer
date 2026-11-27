@@ -10,6 +10,7 @@ import { Protocol } from 'pmtiles';
 import { Mountain } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState, type DragEvent } from 'react';
 import { BOUNDARIES_FILL_ID } from '../layers/builtins/boundariesLayer';
+import { TERRAIN_SOURCE_ID } from '../layers/builtins/terrainLayer';
 import {
   BUILDINGS_LABELS_LAYER_ID,
   BUILDINGS_LAYER_ID,
@@ -439,6 +440,40 @@ export function TwinViewport({
 
   const mobilityDatasetRef = useRef<MobilityDataset | null>(null);
   const mobilitySimRef = useRef<MobilitySimulation | null>(null);
+  const groundTimerRef = useRef<number | null>(null);
+
+  /**
+   * Sample the terrain MapLibre actually draws at the road vertices in and around the view, so mobility
+   * particles and route lines sit on the visible ground instead of on a separate elevation estimate.
+   * Debounced: runs after moves, terrain tile loads, and terrain / exaggeration changes.
+   */
+  const scheduleGroundRefresh = useCallback(() => {
+    if (groundTimerRef.current !== null) window.clearTimeout(groundTimerRef.current);
+    groundTimerRef.current = window.setTimeout(() => {
+      groundTimerRef.current = null;
+      const map = mapRef.current;
+      const sim = mobilitySimRef.current;
+      const snap = latestRef.current;
+      if (!map || !sim || !snap.terrainEnabled) return;
+      const terrain = (map as unknown as {
+        terrain?: { getElevationForLngLatZoom(lnglat: maplibregl.LngLat, zoom: number): number } | null;
+      }).terrain;
+      if (!terrain) return;
+      const b = map.getBounds();
+      const padX = (b.getEast() - b.getWest()) * 0.25;
+      const padY = (b.getNorth() - b.getSouth()) * 0.25;
+      // Zoom 13 = the terrain tiles' max zoom; MapLibre falls back to the loaded parent tile when needed.
+      sim.updateGroundHeights(
+        (lon, lat) => terrain.getElevationForLngLatZoom(new maplibregl.LngLat(lon, lat), 13),
+        snap.terrainExaggeration,
+        [b.getWest() - padX, b.getSouth() - padY, b.getEast() + padX, b.getNorth() + padY]
+      );
+    }, 250);
+  }, []);
+
+  useEffect(() => {
+    scheduleGroundRefresh();
+  }, [terrainEnabled, terrainExaggeration, scheduleGroundRefresh]);
   const mobilityLoadingRef = useRef(false);
   const mobilityFailedRef = useRef(false);
   const mobilityFrameTickRef = useRef(0);
@@ -1054,6 +1089,10 @@ export function TwinViewport({
       attrib?.removeAttribute('open');
     }
     map.on('dragstart', () => setFollowAgent(false));
+    map.on('moveend', scheduleGroundRefresh);
+    map.on('sourcedata', (e) => {
+      if (e.sourceId === TERRAIN_SOURCE_ID && e.isSourceLoaded) scheduleGroundRefresh();
+    });
     onMapReady(map);
 
     map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
@@ -1424,6 +1463,7 @@ export function TwinViewport({
         const sim = new MobilitySimulation(dataset);
         mobilitySimRef.current = sim;
         setActiveSimulation(sim);
+        scheduleGroundRefresh();
         if (import.meta.env.DEV) {
           (window as unknown as { __twinDebug?: unknown }).__twinDebug = {
             sim,

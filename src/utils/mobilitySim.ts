@@ -76,7 +76,11 @@ const PURPOSE_IDS: readonly MobilityPurposeId[] = ['hbw', 'hbe', 'hbo'] as const
 const CONGESTION_SMOOTH_TAU_SEC = 4.0;
 const BPR_ALPHA = 0.15;
 const MAX_BPR_MULT = 8.0;
-const SIDEWALK_OFFSET_M = 4.5;
+const SIDEWALK_OFFSET_M = 2.0;
+/** Height of particles above the ground surface (just enough to avoid flickering into the terrain). */
+const PARTICLE_LIFT_M = 1.0;
+/** Height of route / congestion lines above the ground surface. */
+const PATH_LIFT_M = 0.8;
 const CONCURRENT_CITY_PEOPLE_PEAK = 32000;
 /** Tunable congestion calibration (edge storage multiplier on capacity*t0/3600). */
 export const CONGESTION_TUNING = { critScale: 3.0 };
@@ -693,6 +697,59 @@ export class MobilitySimulation {
   private activeDrawCount = 0;
   private lastDiurnal: MobilityDiurnalState = getDiurnalState(7.75);
   private lastStats: MobilitySimStats;
+
+  /**
+   * Ground height (terrain-exaggerated metres) at every road-geometry vertex, taken from the terrain the
+   * map actually draws (see updateGroundHeights). NaN = not sampled yet; node elevations are the fallback.
+   */
+  private vertZ: Float32Array = new Float32Array(0);
+  private vertZExag = Number.NaN;
+
+  /**
+   * Sample the drawn terrain at road vertices inside `bounds` ([west, south, east, north]). `sample`
+   * returns terrain-exaggerated metres (MapLibre's own terrain lookup), so particles sit on the surface
+   * the user sees. Returns the number of vertices updated.
+   */
+  updateGroundHeights(
+    sample: (lon: number, lat: number) => number | null,
+    exaggeration: number,
+    bounds: [number, number, number, number]
+  ): number {
+    const ds = this.dataset;
+    const nPts = ds.ptCumFrac.length;
+    if (this.vertZ.length !== nPts || exaggeration !== this.vertZExag) {
+      this.vertZ = new Float32Array(nPts).fill(Number.NaN);
+      this.vertZExag = exaggeration;
+    }
+    const [w, s, e, n] = bounds;
+    let updated = 0;
+    for (let pt = 0; pt < nPts; pt += 1) {
+      const lon = ds.geomCoords[pt * 2];
+      const lat = ds.geomCoords[pt * 2 + 1];
+      if (lon < w || lon > e || lat < s || lat > n) continue;
+      const z = sample(lon, lat);
+      if (z === null || !Number.isFinite(z)) continue;
+      this.vertZ[pt] = z;
+      updated += 1;
+    }
+    return updated;
+  }
+
+  /** Forget sampled ground heights (terrain switched off or its source changed). */
+  clearGroundHeights(): void {
+    this.vertZ.fill(Number.NaN);
+  }
+
+  /** Ground height at geometry vertex `pt`: sampled terrain when available, else the node-elevation estimate. */
+  private groundAt(pt: number, fallbackElev: number, terrainEnabled: boolean, exaggeration: number): number {
+    if (!terrainEnabled) return 0;
+    if (pt >= 0 && pt < this.vertZ.length && exaggeration === this.vertZExag) {
+      const v = this.vertZ[pt];
+      // MapLibre answers 0 where no terrain tile is loaded; trust 0 only where the ground really is that low.
+      if (Number.isFinite(v) && !(v === 0 && fallbackElev * exaggeration > 2)) return v;
+    }
+    return fallbackElev * exaggeration;
+  }
 
   constructor(dataset: MobilityDataset, seed = 20261127) {
     this.dataset = dataset;
@@ -1656,6 +1713,11 @@ export class MobilitySimulation {
     let lat = ds.nodeLat[srcNode];
     let segDx = ds.nodeLon[dstNode] - lon;
     let segDy = ds.nodeLat[dstNode] - lat;
+    const elevSrc = ds.nodeElev[srcNode];
+    const elevDst = ds.nodeElev[dstNode];
+    const tEnabled = params.terrainEnabled;
+    const tExag = params.terrainExaggeration;
+    let ground = this.groundAt(-1, elevSrc + (elevDst - elevSrc) * u, tEnabled, tExag);
 
     if (endPt - startPt >= 2) {
       const segIdx = binarySearchCumFrac(ds.ptCumFrac, startPt, endPt, u);
@@ -1672,9 +1734,14 @@ export class MobilitySimulation {
       lat = y0 + (y1 - y0) * localT;
       segDx = x1 - x0;
       segDy = y1 - y0;
+      // Ground follows the road's own vertices (sampled from the drawn terrain), not just its end nodes.
+      const g0 = this.groundAt(segIdx, elevSrc + (elevDst - elevSrc) * f0, tEnabled, tExag);
+      const g1 = this.groundAt(segIdx + 1, elevSrc + (elevDst - elevSrc) * f1, tEnabled, tExag);
+      ground = g0 + (g1 - g0) * localT;
     } else if (endPt - startPt === 1) {
       lon = ds.geomCoords[startPt * 2];
       lat = ds.geomCoords[startPt * 2 + 1];
+      ground = this.groundAt(startPt, elevSrc, tEnabled, tExag);
     }
 
     // Separate sidewalk channel for pedestrians (right-hand perpendicular offset)
@@ -1691,10 +1758,7 @@ export class MobilitySimulation {
       }
     }
 
-    const elevSrc = ds.nodeElev[srcNode];
-    const elevDst = ds.nodeElev[dstNode];
-    const elev = elevSrc + (elevDst - elevSrc) * u;
-    const z = (params.terrainEnabled ? elev * params.terrainExaggeration : 0) + 3.0;
+    const z = ground + PARTICLE_LIFT_M;
 
     const pOff = slot * 3;
     this.positions[pOff] = lon;
@@ -2269,13 +2333,12 @@ export class MobilitySimulation {
       if (endPt - startPt >= 2) {
         for (let pt = startPt; pt < endPt; pt += 1) {
           const frac = ds.ptCumFrac[pt];
-          const elev = elevSrc + (elevDst - elevSrc) * frac;
-          const z = (terrainEnabled ? elev * terrainExaggeration : 0) + 2.2;
+          const z = this.groundAt(pt, elevSrc + (elevDst - elevSrc) * frac, terrainEnabled, terrainExaggeration) + PATH_LIFT_M;
           path.push([ds.geomCoords[pt * 2], ds.geomCoords[pt * 2 + 1], z]);
         }
       } else {
-        const z0 = (terrainEnabled ? elevSrc * terrainExaggeration : 0) + 2.2;
-        const z1 = (terrainEnabled ? elevDst * terrainExaggeration : 0) + 2.2;
+        const z0 = (terrainEnabled ? elevSrc * terrainExaggeration : 0) + PATH_LIFT_M;
+        const z1 = (terrainEnabled ? elevDst * terrainExaggeration : 0) + PATH_LIFT_M;
         path.push([ds.nodeLon[ds.edgeSrc[edgeId]], ds.nodeLat[ds.edgeSrc[edgeId]], z0]);
         path.push([ds.nodeLon[ds.edgeDst[edgeId]], ds.nodeLat[ds.edgeDst[edgeId]], z1]);
       }
@@ -2389,8 +2452,7 @@ export class MobilitySimulation {
       if (endPt - startPt >= 1) {
         for (let pt = startPt; pt < endPt; pt += 1) {
           const frac = ds.ptCumFrac[pt];
-          const elev = elevSrc + (elevDst - elevSrc) * frac;
-          const z = (terrainEnabled ? elev * terrainExaggeration : 0) + 3.0;
+          const z = this.groundAt(pt, elevSrc + (elevDst - elevSrc) * frac, terrainEnabled, terrainExaggeration) + PATH_LIFT_M;
           const lon = ds.geomCoords[pt * 2];
           const lat = ds.geomCoords[pt * 2 + 1];
 
@@ -2404,7 +2466,7 @@ export class MobilitySimulation {
           }
         }
       } else {
-        const z = (terrainEnabled ? elevSrc * terrainExaggeration : 0) + 3.0;
+        const z = (terrainEnabled ? elevSrc * terrainExaggeration : 0) + PATH_LIFT_M;
         routePath.push([
           ds.nodeLon[ds.edgeSrc[edgeId]],
           ds.nodeLat[ds.edgeSrc[edgeId]],

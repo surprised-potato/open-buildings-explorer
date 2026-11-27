@@ -603,6 +603,31 @@ describe('mobilityLoader, gravity model, diurnal curve & MobilitySimulation', ()
     expect(Array.from(plain)).toEqual([5, 7]);
   });
 
+  it('places particles on the sampled terrain surface, with fallbacks', () => {
+    const { buffer, meta } = createSyntheticMobilityFixture();
+    const ds = parseMobilityDataset(buffer, meta);
+    const sim = new MobilitySimulation(ds, 777);
+    const params = defaultParams();
+    sim.step(0.5, 10, 7.5, params);
+    const zs = () => {
+      const slice = sim.getRenderSlice();
+      return Array.from({ length: slice.count }, (_, i) => slice.positions[i * 3 + 2]);
+    };
+    // Terrain drawn at 500 m everywhere: particles sit 1 m above it.
+    expect(sim.updateGroundHeights(() => 500, 1.5, [122, 10, 124, 12])).toBeGreaterThan(0);
+    sim.refreshVisuals(params, 7.5);
+    const onSurface = zs().filter((z) => Math.abs(z - 501) < 1e-3).length;
+    expect(onSurface / zs().length).toBeGreaterThan(0.9);
+    // MapLibre answers 0 where no tile is loaded: keep the elevation estimate (nodes are >= 10 m here).
+    sim.updateGroundHeights(() => 0, 1.5, [122, 10, 124, 12]);
+    sim.refreshVisuals(params, 7.5);
+    expect(Math.min(...zs())).toBeGreaterThan(15);
+    // Samples taken at another exaggeration are not used.
+    sim.updateGroundHeights(() => 500, 3, [122, 10, 124, 12]);
+    sim.refreshVisuals(params, 7.5);
+    expect(zs().every((z) => z < 400)).toBe(true);
+  });
+
   it('steps simulation into TypedArrays, honors mode/barangay filters, and returns getAgentInfo', () => {
     const { buffer, meta } = createSyntheticMobilityFixture();
     const ds = parseMobilityDataset(buffer, meta);
@@ -630,7 +655,7 @@ describe('mobilityLoader, gravity model, diurnal curve & MobilitySimulation', ()
       expect(lon).toBeLessThanOrEqual(122.956);
       expect(lat).toBeGreaterThanOrEqual(10.669);
       expect(lat).toBeLessThanOrEqual(10.676);
-      expect(z).toBeGreaterThan(15); // min nodeElev 10 * 1.5 + 3 = 18
+      expect(z).toBeGreaterThan(15); // min nodeElev 10 * 1.5 + 1 m lift = 16
       expect(slice.colors[i * 4 + 3]).toBeGreaterThan(200);
       expect(slice.radii[i]).toBeGreaterThan(1.5);
     }

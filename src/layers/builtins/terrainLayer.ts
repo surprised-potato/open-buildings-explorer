@@ -33,9 +33,10 @@ export const terrainLayer: TwinLayerDefinition = {
       demManifest,
     } = ctx;
 
-    const template =
-      demManifest?.terrarium.tiles_template ??
-      placeFile('dem/terrarium/{z}/{x}/{y}.png');
+    // Wait for dem_manifest.json: most LGUs use the shared province tiles it points to, and a source
+    // created from a guessed path is never updated (that left their terrain flat).
+    if (!demManifest) return [];
+    const template = demManifest.terrarium.tiles_template ?? placeFile('dem/terrarium/{z}/{x}/{y}.png');
     const tileUrl = `${getOriginAndBase()}${template}`;
 
     if (!map.getSource(TERRAIN_SOURCE_ID)) {
@@ -44,9 +45,9 @@ export const terrainLayer: TwinLayerDefinition = {
         tiles: [tileUrl],
         encoding: 'terrarium',
         tileSize: 256,
-        minzoom: demManifest?.terrarium.minzoom ?? 10,
-        maxzoom: demManifest?.terrarium.maxzoom ?? 13,
-        bounds: demManifest?.terrarium.bounds ?? [122.85, 10.54, 123.2, 10.78],
+        minzoom: demManifest.terrarium.minzoom ?? 10,
+        maxzoom: demManifest.terrarium.maxzoom ?? 13,
+        bounds: demManifest.terrarium.bounds,
       });
     }
 
