@@ -1,19 +1,21 @@
 """Estimate residents per building by spreading each barangay's census population over its buildings.
 
 Method (dasymetric): residents_b = population(barangay) x home_weight_b / sum(home_weight in barangay).
-home_weight is the simulation's own per-building home weight (export_trafficsim_network.py): residential
+home_weight is the simulation's home weight (export_trafficsim_network.building_role_weights): residential
 floor area in full, mixed use about half, unclassified a little, scaled by the WorldPop 100 m density grid.
+It is computed here for every building in the tiles (the simulation's own table only keeps buildings inside
+its zone outlines, which leave gaps).
 Buildings are placed in barangays by the current boundary polygons (so Bacolod's Bata fix applies).
 Barangay totals match PSA 2020 exactly; the split inside a barangay is an estimate. Age shares are the
 barangay's (the census has no finer level).
 
-Inputs : mobility_buildings.bin (weights, positions, ids), boundaries.geojson, barangay_demographics.json,
+Inputs : <place>_buildings.pmtiles, building_pois.json, WorldPop grid, boundaries.geojson, barangay_demographics.json,
          building_hazard.bin (storm surge per building, for exposure totals)
 Outputs: building_population.bin   sorted 16-byte building ids, residents u16 (x10), barangay index u16
          building_population.json  barangay names, age shares, totals, residents reached by storm surge
          population fields merged into barangay_analytics.json and boundaries.geojson
            (population, pop_density_per_km2, children_pct (0-14), seniors_pct (60+))
-Run: uv run python -I scripts/estimate_building_population.py [--place slug]
+Run: uv run python scripts/estimate_building_population.py [--place slug]
 """
 from __future__ import annotations
 
@@ -83,41 +85,33 @@ def read_surge(path: Path) -> dict[bytes, int]:
     return {ids[16 * i:16 * i + 16]: vals[i] & 7 for i in range(n) if vals[i] & 7}
 
 
-def fallback_buildings(targets: list[int], geoms: list[Any], known: set[bytes]) -> dict[str, Any]:
-    """Buildings inside the target barangays from the place's building tiles, weighted like the simulation's
-    home weight (residential floor area 1, mixed use 0.5, unclassified 0.15, others 0.02)."""
-    import tempfile
+def all_buildings() -> dict[str, Any]:
+    """Every building in the place's tiles with the simulation's home weight (WorldPop-adjusted)."""
     import uuid
 
-    from shapely.strtree import STRtree
+    from export_trafficsim_network import apply_population_grid, building_role_weights, extract_building_points
 
-    from enrich_osm_buildings import load_stitched_buildings
-
-    factor = {"residential": 1.0, "house": 1.0, "apartments": 1.0, "detached": 1.0, "mixed_use": 0.5,
-              "unknown": 0.15, "": 0.15}
-    with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_pop_") as tmp:
-        bids, geoms_deg, _, props = load_stitched_buildings(PLACE.pmtiles("buildings"), Path(tmp))
-    tree = STRtree([geoms[t] for t in targets])
-    out_ids, out_b, out_w = [], [], []
-    for fid, g in zip(bids, geoms_deg):
-        hit = tree.query(g.representative_point(), predicate="within")
-        if not len(hit):
-            continue
+    recs = extract_building_points(PLACE.pmtiles("buildings"), OUT_DIR / "building_pois.json")
+    apply_population_grid(
+        recs,
+        OUT_DIR.parents[2] / "data" / "popgrid" / "phl_pop_2020_CN_100m_R2025A_v1.tif",
+        OUT_DIR / "boundaries.geojson",
+        OUT_DIR / "barangay_demographics.json",
+    )
+    keep, ids = [], []
+    for r in recs:
         try:
-            raw = uuid.UUID(str(fid)).bytes
+            ids.append(np.frombuffer(uuid.UUID(r["id"]).bytes, dtype="u1"))
+            keep.append(r)
         except ValueError:
             continue
-        if raw in known:
-            continue
-        pr = props.get(fid) or {}
-        cls = str(pr.get("bclass") or "").lower()
-        floors = max(1.0, min(10.0, float(pr.get("num_floors") or 1)))
-        out_ids.append(np.frombuffer(raw, dtype="u1"))
-        out_b.append(targets[int(hit[0])])
-        out_w.append(float(pr.get("area_m2") or 50.0) * floors * factor.get(cls, 0.02))
-    n = len(out_ids)
-    return {"n": n, "ids": np.vstack(out_ids) if n else np.zeros((0, 16), dtype="u1"),
-            "brgy": np.array(out_b, dtype=np.int64), "w": np.array(out_w, dtype=np.float64)}
+    return {
+        "n": len(keep),
+        "lon": np.array([r["lon"] for r in keep]),
+        "lat": np.array([r["lat"] for r in keep]),
+        "w_home": np.array([building_role_weights(r)[0] for r in keep], dtype=np.float64),
+        "ids": np.vstack(ids) if ids else np.zeros((0, 16), dtype="u1"),
+    }
 
 
 def distribute(brgy_of: np.ndarray, weights: np.ndarray, pops: list[float]) -> np.ndarray:
@@ -143,7 +137,7 @@ def main() -> int:
     from shapely.geometry import shape
     from shapely.strtree import STRtree
 
-    mb = read_mobility_buildings(OUT_DIR / "mobility_buildings.bin")
+    mb = all_buildings()
     fc = json.loads((OUT_DIR / "boundaries.geojson").read_text(encoding="utf-8"))
     brgys = [f for f in fc["features"] if f["properties"].get("level") == "barangay"]
     names = [f["properties"]["name"] for f in brgys]
@@ -157,24 +151,16 @@ def main() -> int:
     brgy_of[pairs[0]] = pairs[1]
     pops = [float(demo.get(n, {}).get("population", 0)) for n in names]
     weights = mb["w_home"]
-    empty = [b for b, p in enumerate(pops) if p > 0 and not np.any(brgy_of == b)]
-    if empty:
-        # Barangays whose outline holds none of the simulation's buildings (outline changed after the
-        # network was built, or outside its catchment): use their buildings from the tiles instead.
-        extra = fallback_buildings(empty, geoms, set(bytes(r) for r in mb["ids"]))
-        if extra["n"]:
-            brgy_of = np.concatenate([brgy_of, extra["brgy"]])
-            weights = np.concatenate([weights, extra["w"]])
-            mb = {**mb, "n": mb["n"] + extra["n"], "ids": np.vstack([mb["ids"], extra["ids"]])}
-        print(f"Fallback for {len(empty)} barangay(s) with no simulation buildings: {extra['n']} buildings from tiles")
     residents = distribute(brgy_of, weights, pops)
 
-    # Pack sorted by id (binary search in the app).
-    order = sorted(range(mb["n"]), key=lambda i: mb["ids"][i].tobytes())
+    # Pack sorted by id (binary search in the app). Buildings outside every barangay of this place (the
+    # tiles cover a box that reaches into neighbouring LGUs) are left out: they have residents in the
+    # neighbour's own table, so here the app shows them as "outside this LGU" rather than as empty.
+    order = sorted((i for i in range(mb["n"]) if brgy_of[i] >= 0), key=lambda i: mb["ids"][i].tobytes())
     stored = np.minimum(np.round(residents * RESIDENT_SCALE), 65535).astype("<u2")
     bidx = np.where(brgy_of >= 0, brgy_of, NO_BARANGAY).astype("<u2")
     with (OUT_DIR / "building_population.bin").open("wb") as fh:
-        fh.write(struct.pack("<4I", MAGIC_BPOP, 1, mb["n"], RESIDENT_SCALE))
+        fh.write(struct.pack("<4I", MAGIC_BPOP, 1, len(order), RESIDENT_SCALE))
         fh.write(b"".join(mb["ids"][i].tobytes() for i in order))
         fh.write(stored[order].tobytes())
         fh.write(bidx[order].tobytes())
@@ -241,7 +227,7 @@ def main() -> int:
         ap_path.write_text(json.dumps(an, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
 
     placed_share = 100 * meta["placed"] / max(1, meta["population"])
-    print(f"{mb['n']:,} buildings; {meta['placed']:,} of {meta['population']:,} residents placed ({placed_share:.1f}%); "
+    print(f"{len(order):,} buildings in the place ({mb['n'] - len(order):,} outside left out); {meta['placed']:,} of {meta['population']:,} residents placed ({placed_share:.1f}%); "
           f"{sum(int((residents >= 0.05).sum()) for _ in [0]):,} buildings with residents")
     return 0
 

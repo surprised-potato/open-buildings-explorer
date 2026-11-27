@@ -46,7 +46,7 @@ export function getBuildingLegend(mode: BuildingColorMode): LegendItem[] {
         { label: '6–11', color: '#f59e0b', shape: 'swatch' },
         { label: '12–29', color: '#f97316', shape: 'swatch' },
         { label: '30+', color: '#ef4444', shape: 'swatch' },
-        { label: 'No estimate', color: '#64748b', shape: 'swatch' },
+        { label: 'Outside this LGU', color: '#64748b', shape: 'swatch' },
       ];
     case 'height':
     default:

@@ -164,7 +164,8 @@ STAGES: list[Stage] = [
     Stage("landcover", "compute_landcover_stats.py", ("mobility", "analytics"), _o("barangay_landcover.json"), raw_inputs=_landcover,
           description="ESA WorldCover shares per barangay (runs after mobility, which rewrites boundaries)"),
     Stage("population", "estimate_building_population.py", ("mobility", "building-values", "landcover", "demographics"),
-          _o("building_population.bin", "building_population.json"),
+          _o("building_population.bin", "building_population.json"), isolated=False,
+          helpers=("export_trafficsim_network.py",),
           description="Residents per building (census spread by home weight); population fields for choropleths"),
 ]
 STAGE_BY_NAME = {s.name: s for s in STAGES}
