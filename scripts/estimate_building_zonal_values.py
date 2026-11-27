@@ -379,17 +379,24 @@ def main() -> None:
 
     from enrich_osm_buildings import load_stitched_buildings
 
-    entries = bir.parse_rows(bir.read_xls_rows(args.xls))
-    tables = build_tables(entries)
+    from names import match_key
+
+    have_bir = args.xls.exists()
+    entries = bir.parse_rows(bir.read_xls_rows(args.xls)) if have_bir else []
+    tables = build_tables(entries) if entries else None
+    if not have_bir:
+        print(f"No BIR zonal workbook ({args.xls.name}); land values left at 0, structures and hazards still estimated.")
 
     fc = json.loads(args.boundaries.read_text(encoding="utf-8"))
+    # Barangays are told apart by names.match_key (keeps "Zone 1-A" vs "Zone 1-B"); BIR tables are keyed
+    # by bir.normalize_barangay, applied to the display name only when looking values up.
     display_names = {
-        bir.normalize_barangay(f["properties"]["name"]): f["properties"]["name"]
+        match_key(f["properties"]["name"]): f["properties"]["name"]
         for f in fc["features"]
         if f["properties"].get("level") == "barangay"
     }
     bpolys = [
-        (bir.normalize_barangay(f["properties"]["name"]), shape(f["geometry"]))
+        (match_key(f["properties"]["name"]), shape(f["geometry"]))
         for f in fc["features"]
         if f["properties"].get("level") == "barangay"
     ]
@@ -425,7 +432,7 @@ def main() -> None:
         pt = gd.representative_point()
         hits = btree.query(pt, predicate="within")
         if not len(hits):
-            outside += 1  # beyond Bacolod's barangays (tiles cover a wider bbox): no BIR value
+            outside += 1  # beyond the place's barangays (tiles cover a wider bbox): no value
             continue
         bkey = bpolys[int(hits[0])][0]
         kept_ids.append(fid)
@@ -440,7 +447,10 @@ def main() -> None:
             if d <= MAX_ROAD_M and road_names[i] not in names:
                 names.append(road_names[i])
         group = land_use_group(str((props.get(fid) or {}).get("bclass") or "unknown"))
-        value, tier, street = resolve_value(tables, bkey, names, group)
+        if tables is None:
+            value, tier, street = 0.0, 0, None
+        else:
+            value, tier, street = resolve_value(tables, bir.normalize_barangay(display_names[bkey]), names, group)
         elev = dem(pt.x, pt.y)
         slevel = surge_level(gd, surge_polys)
         hazard_vals.append(pack_hazard_value(slevel, elev))
@@ -466,8 +476,10 @@ def main() -> None:
     ids = kept_ids
     n = len(ids)
     meta = {
-        "source": "Estimated from BIR RDO 77 DO 058-2023 street values",
-        "effectivity": "2023-11-01",
+        "source": (f"Estimated from {bir.BIR.get('source', 'BIR')} street values (DO {bir.BIR.get('department_order', '?')})"
+                   if have_bir else "No BIR zonal value workbook loaded for this place; land values are not estimated"),
+        "available": bool(have_bir),
+        "effectivity": bir.BIR.get("effectivity"),
         "unit": "PHP per square metre",
         "buildings": n,
         "outsideCity": outside,

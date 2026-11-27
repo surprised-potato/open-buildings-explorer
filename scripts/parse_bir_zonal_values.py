@@ -301,6 +301,20 @@ def main() -> None:
     ap.add_argument("--no-enrich", action="store_true", help="only write bir_zonal_values.json")
     args = ap.parse_args()
 
+    if not args.xls.exists():
+        names = load_boundary_names(args.boundaries)
+        payload = {
+            "source": f"No BIR zonal value workbook loaded for {PLACE.display_name}",
+            "available": False,
+            "note": "Add the RDO workbook under data/bir_zonal/ and its settings under 'bir' in the registry.",
+            "city": {"entries": 0, "residential": None, "commercial": None},
+            "barangays": {},
+            "unmatched_bir_barangays": [],
+            "barangays_without_values": sorted(names.values()) if isinstance(names, dict) else sorted(names),
+        }
+        args.out.write_text(json.dumps(payload, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+        print(f"No BIR workbook for {PLACE.slug} ({args.xls}); wrote an empty bir_zonal_values.json.")
+        return
     rows = read_xls_rows(args.xls)
     payload = build_payload(rows, load_boundary_names(args.boundaries))
     args.out.write_text(json.dumps(payload, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")

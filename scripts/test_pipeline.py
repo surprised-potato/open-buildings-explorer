@@ -34,7 +34,11 @@ class PipelineTests(unittest.TestCase):
 
     def test_unconfigured_place_is_reported(self):
         self.assertEqual(missing_settings(get_place("bacolod")), [])
-        self.assertIn("bbox", missing_settings(get_place("candoni")))
+        from place import load_region, place_from_entry
+
+        bare = place_from_entry({"slug": "x", "name": "X", "psa_name": "X", "psgc": "PH0000000000",
+                                 "kind": "municipality", "status": "planned"}, load_region())
+        self.assertIn("bbox", missing_settings(bare))
 
 
 if __name__ == "__main__":

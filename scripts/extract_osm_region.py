@@ -14,6 +14,7 @@ The pipeline never queries OSM live (no Overpass API). It reads a dated snapshot
   osm_compounds.json  campus, compound and land-use outlines (ways + multipolygon relations), `out tags geom`
   transport.json      traffic signals, crossings, bus stops / platforms, bus / jeepney route relations with
                       member geometry, road tags for the lane / speed audit      -> fetch_osm_transport.py
+  places.json         named place=village/hamlet/... nodes (barangay locations where no outline exists)
   boundaries.geojson  administrative areas, admin_level 6-7 (cities, municipalities) and 10 (barangays)
                                                                                  -> fetch_bacolod.py fallback
   meta.json           source file, OSM timestamp, counts
@@ -56,7 +57,8 @@ COMPOUND_LANDUSE = re.compile(r"^(commercial|retail|industrial|residential|insti
 TRANSIT_ROUTE = re.compile(r"^(bus|share_taxi|minibus)$")
 AUDIT_ROAD_CLASSES = re.compile(r"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential)$")
 
-FILTER_KEYS = ("highway", "building", "boundary", "landuse", "man_made", "route", "public_transport", *OSM_POI_KEYS)
+FILTER_KEYS = ("highway", "building", "boundary", "landuse", "man_made", "route", "public_transport", "place", *OSM_POI_KEYS)
+PLACE_KINDS = {"city", "town", "village", "hamlet", "suburb", "quarter", "neighbourhood", "isolated_dwelling", "locality"}
 
 
 def newest_pbf(folder: Path = GEOFABRIK_DIR) -> Path:
@@ -117,7 +119,8 @@ def extract(pbf: Path, bbox: tuple[float, float, float, float]) -> dict[str, Any
     from shapely.geometry import mapping, shape
 
     out: dict[str, list] = {k: [] for k in ("roads", "econ_pois", "econ_buildings", "osm_pois", "compounds",
-                                            "signals", "crossings", "stops", "routes", "audit_roads", "boundaries")}
+                                            "signals", "crossings", "stops", "routes", "audit_roads", "boundaries",
+                                            "places")}
     highway_geom: dict[int, list[dict[str, float]]] = {}  # route members (ways come before relations in a PBF)
     seen_econ: set[tuple[str, int]] = set()
     t0 = time.time()
@@ -142,6 +145,8 @@ def extract(pbf: Path, bbox: tuple[float, float, float, float]) -> dict[str, Any
                 out["crossings"].append({"type": "node", "id": obj.id, "lat": node["lat"], "lon": node["lon"]})
             if is_stop(tags):
                 out["stops"].append(node)
+            if tags.get("place") in PLACE_KINDS and tags.get("name"):
+                out["places"].append(node)
         elif obj.is_way():
             wg = way_geometry(obj)
             if wg is None:
@@ -228,6 +233,7 @@ def write_outputs(res: dict[str, Any], out_dir: Path, pbf: Path, bbox) -> dict[s
     dump("transport.json", {"osm_timestamp": stamp, "signals": res["signals"], "crossings": res["crossings"],
                             "stops": res["stops"], "routes": res["routes"], "roads": res["audit_roads"]})
     dump("boundaries.geojson", {"type": "FeatureCollection", "features": res["boundaries"]})
+    dump("places.json", {"elements": res["places"]})
     meta = {
         "source": f"Geofabrik extract {pbf.name} (OpenStreetMap contributors, ODbL)",
         "pbf": pbf.name,

@@ -1779,3 +1779,48 @@ dialog.hud-modal::backdrop {
 .place-error h1 { font-size: 18px; margin: 0 0 8px; }
 .place-error p { color: var(--text-secondary); margin: 0 0 14px; }
 .place-error a { color: var(--accent); }
+
+/* Place switcher (title dropdown) */
+.place-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+}
+.place-switcher select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  padding: 2px 20px 2px 2px;
+  cursor: pointer;
+  max-width: 220px;
+}
+.place-switcher select:hover,
+.place-switcher select:focus-visible {
+  border-color: var(--border-subtle);
+  background: var(--bg-glass-strong);
+  outline: none;
+}
+.place-switcher select option { color: #111; }
+.place-switcher-chevron {
+  position: absolute;
+  right: 4px;
+  pointer-events: none;
+  color: var(--text-muted);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

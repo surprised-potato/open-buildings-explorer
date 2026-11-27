@@ -17,3 +17,6 @@ video/
 
 # pipeline state (stamps, QA reports, per-place scratch)
 /build/
+
+# generated data is published to the `data` branch by scripts/publish_data.py
+/public/data/

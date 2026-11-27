@@ -1198,6 +1198,7 @@ def fetch_overture_places(
         from scripts.fetch_bacolod import (
             OVERTURE_RELEASE,
             S3_BASE,
+            overture_path,
             bbox_where,
             create_duckdb_connection,
         )
@@ -1205,6 +1206,7 @@ def fetch_overture_places(
         from fetch_bacolod import (  # type: ignore[no-redef]
             OVERTURE_RELEASE,
             S3_BASE,
+            overture_path,
             bbox_where,
             create_duckdb_connection,
         )
@@ -1214,7 +1216,7 @@ def fetch_overture_places(
         f"update_year >= {min_update_year})..."
     )
     con = create_duckdb_connection()
-    p_path = f"{S3_BASE}/theme=places/type=place/*.parquet"
+    p_path = overture_path("places", "place")
     rows = con.execute(
         f"""
         SELECT
@@ -2512,6 +2514,7 @@ def _backfill_missing_orig_bclass_from_overture(
             from scripts.fetch_bacolod import (
                 OVERTURE_RELEASE,
                 S3_BASE,
+            overture_path,
                 bbox_where,
                 create_duckdb_connection,
             )
@@ -2519,13 +2522,14 @@ def _backfill_missing_orig_bclass_from_overture(
             from fetch_bacolod import (  # type: ignore[no-redef]
                 OVERTURE_RELEASE,
                 S3_BASE,
+            overture_path,
                 bbox_where,
                 create_duckdb_connection,
             )
 
         con = create_duckdb_connection()
-        b_path = f"{S3_BASE}/theme=buildings/type=building/*.parquet"
-        bp_path = f"{S3_BASE}/theme=buildings/type=building_part/*.parquet"
+        b_path = overture_path("buildings", "building")
+        bp_path = overture_path("buildings", "building_part")
         rows = con.execute(
             f"""
             SELECT id, COALESCE(NULLIF(LOWER(TRIM(class)), ''), 'unknown') AS bclass,

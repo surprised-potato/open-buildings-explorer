@@ -35,7 +35,8 @@ OUT = PLACE.out_dir / "hazards.geojson"
 BOUNDARIES = PLACE.out_dir / "boundaries.geojson"
 MIN_CITY_KM2 = 0.01  # a hazard with less area than this inside the city is treated as not covering it
 BBOX = PLACE.analysis_bbox  # west, south, east, north: the place plus a margin
-SIMPLIFY_DEG = 2e-5  # about 2 m, far below the hazard model's own accuracy
+SIMPLIFY_DEG = float(PLACE.setting("hazard_simplify_deg", 2e-5))  # Bacolod 2 m; new places ~11 m (file size)
+CLIP_TO_CITY = bool(PLACE.setting("hazard_clip_to_city", False))
 
 HAZARDS: list[dict[str, Any]] = [
     {"key": "flood_5yr", "label": "Flood, 5-year rain", "zip": f"flood_5yr_{NOAH_PROVINCE}.zip", "levels": {1: "Low", 2: "Medium", 3: "High"}},
@@ -117,7 +118,12 @@ def build(in_dir: Path, boundaries: Path = BOUNDARIES) -> dict[str, Any]:
             lv = level_of(f.get("properties") or {}, is_surge)
             if lv is None or not f.get("geometry"):
                 continue
-            by_level.setdefault(lv, []).append(shape(f["geometry"]))
+            g = shape(f["geometry"])
+            if not g.is_valid:  # some NOAH polygons self-intersect; repair before merging
+                from shapely import make_valid
+
+                g = make_valid(g)
+            by_level.setdefault(lv, []).append(g)
         from shapely.ops import unary_union
 
         merged = {lv: unary_union(geoms).simplify(SIMPLIFY_DEG, preserve_topology=True) for lv, geoms in sorted(by_level.items())}
@@ -127,6 +133,8 @@ def build(in_dir: Path, boundaries: Path = BOUNDARIES) -> dict[str, Any]:
             print(f"{h['key']}: {inside:.3f} km2 inside the city, dropped (not covered by NOAH here)")
             continue
         for lv, g in merged.items():
+            if CLIP_TO_CITY and city is not None:
+                g = g.intersection(city.buffer(0.002))
             if g.is_empty:
                 continue
             features.append(
@@ -168,8 +176,18 @@ def main() -> None:
     ap.add_argument("--boundaries", type=Path, default=BOUNDARIES)
     args = ap.parse_args()
     fc = build(args.in_dir, args.boundaries)
-    args.out.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
-    print(f"{len(fc['features'])} features, {args.out.stat().st_size / 1e6:.1f} MB")
+    if PLACE.setting("hazard_serve_floods", True):
+        served = fc
+    else:
+        # The app draws storm surge only; flood polygons are large, so the full set is kept unserved in
+        # build/<place>/hazards_full.geojson (meta still lists every hazard, so notes can mention floods).
+        full = REPO_ROOT / "build" / PLACE.slug / "hazards_full.geojson"
+        full.parent.mkdir(parents=True, exist_ok=True)
+        full.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+        served = {**fc, "features": [f for f in fc["features"] if str(f["properties"].get("hazard", "")).startswith("surge")]}
+        served["meta"] = {**fc["meta"], "served": "storm surge only; flood polygons in build/" + PLACE.slug + "/hazards_full.geojson"}
+    args.out.write_text(json.dumps(served, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+    print(f"{len(served['features'])} of {len(fc['features'])} features served, {args.out.stat().st_size / 1e6:.1f} MB")
 
 
 if __name__ == "__main__":

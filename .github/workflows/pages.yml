@@ -1,7 +1,7 @@
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [main, data]
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,7 +14,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # App code from main, generated data from the `data` branch (one commit, replaced on every refresh
+      # by scripts/publish_data.py so the repository history does not grow with each data refresh).
       - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: _data
+      - run: rm -rf public/data && mv _data/data public/data && rm -rf _data
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -24,6 +33,7 @@ jobs:
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
       - run: cp dist/index.html dist/404.html
+      - run: du -sh dist
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

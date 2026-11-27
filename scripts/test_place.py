@@ -44,8 +44,12 @@ class PlaceRegistryTests(unittest.TestCase):
     def test_unconfigured_settings_fail_clearly(self):
         from place import PlaceNotConfigured
 
+        from place import load_region, place_from_entry
+
+        bare = place_from_entry({"slug": "x", "name": "X", "psa_name": "X", "psgc": "PH0000000000",
+                                 "kind": "municipality", "status": "planned"}, load_region())
         with self.assertRaises(PlaceNotConfigured):
-            _ = get_place("candoni").bbox
+            _ = bare.bbox
 
     def test_place_selection(self):
         self.assertEqual(requested_slug(["--place", "silay"]), "silay")

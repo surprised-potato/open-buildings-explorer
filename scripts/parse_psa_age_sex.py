@@ -20,6 +20,7 @@ from typing import Any, Iterable, Sequence
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import parse_bir_zonal_values as bir  # noqa: E402
+from names import match_key  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from place import add_place_argument, current_place  # noqa: E402
@@ -83,26 +84,32 @@ def parse_rows(rows: Iterable[Sequence[Any]]) -> dict[str, dict[str, Any]]:
             continue
         name = str(row[3]).strip()
         counts = band_counts(row, cols)
-        out[bir.normalize_barangay(name)] = {"psa_name": name, "total": int(row[6]), **counts}
+        out[match_key(name)] = {"psa_name": name, "total": int(row[6]), **counts}
     return out
 
 
-def build_payload(parsed: dict[str, dict[str, Any]], boundary_names: list[str]) -> dict[str, Any]:
+def build_payload(parsed: dict[str, dict[str, Any]], boundary_names: list[str],
+                  members: dict[str, list[str]] | None = None) -> dict[str, Any]:
+    """members: boundary name -> PSA barangay names it combines (zones built from several barangays)."""
+    members = members or {}
     barangays: dict[str, Any] = {}
     missing: list[str] = []
+    used: set[str] = set()
     for name in boundary_names:
-        rec = parsed.get(bir.normalize_barangay(name))
-        if rec is None:
+        keys = [match_key(m) for m in members.get(name, [name])]
+        recs = [parsed[k] for k in keys if k in parsed]
+        if not recs:
             missing.append(name)
             continue
+        used.update(k for k in keys if k in parsed)
+        rec = {"total": sum(r["total"] for r in recs), **{b: sum(r[b] for r in recs) for b, _, _ in BANDS}}
         banded = sum(rec[b] for b, _, _ in BANDS)
         barangays[name] = {
             "population": rec["total"],
             **{b: rec[b] for b, _, _ in BANDS},
             "banded_total": banded,
         }
-    wanted = {bir.normalize_barangay(n) for n in boundary_names}
-    unmatched = sorted(r["psa_name"] for k, r in parsed.items() if k not in wanted)
+    unmatched = sorted(r["psa_name"] for k, r in parsed.items() if k not in used)
     return {
         "source": "PSA 2020 Census of Population and Housing, via HDX (CC BY)",
         "bands": {b: [lo, hi if hi < 200 else None] for b, lo, hi in BANDS},
@@ -128,7 +135,9 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
     args = ap.parse_args()
     parsed = parse_rows(read_rows(args.xlsx))
-    payload = build_payload(parsed, bir.load_boundary_names(args.boundaries))
+    feats = json.loads(args.boundaries.read_text(encoding="utf-8"))["features"]
+    members = {f["properties"]["name"]: f["properties"]["members"] for f in feats if f["properties"].get("members")}
+    payload = build_payload(parsed, bir.load_boundary_names(args.boundaries), members)
     args.out.write_text(json.dumps(payload, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     pop = sum(b["population"] for b in payload["barangays"].values())
     print(

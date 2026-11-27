@@ -1,0 +1,36 @@
+{
+  "homeView": {
+    "center": [
+      122.4671,
+      9.60218
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Hinoba-an Town Centre",
+      "center": [
+        122.4671,
+        9.60218
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Hinoba-an Overview",
+      "center": [
+        122.50105,
+        9.49815
+      ],
+      "zoom": 11.5,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

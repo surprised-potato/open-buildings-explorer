@@ -1,0 +1,36 @@
+{
+  "homeView": {
+    "center": [
+      123.01874,
+      10.32305
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "La Castellana Town Centre",
+      "center": [
+        123.01874,
+        10.32305
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "La Castellana Overview",
+      "center": [
+        123.06705,
+        10.3411
+      ],
+      "zoom": 12.4,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

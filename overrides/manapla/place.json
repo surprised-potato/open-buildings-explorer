@@ -1,0 +1,36 @@
+{
+  "homeView": {
+    "center": [
+      123.12349,
+      10.95915
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Manapla Town Centre",
+      "center": [
+        123.12349,
+        10.95915
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Manapla Overview",
+      "center": [
+        123.11135,
+        10.9294
+      ],
+      "zoom": 12.1,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

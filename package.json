@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "pipeline": "uv run scripts/pipeline.py",
+    "bir": "uv run scripts/bir_pipeline.py",
     "data:osm-extract": "uv run python -I scripts/extract_osm_region.py",
     "data:network": "uv run python scripts/build_road_network.py",
     "data:fetch": "uv run scripts/fetch_bacolod.py",

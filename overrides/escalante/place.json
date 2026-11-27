@@ -1,0 +1,36 @@
+{
+  "homeView": {
+    "center": [
+      123.49931,
+      10.84126
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Escalante Town Centre",
+      "center": [
+        123.49931,
+        10.84126
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Escalante Overview",
+      "center": [
+        123.52735,
+        10.80175
+      ],
+      "zoom": 11.9,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}

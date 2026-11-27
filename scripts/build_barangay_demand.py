@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from place import add_place_argument, current_place  # noqa: E402
+from place import add_place_argument, current_place, get_place  # noqa: E402
 
 PLACE = current_place()
 
@@ -92,7 +92,13 @@ def main() -> None:
     args = ap.parse_args()
 
     demo = json.loads(args.demographics.read_text(encoding="utf-8"))["barangays"]
-    purposes = json.loads(args.zones.read_text(encoding="utf-8"))["purposes"]
+    if args.zones.exists():
+        purposes = json.loads(args.zones.read_text(encoding="utf-8"))["purposes"]
+    else:
+        # New places have no mobility_zones.json yet (it is written later); the purpose shares are the same
+        # model-wide calibration, so take them from the reference (Bacolod) state.
+        ref = PLACE.trafficsim_state or get_place("bacolod").trafficsim_state
+        purposes = json.loads((ref / "state.json").read_text(encoding="utf-8"))["econ"]["purposes"]
     targets = {p: float(purposes[p]["share"]) for p in PURPOSES}
     barangays = build_demand(demo, targets)
     payload = {

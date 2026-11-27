@@ -164,7 +164,13 @@ def main() -> None:
 
     analytics = json.loads((OUT_DIR / "barangay_analytics.json").read_text(encoding="utf-8"))["barangays"]
     demographics = json.loads((OUT_DIR / "barangay_demographics.json").read_text(encoding="utf-8"))["barangays"]
-    zones = {z["name"]: z for z in json.loads((OUT_DIR / "mobility_zones.json").read_text(encoding="utf-8"))["zones"]}
+    zones_path = OUT_DIR / "mobility_zones.json"
+    if not zones_path.exists():
+        # New places: mobility_zones.json is written later; the network stage's trafficsim state has the
+        # same per-zone jobs and students.
+        state_dir = PLACE.trafficsim_state or REPO_ROOT / "build" / PLACE.slug / "trafficsim_state"
+        zones_path = state_dir / "state.json"
+    zones = {z["name"]: z for z in json.loads(zones_path.read_text(encoding="utf-8"))["zones"]}
     names, x = feature_matrix(analytics, demographics, zones)
     result = classify(names, x)
 

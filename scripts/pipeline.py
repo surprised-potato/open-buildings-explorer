@@ -108,12 +108,12 @@ def _network_raw(p: Place) -> list[Path]:
 
 
 def _landcover(p: Place) -> list[Path]:
-    return [REPO_ROOT / p.setting("landcover_tif", f"data/landcover/worldcover_2021_{p.slug}.tif")]
+    return [REPO_ROOT / p.setting("landcover_tif", "data/landcover/worldcover_2021_negros-occidental.tif")]
 
 
 STAGES: list[Stage] = [
     Stage("fetch", "fetch_bacolod.py", (), lambda p: [p.pmtiles("buildings"), p.pmtiles("roads"), p.pmtiles("base"), p.out_dir / "boundaries.geojson", p.out_dir / "manifest.json"],
-          helpers=("enrich_osm_buildings.py",), network=True, isolated=False,
+          helpers=("enrich_osm_buildings.py",), network=True, isolated=False, args=lambda p: ["--no-enrich"],
           description="Overture buildings, roads, base, divisions (+ OSM snapshot boundary fallback) -> PMTiles"),
     Stage("dem", "fetch_dem.py", (), lambda p: [p.out_dir / "dem" / "dem_manifest.json"], network=True, isolated=False,
           description="Copernicus GLO-30 DEM, relief, slope, contours, terrain tiles"),
@@ -131,7 +131,8 @@ STAGES: list[Stage] = [
           helpers=("enrich_osm_buildings.py", "fetch_bacolod.py", "parse_bir_zonal_values.py"), isolated=False,
           description="Per-barangay urban form, POIs, terrain; 250 m catchment grid"),
     Stage("zonal", "parse_bir_zonal_values.py", ("analytics",), _o("bir_zonal_values.json"), raw_inputs=_bir,
-          description="BIR zonal values per barangay"),
+          applies=lambda p: bool(p.setting("bir")),
+          description="BIR zonal values per barangay (only places with a workbook; see scripts/bir_pipeline.py)"),
     Stage("poi-votes", "score_poi_votes.py", ("osm", "analytics"), _o("building_pois.json"),
           helpers=("estimate_building_zonal_values.py", "parse_bir_zonal_values.py"),
           description="POI location trust votes"),
@@ -148,12 +149,12 @@ STAGES: list[Stage] = [
           helpers=("parse_bir_zonal_values.py",), description="PSA 2020 age bands per barangay"),
     Stage("demand", "build_barangay_demand.py", ("demographics",), _o("barangay_demand.json"),
           description="Trip purpose production per barangay"),
-    Stage("typology", "classify_barangays.py", ("analytics", "demographics"), _o("barangay_typology.json"),
-          description="Barangay area types (k-means)"),
     Stage("network", "build_road_network.py", ("overrides", "demographics"),
           lambda p: [_state_dir(p) / "state.json", _state_dir(p) / "state.npz"],
           raw_inputs=_network_raw, isolated=False, applies=_builds_network,
           description="Road graph, zones, demand and mode calibration from the Geofabrik extract (trafficsim code)"),
+    Stage("typology", "classify_barangays.py", ("analytics", "demographics", "network"), _o("barangay_typology.json"),
+          description="Barangay area types (k-means)"),
     Stage("mobility", "export_trafficsim_network.py", ("analytics", "poi-votes", "demand", "typology", "transport", "dem", "network"),
           _o("mobility_network.bin", "mobility_zones.json", "mobility_buildings.bin", "mobility_buildings.json"),
           raw_inputs=_mobility_raw, helpers=("compute_barangay_analytics.py", "enrich_osm_buildings.py"), isolated=False,
@@ -177,12 +178,30 @@ def file_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+# Registry settings only one stage reads; other stages ignore them in their fingerprint, so tuning e.g. a
+# hazard setting reruns the hazard stage (and its dependants), not everything.
+STAGE_ONLY_SETTINGS: dict[str, set[str]] = {
+    "hazards": {"hazard_simplify_deg", "hazard_clip_to_city", "hazard_serve_floods", "noah_province"},
+    "dem": {"contour_interval_m", "contour_major_m", "dem_tif_public", "dem_grid", "terrain_bbox"},
+    "zonal": {"bir"},
+}
+NEVER_FINGERPRINTED = {"status", "size_budget_mb"}
+
+
+def settings_for(stage: Stage, place: Place) -> dict[str, Any]:
+    hidden = set(NEVER_FINGERPRINTED)
+    for name, keys in STAGE_ONLY_SETTINGS.items():
+        if name != stage.name:
+            hidden |= keys
+    return {k: v for k, v in place.raw.items() if k not in hidden}
+
+
 def fingerprint(stage: Stage, place: Place, dep_fps: dict[str, str]) -> str:
     h = hashlib.sha256()
     for code in (stage.script, "place.py", *stage.helpers):
         h.update(code.encode())
         h.update(file_digest(SCRIPTS / code).encode())
-    h.update(json.dumps(place.raw, sort_keys=True).encode())
+    h.update(json.dumps(settings_for(stage, place), sort_keys=True).encode())
     for raw in stage.raw_inputs(place):
         h.update(str(raw.relative_to(REPO_ROOT) if raw.is_relative_to(REPO_ROOT) else raw).encode())
         h.update(file_digest(raw).encode())
@@ -307,6 +326,14 @@ def run_place(place: Place, args: argparse.Namespace) -> bool:
         print(f"  {tag} {d.stage.name:<16} {d.reason}")
         if args.dry_run or d.action == "skip":
             continue
+        if args.stamp_only and d.action == "run":
+            if not all(o.exists() for o in d.stage.outputs(place)):
+                print("       outputs missing; not stamped")
+                ok = False
+                continue
+            stamps[d.stage.name] = {"fp": d.fp, "stored_fp": d.fp, "stamped_at": now()}
+            save_stamps(place, stamps)
+            continue
         if d.action == "blocked":
             ok = False
             break
@@ -388,8 +415,12 @@ def run_qa(place: Place) -> dict[str, Any]:
         from apply_boundary_overrides import km2_per_deg2, unassigned_pieces
 
         fc = json.loads(bpath.read_text(encoding="utf-8"))
-        names = [f["properties"]["name"] for f in fc["features"] if f["properties"].get("level") == "barangay"]
-        check("barangay count", len(names) == place.barangay_count, f"{len(names)} of {place.barangay_count} (PSA)")
+        brgys = [f["properties"] for f in fc["features"] if f["properties"].get("level") == "barangay"]
+        n = sum(len(p.get("members") or [None]) for p in brgys)
+        approx = sum(1 for p in brgys if str(p.get("boundary_source", "")).startswith("approximate"))
+        combined = sum(len(p.get("members") or []) for p in brgys)
+        check("barangay count", n == place.barangay_count,
+              f"{n} of {place.barangay_count} (PSA)" + (f"; {approx} approximate outlines, {combined} in a combined zone" if approx else ""))
         k = km2_per_deg2(place.lat0)
         land_gaps = sorted((round(p.area * k, 3) for p in unassigned_pieces(fc) if p.area * k < QA_SEA_KM2), reverse=True)
         big = [g for g in land_gaps if g > QA_MAX_UNASSIGNED_KM2]
@@ -421,6 +452,9 @@ def main() -> int:
     ap.add_argument("--refresh", action="store_true", help="re-fetch network sources")
     ap.add_argument("--force", action="store_true", help="rerun the selected stages even if up to date")
     ap.add_argument("--dry-run", action="store_true", help="show the plan only")
+    ap.add_argument("--stamp-only", action="store_true",
+                    help="record the current outputs of the selected stages as up to date without running them "
+                         "(after a change you have checked does not alter them)")
     ap.add_argument("--list", action="store_true", help="list stages and places")
     args = ap.parse_args()
 

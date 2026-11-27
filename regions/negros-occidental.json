@@ -184,9 +184,83 @@
       "psa_name": "CITY OF KABANKALAN",
       "psgc": "PH0604515000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 200198,
-      "barangay_count": 32
+      "barangay_count": 32,
+      "osm_relation": 3740502,
+      "overture_locality": "Kabankalan",
+      "file_prefix": "kabankalan",
+      "bbox": [
+        122.7125,
+        9.5717,
+        122.986,
+        10.127
+      ],
+      "analysis_bbox": [
+        122.7075,
+        9.5667,
+        122.991,
+        10.132
+      ],
+      "terrain_bbox": [
+        122.6775,
+        9.5367,
+        123.021,
+        10.162
+      ],
+      "center": [
+        122.82807,
+        9.83176
+      ],
+      "lat0": 9.8318,
+      "dem_grid": [
+        510,
+        1018
+      ],
+      "barangays": [
+        "Bantayan",
+        "Barangay 1",
+        "Barangay 2",
+        "Barangay 3",
+        "Barangay 4",
+        "Barangay 5",
+        "Barangay 6",
+        "Barangay 7",
+        "Barangay 8",
+        "Barangay 9",
+        "Binicuil",
+        "Camansi",
+        "Camingawan",
+        "Camugao",
+        "Carol-an",
+        "Daan Banua",
+        "Hilamonan",
+        "Inapoy",
+        "Linao",
+        "Locotan",
+        "Magballo",
+        "Oringao",
+        "Orong",
+        "Pinaguinpinan",
+        "Salong",
+        "Tabugon",
+        "Tagoc",
+        "Tagukon",
+        "Talubangi",
+        "Tampalon",
+        "Tan-Awan",
+        "Tapi"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "bago",
@@ -195,9 +269,75 @@
       "psa_name": "CITY OF BAGO",
       "psgc": "PH0604502000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 191210,
-      "barangay_count": 24
+      "barangay_count": 24,
+      "osm_relation": 11366393,
+      "overture_locality": "Bago",
+      "file_prefix": "bago",
+      "bbox": [
+        122.7852,
+        10.4064,
+        123.1609,
+        10.6539
+      ],
+      "analysis_bbox": [
+        122.7802,
+        10.4014,
+        123.1659,
+        10.6589
+      ],
+      "terrain_bbox": [
+        122.7502,
+        10.3714,
+        123.1959,
+        10.6889
+      ],
+      "center": [
+        122.95953,
+        10.5303
+      ],
+      "lat0": 10.5303,
+      "dem_grid": [
+        694,
+        463
+      ],
+      "barangays": [
+        "Abuanan",
+        "Alianza",
+        "Atipuluan",
+        "Bacong-Montilla",
+        "Bagroy",
+        "Balingasag",
+        "Binubuhan",
+        "Busay",
+        "Calumangan",
+        "Caridad",
+        "Dulao",
+        "Ilijan",
+        "Jorge L. Araneta",
+        "Lag-Asan",
+        "Ma-ao Barrio",
+        "Mailum",
+        "Malingin",
+        "Napoles",
+        "Pacol",
+        "Poblacion",
+        "Sagasa",
+        "Sampinit",
+        "Tabunan",
+        "Taloc"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "cadiz",
@@ -206,9 +346,73 @@
       "psa_name": "CITY OF CADIZ",
       "psgc": "PH0604504000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 158544,
-      "barangay_count": 22
+      "barangay_count": 22,
+      "osm_relation": 11491049,
+      "overture_locality": "Cadiz",
+      "file_prefix": "cadiz",
+      "bbox": [
+        123.1193,
+        10.6817,
+        123.3798,
+        11.1428
+      ],
+      "analysis_bbox": [
+        123.1143,
+        10.6767,
+        123.3848,
+        11.1478
+      ],
+      "terrain_bbox": [
+        123.0843,
+        10.6467,
+        123.4148,
+        11.1778
+      ],
+      "center": [
+        123.26359,
+        10.91086
+      ],
+      "lat0": 10.9109,
+      "dem_grid": [
+        487,
+        848
+      ],
+      "barangays": [
+        "Andres Bonifacio",
+        "Banquerohan",
+        "Barangay 1 Pob.",
+        "Barangay 2 Pob.",
+        "Barangay 3 Pob.",
+        "Barangay 4 Pob.",
+        "Barangay 5 Pob.",
+        "Barangay 6 Pob.",
+        "Burgos",
+        "Cabahug",
+        "Cadiz Viejo",
+        "Caduha-an",
+        "Celestino Villacin",
+        "Daga",
+        "Jerusalem",
+        "Luna",
+        "Mabini",
+        "Magsaysay",
+        "Sicaba",
+        "Tiglawigan",
+        "Tinampa-an",
+        "V. F. Gustilo"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "sagay",
@@ -217,9 +421,76 @@
       "psa_name": "CITY OF SAGAY",
       "psgc": "PH0604523000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 148894,
-      "barangay_count": 25
+      "barangay_count": 25,
+      "osm_relation": 11491048,
+      "overture_locality": "Sagay",
+      "file_prefix": "sagay",
+      "bbox": [
+        123.2538,
+        10.6552,
+        123.7146,
+        11.0956
+      ],
+      "analysis_bbox": [
+        123.2488,
+        10.6502,
+        123.7196,
+        11.1006
+      ],
+      "terrain_bbox": [
+        123.2188,
+        10.6202,
+        123.7496,
+        11.1306
+      ],
+      "center": [
+        123.4243,
+        10.87494
+      ],
+      "lat0": 10.8749,
+      "dem_grid": [
+        847,
+        811
+      ],
+      "barangays": [
+        "Andres Bonifacio",
+        "Bato",
+        "Baviera",
+        "Bulanon",
+        "Campo Himoga-an",
+        "Campo Santiago",
+        "Colonia Divina",
+        "Fabrica",
+        "General Luna",
+        "Himoga-an Baybay",
+        "Lopez Jaena",
+        "Makiling",
+        "Malubon",
+        "Molocaboc",
+        "Old Sagay",
+        "Paraiso",
+        "Plaridel",
+        "Poblacion I",
+        "Poblacion II",
+        "Puey",
+        "Rafaela Barrera",
+        "Rizal",
+        "Taba-ao",
+        "Tadlong",
+        "Vito"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "san-carlos",
@@ -228,9 +499,69 @@
       "psa_name": "CITY OF SAN CARLOS",
       "psgc": "PH0604524000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 132650,
-      "barangay_count": 18
+      "barangay_count": 18,
+      "osm_relation": 145727,
+      "overture_locality": "San Carlos",
+      "file_prefix": "san-carlos",
+      "bbox": [
+        123.1275,
+        10.3117,
+        123.5628,
+        10.6075
+      ],
+      "analysis_bbox": [
+        123.1225,
+        10.3067,
+        123.5678,
+        10.6125
+      ],
+      "terrain_bbox": [
+        123.0925,
+        10.2767,
+        123.5978,
+        10.6425
+      ],
+      "center": [
+        123.35589,
+        10.46331
+      ],
+      "lat0": 10.4633,
+      "dem_grid": [
+        802,
+        550
+      ],
+      "barangays": [
+        "Bagonbon",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Barangay IV",
+        "Barangay V",
+        "Barangay VI",
+        "Buluangan",
+        "Codcod",
+        "Ermita",
+        "Guadalupe",
+        "Nataban",
+        "Palampas",
+        "Prosperidad",
+        "Punao",
+        "Quezon",
+        "Rizal",
+        "San Juan"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "silay",
@@ -239,9 +570,67 @@
       "psa_name": "CITY OF SILAY",
       "psgc": "PH0604526000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 130478,
-      "barangay_count": 16
+      "barangay_count": 16,
+      "osm_relation": 19399111,
+      "overture_locality": "Silay",
+      "file_prefix": "silay",
+      "bbox": [
+        122.8559,
+        10.6537,
+        123.2732,
+        10.8772
+      ],
+      "analysis_bbox": [
+        122.8509,
+        10.6487,
+        123.2782,
+        10.8822
+      ],
+      "terrain_bbox": [
+        122.8209,
+        10.6187,
+        123.3082,
+        10.9122
+      ],
+      "center": [
+        123.08906,
+        10.7654
+      ],
+      "lat0": 10.7654,
+      "dem_grid": [
+        769,
+        420
+      ],
+      "barangays": [
+        "Bagtic",
+        "Balaring",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Barangay IV",
+        "Barangay V",
+        "Barangay VI Pob.",
+        "Eustaquio Lopez",
+        "Guimbala-on",
+        "Guinhalaran",
+        "Kapitan Ramon",
+        "Lantad",
+        "Mambulac",
+        "Patag",
+        "Rizal"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "himamaylan",
@@ -250,9 +639,70 @@
       "psa_name": "CITY OF HIMAMAYLAN",
       "psgc": "PH0604510000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 116240,
-      "barangay_count": 19
+      "barangay_count": 19,
+      "osm_relation": 11525214,
+      "overture_locality": "Himamaylan",
+      "file_prefix": "himamaylan",
+      "bbox": [
+        122.7869,
+        9.9111,
+        123.033,
+        10.2075
+      ],
+      "analysis_bbox": [
+        122.7819,
+        9.9061,
+        123.038,
+        10.2125
+      ],
+      "terrain_bbox": [
+        122.7519,
+        9.8761,
+        123.068,
+        10.2425
+      ],
+      "center": [
+        122.91368,
+        10.05928
+      ],
+      "lat0": 10.0593,
+      "dem_grid": [
+        461,
+        552
+      ],
+      "barangays": [
+        "Aguisan",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Barangay IV",
+        "Buenavista",
+        "Cabadiangan",
+        "Cabanbanan",
+        "Carabalan",
+        "Caradio-an",
+        "Libacao",
+        "Mahalang",
+        "Mambagaton",
+        "Nabali-an",
+        "San Antonio",
+        "Sara-et",
+        "Su-ay",
+        "Talaban",
+        "To-oy"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "talisay",
@@ -261,9 +711,78 @@
       "psa_name": "CITY OF TALISAY",
       "psgc": "PH0604528000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 108909,
-      "barangay_count": 27
+      "barangay_count": 27,
+      "osm_relation": 11347735,
+      "overture_locality": "Talisay",
+      "file_prefix": "talisay",
+      "bbox": [
+        122.8327,
+        10.6322,
+        123.2638,
+        10.7888
+      ],
+      "analysis_bbox": [
+        122.8277,
+        10.6272,
+        123.2688,
+        10.7938
+      ],
+      "terrain_bbox": [
+        122.7977,
+        10.5972,
+        123.2988,
+        10.8238
+      ],
+      "center": [
+        123.05712,
+        10.71146
+      ],
+      "lat0": 10.7115,
+      "dem_grid": [
+        794,
+        300
+      ],
+      "barangays": [
+        "Bubog",
+        "Cabatangan",
+        "Concepcion",
+        "Dos Hermanas",
+        "Efigenio Lizares",
+        "Katilingban",
+        "Matab-ang",
+        "San Fernando",
+        "Zone 1",
+        "Zone 10",
+        "Zone 11",
+        "Zone 12",
+        "Zone 12-A",
+        "Zone 14",
+        "Zone 14-A",
+        "Zone 14-B",
+        "Zone 15",
+        "Zone 16",
+        "Zone 2",
+        "Zone 3",
+        "Zone 4",
+        "Zone 4-A",
+        "Zone 5",
+        "Zone 6",
+        "Zone 7",
+        "Zone 8",
+        "Zone 9"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "cauayan",
@@ -272,9 +791,76 @@
       "psa_name": "CAUAYAN",
       "psgc": "PH0604507000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 108480,
-      "barangay_count": 25
+      "barangay_count": 25,
+      "osm_relation": 3740499,
+      "overture_locality": "Cauayan",
+      "file_prefix": "cauayan",
+      "bbox": [
+        122.2313,
+        9.8235,
+        122.7175,
+        10.1263
+      ],
+      "analysis_bbox": [
+        122.2263,
+        9.8185,
+        122.7225,
+        10.1313
+      ],
+      "terrain_bbox": [
+        122.1963,
+        9.7885,
+        122.7525,
+        10.1613
+      ],
+      "center": [
+        122.49376,
+        9.97363
+      ],
+      "lat0": 9.9736,
+      "dem_grid": [
+        893,
+        563
+      ],
+      "barangays": [
+        "Abaca",
+        "Baclao",
+        "Basak",
+        "Bulata",
+        "Caliling",
+        "Camalanda-an",
+        "Camindangan",
+        "Elihan",
+        "Guiljungan",
+        "Inayawan",
+        "Isio",
+        "Linaon",
+        "Lumbia",
+        "Mambugsay",
+        "Man-Uling",
+        "Masaling",
+        "Molobolo",
+        "Poblacion",
+        "Sura",
+        "Talacdan",
+        "Tambad",
+        "Tiling",
+        "Tomina",
+        "Tuyom",
+        "Yao-yao"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "escalante",
@@ -283,9 +869,72 @@
       "psa_name": "CITY OF ESCALANTE",
       "psgc": "PH0604509000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 96159,
-      "barangay_count": 21
+      "barangay_count": 21,
+      "osm_relation": 11487765,
+      "overture_locality": "Escalante",
+      "file_prefix": "escalante",
+      "bbox": [
+        123.3455,
+        10.6866,
+        123.7092,
+        10.9169
+      ],
+      "analysis_bbox": [
+        123.3405,
+        10.6816,
+        123.7142,
+        10.9219
+      ],
+      "terrain_bbox": [
+        123.3105,
+        10.6516,
+        123.7442,
+        10.9519
+      ],
+      "center": [
+        123.55701,
+        10.80824
+      ],
+      "lat0": 10.8082,
+      "dem_grid": [
+        673,
+        433
+      ],
+      "barangays": [
+        "Alimango",
+        "Balintawak",
+        "Binaguiohan",
+        "Buenavista",
+        "Cervantes",
+        "Dian-ay",
+        "Hacienda Fe",
+        "Japitan",
+        "Jonobjonob",
+        "Langub",
+        "Libertad",
+        "Mabini",
+        "Magsaysay",
+        "Malasibog",
+        "Old Poblacion",
+        "Paitan",
+        "Pinapugasan",
+        "Rizal",
+        "Tamlang",
+        "Udtongan",
+        "Washington"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "victorias",
@@ -294,9 +943,77 @@
       "psa_name": "CITY OF VICTORIAS",
       "psgc": "PH0604531000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 90101,
-      "barangay_count": 26
+      "barangay_count": 26,
+      "osm_relation": 11341728,
+      "overture_locality": "Victorias",
+      "file_prefix": "victorias",
+      "bbox": [
+        123.0256,
+        10.7245,
+        123.2273,
+        11.0097
+      ],
+      "analysis_bbox": [
+        123.0206,
+        10.7195,
+        123.2323,
+        11.0147
+      ],
+      "terrain_bbox": [
+        122.9906,
+        10.6895,
+        123.2623,
+        11.0447
+      ],
+      "center": [
+        123.08772,
+        10.86724
+      ],
+      "lat0": 10.8672,
+      "dem_grid": [
+        381,
+        531
+      ],
+      "barangays": [
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Barangay IV",
+        "Barangay IX",
+        "Barangay V",
+        "Barangay VI",
+        "Barangay VI-A",
+        "Barangay VII",
+        "Barangay VIII",
+        "Barangay X",
+        "Barangay XI",
+        "Barangay XII",
+        "Barangay XIII",
+        "Barangay XIV",
+        "Barangay XIX",
+        "Barangay XIX-A",
+        "Barangay XV",
+        "Barangay XV-A",
+        "Barangay XVI",
+        "Barangay XVI-A",
+        "Barangay XVII",
+        "Barangay XVIII",
+        "Barangay XVIII-A",
+        "Barangay XX",
+        "Barangay XXI"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "hinigaran",
@@ -305,9 +1022,75 @@
       "psa_name": "HINIGARAN",
       "psgc": "PH0604511000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 88909,
-      "barangay_count": 24
+      "barangay_count": 24,
+      "osm_relation": 12599665,
+      "overture_locality": "Hinigaran",
+      "file_prefix": "hinigaran",
+      "bbox": [
+        122.697,
+        10.1972,
+        123.0,
+        10.3669
+      ],
+      "analysis_bbox": [
+        122.692,
+        10.1922,
+        123.005,
+        10.3719
+      ],
+      "terrain_bbox": [
+        122.662,
+        10.1622,
+        123.035,
+        10.4019
+      ],
+      "center": [
+        122.84967,
+        10.28205
+      ],
+      "lat0": 10.2821,
+      "dem_grid": [
+        563,
+        323
+      ],
+      "barangays": [
+        "Anahaw",
+        "Aranda",
+        "Baga-as",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Barangay IV",
+        "Bato",
+        "Calapi",
+        "Camalobalo",
+        "Camba-og",
+        "Cambugsa",
+        "Candumarao",
+        "Gargato",
+        "Himaya",
+        "Miranda",
+        "Nanunga",
+        "Narauis",
+        "Palayog",
+        "Paticui",
+        "Pilar",
+        "Quiwi",
+        "Tagda",
+        "Tuguis"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "murcia",
@@ -316,9 +1099,74 @@
       "psa_name": "MURCIA",
       "psgc": "PH0604520000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 88868,
-      "barangay_count": 23
+      "barangay_count": 23,
+      "osm_relation": 11366415,
+      "overture_locality": "Murcia",
+      "file_prefix": "murcia",
+      "bbox": [
+        122.972,
+        10.4534,
+        123.2408,
+        10.6618
+      ],
+      "analysis_bbox": [
+        122.967,
+        10.4484,
+        123.2458,
+        10.6668
+      ],
+      "terrain_bbox": [
+        122.937,
+        10.4184,
+        123.2758,
+        10.6968
+      ],
+      "center": [
+        123.1066,
+        10.55779
+      ],
+      "lat0": 10.5578,
+      "dem_grid": [
+        502,
+        393
+      ],
+      "barangays": [
+        "Abo-abo",
+        "Alegria",
+        "Amayco",
+        "Blumentritt",
+        "Buenavista",
+        "Caliban",
+        "Canlandog",
+        "Cansilayan",
+        "Damsite",
+        "Iglau-an",
+        "Lopez Jaena",
+        "Minoyan",
+        "Pandanon",
+        "Salvacion",
+        "San Miguel",
+        "Santa Cruz",
+        "Santa Rosa",
+        "Talotog",
+        "Zone I",
+        "Zone II",
+        "Zone III",
+        "Zone IV",
+        "Zone V"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "calatrava",
@@ -327,9 +1175,91 @@
       "psa_name": "CALATRAVA",
       "psgc": "PH0604505000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 82540,
-      "barangay_count": 40
+      "barangay_count": 40,
+      "osm_relation": 11487724,
+      "overture_locality": "Calatrava",
+      "file_prefix": "calatrava",
+      "bbox": [
+        123.2308,
+        10.4632,
+        123.6203,
+        10.728
+      ],
+      "analysis_bbox": [
+        123.2258,
+        10.4582,
+        123.6253,
+        10.733
+      ],
+      "terrain_bbox": [
+        123.1958,
+        10.4282,
+        123.6553,
+        10.763
+      ],
+      "center": [
+        123.48725,
+        10.59561
+      ],
+      "lat0": 10.5956,
+      "dem_grid": [
+        719,
+        495
+      ],
+      "barangays": [
+        "Agpangi",
+        "Ani-e",
+        "Bagacay",
+        "Bantayanon",
+        "Buenavista",
+        "Cabungahan",
+        "Calampisawan",
+        "Cambayobo",
+        "Castellano",
+        "Cruz",
+        "Dolis",
+        "Hilub-Ang",
+        "Hinab-Ongan",
+        "Ilaya",
+        "Laga-an",
+        "Lalong",
+        "Lemery",
+        "Lipat-on",
+        "Lo-ok",
+        "Ma-aslob",
+        "Macasilao",
+        "Mahilum",
+        "Malanog",
+        "Malatas",
+        "Marcelo",
+        "Menchaca",
+        "Mina-utok",
+        "Minapasuk",
+        "Paghumayan",
+        "Pantao",
+        "Patun-an",
+        "Pinocutan",
+        "Refugio",
+        "San Benito",
+        "San Isidro",
+        "Suba",
+        "Telim",
+        "Tigbao",
+        "Tigbon",
+        "Winaswasan"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "la-castellana",
@@ -338,9 +1268,64 @@
       "psa_name": "LA CASTELLANA",
       "psgc": "PH0604517000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 79492,
-      "barangay_count": 13
+      "barangay_count": 13,
+      "osm_relation": 17749026,
+      "overture_locality": "La Castellana",
+      "file_prefix": "la-castellana",
+      "bbox": [
+        122.9415,
+        10.2658,
+        123.1926,
+        10.4164
+      ],
+      "analysis_bbox": [
+        122.9365,
+        10.2608,
+        123.1976,
+        10.4214
+      ],
+      "terrain_bbox": [
+        122.9065,
+        10.2308,
+        123.2276,
+        10.4514
+      ],
+      "center": [
+        123.08907,
+        10.33984
+      ],
+      "lat0": 10.3398,
+      "dem_grid": [
+        470,
+        289
+      ],
+      "barangays": [
+        "Biaknabato",
+        "Cabacungan",
+        "Cabagnaan",
+        "Camandag",
+        "Lalagsan",
+        "Manghanoy",
+        "Mansalanao",
+        "Masulog",
+        "Nato",
+        "Puso",
+        "Robles",
+        "Sag-Ang",
+        "Talaptap"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "sipalay",
@@ -349,9 +1334,68 @@
       "psa_name": "CITY OF SIPALAY",
       "psgc": "PH0604527000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 72448,
-      "barangay_count": 17
+      "barangay_count": 17,
+      "osm_relation": 3740505,
+      "overture_locality": "Sipalay",
+      "file_prefix": "sipalay",
+      "bbox": [
+        122.2229,
+        9.5474,
+        122.5942,
+        9.8835
+      ],
+      "analysis_bbox": [
+        122.2179,
+        9.5424,
+        122.5992,
+        9.8885
+      ],
+      "terrain_bbox": [
+        122.1879,
+        9.5124,
+        122.6292,
+        9.9185
+      ],
+      "center": [
+        122.4153,
+        9.71613
+      ],
+      "lat0": 9.7161,
+      "dem_grid": [
+        686,
+        623
+      ],
+      "barangays": [
+        "Barangay 1",
+        "Barangay 2",
+        "Barangay 3",
+        "Barangay 4",
+        "Barangay 5",
+        "Cabadiangan",
+        "Camindangan",
+        "Canturay",
+        "Cartagena",
+        "Cayhagan",
+        "Gil Montilla",
+        "Mambaroto",
+        "Manlucahoc",
+        "Maricalum",
+        "Nabulao",
+        "Nauhang",
+        "San Jose"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "binalbagan",
@@ -360,9 +1404,67 @@
       "psa_name": "BINALBAGAN",
       "psgc": "PH0604503000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 71407,
-      "barangay_count": 16
+      "barangay_count": 16,
+      "osm_relation": 11525661,
+      "overture_locality": "Binalbagan",
+      "file_prefix": "binalbagan",
+      "bbox": [
+        122.6959,
+        10.0155,
+        123.1108,
+        10.2567
+      ],
+      "analysis_bbox": [
+        122.6909,
+        10.0105,
+        123.1158,
+        10.2617
+      ],
+      "terrain_bbox": [
+        122.6609,
+        9.9805,
+        123.1458,
+        10.2917
+      ],
+      "center": [
+        123.02174,
+        10.13666
+      ],
+      "lat0": 10.1367,
+      "dem_grid": [
+        765,
+        452
+      ],
+      "barangays": [
+        "Amontay",
+        "Bagroy",
+        "Bi-ao",
+        "Canmoros",
+        "Enclaro",
+        "Marina",
+        "Paglaum",
+        "Payao",
+        "Progreso",
+        "San Jose",
+        "San Juan",
+        "San Pedro",
+        "San Teodoro",
+        "San Vicente",
+        "Santo Rosario",
+        "Santol"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "la-carlota",
@@ -371,9 +1473,65 @@
       "psa_name": "CITY OF LA CARLOTA",
       "psgc": "PH0604516000",
       "kind": "city",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 66664,
-      "barangay_count": 14
+      "barangay_count": 14,
+      "osm_relation": 11984373,
+      "overture_locality": "La Carlota",
+      "file_prefix": "la-carlota",
+      "bbox": [
+        122.8923,
+        10.3631,
+        123.1375,
+        10.4713
+      ],
+      "analysis_bbox": [
+        122.8873,
+        10.3582,
+        123.1425,
+        10.4763
+      ],
+      "terrain_bbox": [
+        122.8573,
+        10.3282,
+        123.1725,
+        10.5063
+      ],
+      "center": [
+        123.00399,
+        10.41825
+      ],
+      "lat0": 10.4182,
+      "dem_grid": [
+        459,
+        213
+      ],
+      "barangays": [
+        "Ara-al",
+        "Ayungon",
+        "Balabag",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Batuan",
+        "Cubay",
+        "Haguimit",
+        "La Granja",
+        "Nagasi",
+        "Roberto S. Benedicto",
+        "San Miguel",
+        "Yubo"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "isabela",
@@ -382,9 +1540,81 @@
       "psa_name": "ISABELA",
       "psgc": "PH0604514000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 64516,
-      "barangay_count": 30
+      "barangay_count": 30,
+      "osm_relation": 18527747,
+      "overture_locality": "Isabela",
+      "file_prefix": "isabela",
+      "bbox": [
+        122.9214,
+        10.1433,
+        123.1476,
+        10.278
+      ],
+      "analysis_bbox": [
+        122.9164,
+        10.1383,
+        123.1526,
+        10.283
+      ],
+      "terrain_bbox": [
+        122.8864,
+        10.1083,
+        123.1826,
+        10.313
+      ],
+      "center": [
+        123.03468,
+        10.21064
+      ],
+      "lat0": 10.2106,
+      "dem_grid": [
+        425,
+        260
+      ],
+      "barangays": [
+        "Amin",
+        "Banogbanog",
+        "Barangay 1",
+        "Barangay 2",
+        "Barangay 3",
+        "Barangay 4",
+        "Barangay 5",
+        "Barangay 6",
+        "Barangay 7",
+        "Barangay 8",
+        "Barangay 9",
+        "Bulad",
+        "Bungahin",
+        "Cabcab",
+        "Camangcamang",
+        "Camp Clark",
+        "Cansalongon",
+        "Guintubhan",
+        "Libas",
+        "Limalima",
+        "Makilignit",
+        "Mansablay",
+        "Maytubig",
+        "Panaquiao",
+        "Riverside",
+        "Rumirang",
+        "San Agustin",
+        "Sebucawan",
+        "Sikatuna",
+        "Tinongan"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "enrique-b-magalona",
@@ -393,9 +1623,74 @@
       "psa_name": "ENRIQUE B. MAGALONA (SARAVIA)",
       "psgc": "PH0604508000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 64290,
-      "barangay_count": 23
+      "barangay_count": 23,
+      "osm_relation": 13279611,
+      "overture_locality": "Enrique B. Magalona",
+      "file_prefix": "enrique-b-magalona",
+      "bbox": [
+        122.8615,
+        10.6817,
+        123.2732,
+        11.0061
+      ],
+      "analysis_bbox": [
+        122.8565,
+        10.6767,
+        123.2782,
+        11.0111
+      ],
+      "terrain_bbox": [
+        122.8265,
+        10.6467,
+        123.3082,
+        11.0411
+      ],
+      "center": [
+        122.9887,
+        10.8438
+      ],
+      "lat0": 10.8438,
+      "dem_grid": [
+        759,
+        602
+      ],
+      "barangays": [
+        "Alacaygan",
+        "Alicante",
+        "Batea",
+        "Canlusong",
+        "Consing",
+        "Cudangdang",
+        "Damgo",
+        "Gahit",
+        "Latasan",
+        "Madalag",
+        "Manta-angan",
+        "Nanca",
+        "Pasil",
+        "Poblacion I",
+        "Poblacion II",
+        "Poblacion III",
+        "San Isidro",
+        "San Jose",
+        "Santo Niño",
+        "Tabigue",
+        "Tanza",
+        "Tomongtong",
+        "Tuburan"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "hinoba-an",
@@ -404,9 +1699,64 @@
       "psa_name": "HINOBA-AN (ASIA)",
       "psgc": "PH0604512000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 60865,
-      "barangay_count": 13
+      "barangay_count": 13,
+      "osm_relation": 3740500,
+      "overture_locality": "Hinoba-an",
+      "file_prefix": "hinoba-an",
+      "bbox": [
+        122.3201,
+        9.327,
+        122.682,
+        9.6693
+      ],
+      "analysis_bbox": [
+        122.3151,
+        9.322,
+        122.687,
+        9.6743
+      ],
+      "terrain_bbox": [
+        122.2851,
+        9.292,
+        122.717,
+        9.7043
+      ],
+      "center": [
+        122.50893,
+        9.49685
+      ],
+      "lat0": 9.4969,
+      "dem_grid": [
+        669,
+        634
+      ],
+      "barangays": [
+        "Alim",
+        "Asia",
+        "Bacuyangan",
+        "Barangay I",
+        "Barangay II",
+        "Bulwangan",
+        "Culipapa",
+        "Damutan",
+        "Daug",
+        "Po-ok",
+        "San Rafael",
+        "Sangke",
+        "Talacagay"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "ilog",
@@ -415,9 +1765,66 @@
       "psa_name": "ILOG",
       "psgc": "PH0604513000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 59855,
-      "barangay_count": 15
+      "barangay_count": 15,
+      "osm_relation": 3740501,
+      "overture_locality": "Ilog",
+      "file_prefix": "ilog",
+      "bbox": [
+        122.6184,
+        9.4936,
+        122.819,
+        10.1898
+      ],
+      "analysis_bbox": [
+        122.6134,
+        9.4886,
+        122.824,
+        10.1948
+      ],
+      "terrain_bbox": [
+        122.5834,
+        9.4586,
+        122.854,
+        10.2248
+      ],
+      "center": [
+        122.71779,
+        9.82101
+      ],
+      "lat0": 9.821,
+      "dem_grid": [
+        379,
+        1271
+      ],
+      "barangays": [
+        "Andulauan",
+        "Balicotoc",
+        "Barangay I",
+        "Barangay II",
+        "Bocana",
+        "Calubang",
+        "Canlamay",
+        "Consuelo",
+        "Dancalan",
+        "Delicioso",
+        "Galicia",
+        "Manalad",
+        "Pinggot",
+        "Tabu",
+        "Vista Alegre"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "manapla",
@@ -426,9 +1833,63 @@
       "psa_name": "MANAPLA",
       "psgc": "PH0604518000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 55083,
-      "barangay_count": 12
+      "barangay_count": 12,
+      "osm_relation": 11491050,
+      "overture_locality": "Manapla",
+      "file_prefix": "manapla",
+      "bbox": [
+        123.0357,
+        10.8148,
+        123.187,
+        11.044
+      ],
+      "analysis_bbox": [
+        123.0307,
+        10.8098,
+        123.192,
+        11.049
+      ],
+      "terrain_bbox": [
+        123.0007,
+        10.7798,
+        123.222,
+        11.079
+      ],
+      "center": [
+        123.12224,
+        10.92318
+      ],
+      "lat0": 10.9232,
+      "dem_grid": [
+        290,
+        431
+      ],
+      "barangays": [
+        "Barangay I",
+        "Barangay I-A",
+        "Barangay I-B",
+        "Barangay II",
+        "Barangay II-A",
+        "Chambery",
+        "Punta Mesa",
+        "Punta Salong",
+        "Purisima",
+        "San Pablo",
+        "Santa Teresa",
+        "Tortosa"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "pontevedra",
@@ -437,9 +1898,71 @@
       "psa_name": "PONTEVEDRA",
       "psgc": "PH0604521000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 54502,
-      "barangay_count": 20
+      "barangay_count": 20,
+      "osm_relation": 12716470,
+      "overture_locality": "Pontevedra",
+      "file_prefix": "pontevedra",
+      "bbox": [
+        122.7509,
+        10.3083,
+        123.0237,
+        10.4016
+      ],
+      "analysis_bbox": [
+        122.7459,
+        10.3033,
+        123.0287,
+        10.4066
+      ],
+      "terrain_bbox": [
+        122.7159,
+        10.2733,
+        123.0587,
+        10.4366
+      ],
+      "center": [
+        122.88464,
+        10.35631
+      ],
+      "lat0": 10.3563,
+      "dem_grid": [
+        509,
+        186
+      ],
+      "barangays": [
+        "Antipolo",
+        "Barangay I",
+        "Barangay II",
+        "Barangay III",
+        "Buenavista Gibong",
+        "Buenavista Rizal",
+        "Burgos",
+        "Cambarus",
+        "Canroma",
+        "Don Salvador Benedicto",
+        "General Malvar",
+        "Gomez",
+        "M. H. Del Pilar",
+        "Mabini",
+        "Miranda",
+        "Pandan",
+        "Recreo",
+        "San Isidro",
+        "San Juan",
+        "Zamora"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "moises-padilla",
@@ -448,9 +1971,66 @@
       "psa_name": "MOISES PADILLA (MAGALLON)",
       "psgc": "PH0604519000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 43462,
-      "barangay_count": 15
+      "barangay_count": 15,
+      "osm_relation": 18491788,
+      "overture_locality": "Moises Padilla",
+      "file_prefix": "moises-padilla",
+      "bbox": [
+        123.0065,
+        10.1979,
+        123.2001,
+        10.3254
+      ],
+      "analysis_bbox": [
+        123.0015,
+        10.1929,
+        123.2051,
+        10.3304
+      ],
+      "terrain_bbox": [
+        122.9715,
+        10.1629,
+        123.2351,
+        10.3604
+      ],
+      "center": [
+        123.10227,
+        10.26119
+      ],
+      "lat0": 10.2612,
+      "dem_grid": [
+        366,
+        247
+      ],
+      "barangays": [
+        "Barangay 1",
+        "Barangay 2",
+        "Barangay 3",
+        "Barangay 4",
+        "Barangay 5",
+        "Barangay 6",
+        "Barangay 7",
+        "Crossing Magallon",
+        "Guinpana-an",
+        "Inolingan",
+        "Macagahay",
+        "Magallon Cadre",
+        "Montilla",
+        "Odiong",
+        "Quintin Remo"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "toboso",
@@ -459,9 +2039,60 @@
       "psa_name": "TOBOSO",
       "psgc": "PH0604529000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 43445,
-      "barangay_count": 9
+      "barangay_count": 9,
+      "osm_relation": 11487764,
+      "overture_locality": "Toboso",
+      "file_prefix": "toboso",
+      "bbox": [
+        123.3211,
+        10.6333,
+        123.647,
+        10.774
+      ],
+      "analysis_bbox": [
+        123.3161,
+        10.6283,
+        123.652,
+        10.779
+      ],
+      "terrain_bbox": [
+        123.2861,
+        10.5983,
+        123.682,
+        10.809
+      ],
+      "center": [
+        123.51454,
+        10.70298
+      ],
+      "lat0": 10.703,
+      "dem_grid": [
+        605,
+        271
+      ],
+      "barangays": [
+        "Bandila",
+        "Bug-ang",
+        "General Luna",
+        "Magticol",
+        "Poblacion",
+        "Salamanca",
+        "San Isidro",
+        "San Jose",
+        "Tabun-ac"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "valladolid",
@@ -470,9 +2101,67 @@
       "psa_name": "VALLADOLID",
       "psgc": "PH0604530000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 39996,
-      "barangay_count": 16
+      "barangay_count": 16,
+      "osm_relation": 12599678,
+      "overture_locality": "Valladolid",
+      "file_prefix": "valladolid",
+      "bbox": [
+        122.7642,
+        10.4117,
+        122.9031,
+        10.5129
+      ],
+      "analysis_bbox": [
+        122.7592,
+        10.4067,
+        122.9081,
+        10.5179
+      ],
+      "terrain_bbox": [
+        122.7292,
+        10.3767,
+        122.9381,
+        10.5479
+      ],
+      "center": [
+        122.82871,
+        10.46198
+      ],
+      "lat0": 10.462,
+      "dem_grid": [
+        268,
+        200
+      ],
+      "barangays": [
+        "Alijis",
+        "Ayungon",
+        "Bagumbayan",
+        "Batuan",
+        "Bayabas",
+        "Central Tabao",
+        "Doldol",
+        "Guintorilan",
+        "Lacaron",
+        "Mabini",
+        "Pacol",
+        "Palaka",
+        "Paloma",
+        "Poblacion",
+        "Sagua Banua",
+        "Tabao Proper"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "pulupandan",
@@ -481,9 +2170,71 @@
       "psa_name": "PULUPANDAN",
       "psgc": "PH0604522000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 30117,
-      "barangay_count": 20
+      "barangay_count": 20,
+      "osm_relation": 12245305,
+      "overture_locality": "Pulupandan",
+      "file_prefix": "pulupandan",
+      "bbox": [
+        122.752,
+        10.4647,
+        122.842,
+        10.6193
+      ],
+      "analysis_bbox": [
+        122.747,
+        10.4597,
+        122.847,
+        10.6243
+      ],
+      "terrain_bbox": [
+        122.717,
+        10.4297,
+        122.877,
+        10.6543
+      ],
+      "center": [
+        122.7961,
+        10.54088
+      ],
+      "lat0": 10.5409,
+      "dem_grid": [
+        180,
+        296
+      ],
+      "barangays": [
+        "Barangay Zone 1",
+        "Barangay Zone 1-A",
+        "Barangay Zone 2",
+        "Barangay Zone 3",
+        "Barangay Zone 4",
+        "Barangay Zone 4-A",
+        "Barangay Zone 5",
+        "Barangay Zone 6",
+        "Barangay Zone 7",
+        "Canjusa",
+        "Crossing Pulupandan",
+        "Culo",
+        "Mabini",
+        "Pag-ayon",
+        "Palaka Norte",
+        "Palaka Sur",
+        "Patic",
+        "Tapong",
+        "Ubay",
+        "Utod"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "salvador-benedicto",
@@ -492,9 +2243,58 @@
       "psa_name": "SALVADOR BENEDICTO",
       "psgc": "PH0604532000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 26922,
-      "barangay_count": 7
+      "barangay_count": 7,
+      "osm_relation": 12717917,
+      "overture_locality": "Salvador Benedicto",
+      "file_prefix": "salvador-benedicto",
+      "bbox": [
+        123.1399,
+        10.513,
+        123.3505,
+        10.6422
+      ],
+      "analysis_bbox": [
+        123.1349,
+        10.508,
+        123.3555,
+        10.6472
+      ],
+      "terrain_bbox": [
+        123.1049,
+        10.478,
+        123.3855,
+        10.6772
+      ],
+      "center": [
+        123.25279,
+        10.57728
+      ],
+      "lat0": 10.5773,
+      "dem_grid": [
+        397,
+        251
+      ],
+      "barangays": [
+        "Bago",
+        "Bagong Silang",
+        "Bunga",
+        "Igmaya-an",
+        "Kumaliskis",
+        "Pandanon",
+        "Pinowayan"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "san-enrique",
@@ -503,9 +2303,61 @@
       "psa_name": "SAN ENRIQUE",
       "psgc": "PH0604525000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 24177,
-      "barangay_count": 10
+      "barangay_count": 10,
+      "osm_relation": 12599666,
+      "overture_locality": "San Enrique",
+      "file_prefix": "san-enrique",
+      "bbox": [
+        122.7509,
+        10.3569,
+        122.9076,
+        10.4448
+      ],
+      "analysis_bbox": [
+        122.7459,
+        10.3519,
+        122.9126,
+        10.4498
+      ],
+      "terrain_bbox": [
+        122.7159,
+        10.3219,
+        122.9426,
+        10.4798
+      ],
+      "center": [
+        122.83346,
+        10.40172
+      ],
+      "lat0": 10.4017,
+      "dem_grid": [
+        300,
+        176
+      ],
+      "barangays": [
+        "Bagonawa",
+        "Baliwagan",
+        "Batuan",
+        "Guintorilan",
+        "Nayon",
+        "Poblacion",
+        "Sibucao",
+        "Tabao Baybay",
+        "Tabao Rizal",
+        "Tibsoc"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     },
     {
       "slug": "candoni",
@@ -514,9 +2366,60 @@
       "psa_name": "CANDONI",
       "psgc": "PH0604506000",
       "kind": "municipality",
-      "status": "planned",
+      "status": "pilot",
       "population_2020": 23751,
-      "barangay_count": 9
+      "barangay_count": 9,
+      "osm_relation": 3740498,
+      "overture_locality": "Candoni",
+      "file_prefix": "candoni",
+      "bbox": [
+        122.5787,
+        9.6589,
+        122.7059,
+        9.8635
+      ],
+      "analysis_bbox": [
+        122.5737,
+        9.6539,
+        122.7109,
+        9.8685
+      ],
+      "terrain_bbox": [
+        122.5437,
+        9.6239,
+        122.7409,
+        9.8985
+      ],
+      "center": [
+        122.63684,
+        9.74762
+      ],
+      "lat0": 9.7476,
+      "dem_grid": [
+        247,
+        386
+      ],
+      "barangays": [
+        "Agboy",
+        "Banga",
+        "Cabia-an",
+        "Caningay",
+        "Gatuslao",
+        "Haba",
+        "Payauan",
+        "Poblacion East",
+        "Poblacion West"
+      ],
+      "noah_province": "NegrosOccidental",
+      "size_budget_mb": 150,
+      "boundary_mode": "fill",
+      "hazard_simplify_deg": 0.0001,
+      "hazard_clip_to_city": true,
+      "contour_interval_m": 10,
+      "contour_major_m": 50,
+      "dem_tif_public": false,
+      "hazard_serve_floods": false,
+      "shared_terrain": true
     }
   ],
   "national_foreign_localities": [

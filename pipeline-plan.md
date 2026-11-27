@@ -1,6 +1,6 @@
 # Plan: a continuous pipeline for every LGU in Negros Occidental
 
-Status: phase 1 done (2026-11-27); phases 2-6 not started. Written 2026-11-27. Scope narrowed to Negros Occidental the same day so the site fits on free GitHub Pages hosting. Negros Oriental and Siquijor can follow later with the same pipeline.
+Status: all 32 LGUs built and passing QA (2026-11-27); publishing via the `data` branch prepared. Written 2026-11-27. Scope narrowed to Negros Occidental the same day so the site fits on free GitHub Pages hosting. Negros Oriental and Siquijor can follow later with the same pipeline.
 
 ## 1. Scope
 
@@ -178,3 +178,27 @@ Only the BIR zonal workbooks remain a manual input. The pipeline lists the missi
 - **Size estimate:** the budget in 3.7 is extrapolated, not measured. The pilots measure it before the full rollout.
 - **Boundary disputes:** these exist between some LGUs. Use PSGC and NAMRIA as the reference and record any override.
 - **Free-tier changes:** free-tier limits (Actions, Pages) can change. Keep the pipeline runnable locally with one command.
+
+
+## 7. Province run, 2026-11-27 (what was actually built)
+
+**One-time downloads,** all reused by every LGU:
+- Geofabrik OSM, 615 MB.
+- Overture province extract (`extract_overture_region.py`), 235 MB.
+- Copernicus DEM province mosaic, 61 MB, and WorldCover, 12 MB (`fetch_region_rasters.py`).
+
+**Automatic LGU setup:** `configure_places.py` sets up each LGU from its OSM outline and the PSA barangay list. `init_place_views.py` adds town-centre views.
+
+**Barangay outlines:** Overture plus OSM give real outlines for 121 of the 601 new barangays.
+- Most of the rest get an approximate outline: the land nearest their Overture or OSM point.
+- Barangays with no location at all join a combined town-centre zone, so their residents stay in the model.
+- Every outline records its `boundary_source`.
+- Victorias is the weakest: 20 of its 26 barangays are in the combined zone.
+
+**BIR:** kept as a separate pipeline (`npm run bir`). Only Bacolod has a workbook. The other LGUs have structures, hazards and everything else, but no land values.
+
+**Size:** 762 MB in 2,863 files.
+- Terrain tiles and contours are shared province-wide in `public/data/_region/`.
+- New LGUs serve storm surge only; the flood polygons are kept in `build/<place>/hazards_full.geojson` for a future flood layer.
+
+**Publishing:** `public/data/` is no longer tracked on `main`. `scripts/publish_data.py` force-pushes it as one commit to the `data` branch, and the Pages workflow combines the two branches.

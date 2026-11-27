@@ -31,7 +31,7 @@ PLACE = current_place()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = PLACE.out_dir
-TIF = REPO_ROOT / PLACE.setting("landcover_tif", f"data/landcover/worldcover_2021_{PLACE.slug}.tif")
+TIF = REPO_ROOT / PLACE.setting("landcover_tif", "data/landcover/worldcover_2021_negros-occidental.tif")
 
 CLASSES: dict[int, str] = {
     10: "tree_cover", 20: "shrubland", 30: "grassland", 40: "cropland", 50: "built_up",

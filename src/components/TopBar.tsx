@@ -14,6 +14,7 @@ import { getPlaceMeta, type CameraPreset } from '../utils/place';
 import { useTwinStore } from '../layers/registry';
 import type { BasemapTheme, SearchablePlaceItem } from '../layers/types';
 import type { MeasureMode } from './MeasureControl';
+import { PlaceSwitcher } from './PlaceSwitcher';
 import { ViewSwitcher } from './ViewSwitcher';
 
 export type { CameraPreset } from '../utils/place';
@@ -280,7 +281,7 @@ export function TopBar({
           <Building2 size={17} />
         </div>
         <div className="hud-topbar-brand">
-          <h1 className="hud-topbar-title">{getPlaceMeta().displayName}</h1>
+          <PlaceSwitcher />
           <span className="hud-topbar-subtitle">
             3D Graphical Digital Twin · Overture {manifest?.overture_release ?? '2026-11-18.0'}
           </span>

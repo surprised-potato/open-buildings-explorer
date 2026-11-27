@@ -25,12 +25,14 @@ export const contoursLayer: TwinLayerDefinition = {
   defaultVisible: true,
   defaultOpacity: 0.72,
   legend: [
-    { label: '5 m Contour', color: '#2dd4bf', shape: 'line' },
-    { label: '25 m Index Contour', color: '#f59e0b', shape: 'line' },
+    { label: 'Contour', color: '#2dd4bf', shape: 'line' },
+    { label: 'Index Contour', color: '#f59e0b', shape: 'line' },
   ],
   maplibre(ctx) {
-    const { map, visible, opacity, theme } = ctx;
-    const url = `pmtiles://${getOriginAndBase()}${placeFile(`dem/${getPlaceMeta().filePrefix}_contours.pmtiles`)}`;
+    const { map, visible, opacity, theme, demManifest } = ctx;
+    // Shared province contours for most LGUs (dem_manifest points at them); Bacolod keeps its own 5 m set.
+    const file = demManifest?.contours.file ?? placeFile(`dem/${getPlaceMeta().filePrefix}_contours.pmtiles`);
+    const url = `pmtiles://${getOriginAndBase()}${file}`;
 
     if (!map.getSource(CONTOURS_SOURCE_ID)) {
       map.addSource(CONTOURS_SOURCE_ID, {

@@ -62,9 +62,21 @@ def copernicus_urls(bbox: tuple[float, float, float, float]) -> list[str]:
 
 
 COPERNICUS_URLS = copernicus_urls(TERRAIN_BBOX)
+# Province mosaic downloaded once by fetch_region_rasters.py; used instead of reading tiles over the network.
+REGION_DEM = ROOT / "data" / "dem" / "copernicus_glo30_negros-occidental.tif"
 
 ORIGIN_SHIFT = 20037508.342789244  # Web Mercator half-circumference (meters)
 GRID_WIDTH, GRID_HEIGHT = PLACE.need("dem_grid")
+CONTOUR_INTERVAL = int(PLACE.setting("contour_interval_m", 5))
+CONTOUR_MAJOR = int(PLACE.setting("contour_major_m", 25))
+# Province-wide terrain tiles and contours (build_region_terrain.py) shared by places that opt in.
+REGION_TERRAIN_JSON = ROOT / "public" / "data" / "_region" / "terrain.json"
+SHARED = (json.loads(REGION_TERRAIN_JSON.read_text(encoding="utf-8"))
+          if PLACE.setting("shared_terrain") and REGION_TERRAIN_JSON.exists() else None)
+if PLACE.setting("shared_terrain") and SHARED is None:
+    raise SystemExit("shared_terrain is set but public/data/_region/terrain.json is missing: run build_region_terrain.py")
+# The master GeoTIFF is a working file; only Bacolod's historically sits in the served folder.
+MASTER_DEM_DIR = OUT_DIR if PLACE.setting("dem_tif_public", True) else ROOT / "build" / PLACE.slug
 NODATA_F32 = -9999.0
 NODATA_I16 = -32768
 
@@ -129,13 +141,13 @@ def encode_terrarium_png(elev: np.ndarray, out_png: Path) -> None:
     Image.fromarray(rgb, mode="RGB").save(out_png, format="PNG", optimize=True)
 
 
-def build_terrarium_tiles(terrain_dem: Path, out_tiles_dir: Path, tmp_dir: Path) -> int:
-    """Generate local Terrarium PNG tiles across zooms 10-13 for TERRAIN_BBOX."""
+def build_terrarium_tiles(terrain_dem: Path, out_tiles_dir: Path, tmp_dir: Path, bbox=None) -> int:
+    """Generate local Terrarium PNG tiles across zooms 10-13 for bbox (default TERRAIN_BBOX)."""
     if out_tiles_dir.exists():
         shutil.rmtree(out_tiles_dir)
     out_tiles_dir.mkdir(parents=True, exist_ok=True)
 
-    west, south, east, north = TERRAIN_BBOX
+    west, south, east, north = bbox or TERRAIN_BBOX
     tile_count = 0
 
     for z in range(10, 14):
@@ -180,7 +192,8 @@ def build_terrarium_tiles(terrain_dem: Path, out_tiles_dir: Path, tmp_dir: Path)
     return tile_count
 
 
-def build_contours(master_dem: Path, out_pmtiles: Path, tmp_dir: Path) -> int:
+def build_contours(master_dem: Path, out_pmtiles: Path, tmp_dir: Path, interval: int | None = None,
+                   major: int | None = None) -> int:
     """Extract 5m contours (25m major) and compile to vector PMTiles."""
     raw_geojson = tmp_dir / "contours_raw.geojson"
     filtered_geojson = tmp_dir / "contours_filtered.geojson"
@@ -188,7 +201,7 @@ def build_contours(master_dem: Path, out_pmtiles: Path, tmp_dir: Path) -> int:
     run_cmd([
         "gdal_contour",
         "-a", "elev_m",
-        "-i", "5",
+        "-i", str(interval or CONTOUR_INTERVAL),
         "-f", "GeoJSON",
         str(master_dem),
         str(raw_geojson),
@@ -207,7 +220,7 @@ def build_contours(master_dem: Path, out_pmtiles: Path, tmp_dir: Path) -> int:
             "properties": {
                 "id": f"c-{elev_int}-{idx}",
                 "elev_m": elev_int,
-                "is_major": 1 if elev_int % 25 == 0 else 0,
+                "is_major": 1 if elev_int % (major or CONTOUR_MAJOR) == 0 else 0,
                 "label": f"{elev_int} m",
             },
             "geometry": feat["geometry"],
@@ -244,14 +257,18 @@ def main() -> None:
     args = parser.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    sources = [str(args.tif.resolve())] if args.tif else COPERNICUS_URLS
-    source_label = args.tif.name if args.tif else "Copernicus DEM GLO-30 (30m)"
-    resolution_m = 5 if args.tif else 30
+    if args.tif:
+        sources, source_label, resolution_m = [str(args.tif.resolve())], args.tif.name, 5
+    elif REGION_DEM.exists():
+        sources, source_label, resolution_m = [str(REGION_DEM)], "Copernicus DEM GLO-30 (30m)", 30
+    else:
+        sources, source_label, resolution_m = COPERNICUS_URLS, "Copernicus DEM GLO-30 (30m)", 30
 
     with tempfile.TemporaryDirectory(prefix=f"{PLACE.slug}_dem_") as tmp:
         tmp_dir = Path(tmp)
         terrain_dem = tmp_dir / "terrain_dem.tif"
-        master_dem = OUT_DIR / f"{P}_dem.tif"
+        MASTER_DEM_DIR.mkdir(parents=True, exist_ok=True)
+        master_dem = MASTER_DEM_DIR / f"{P}_dem.tif"
 
         print(f"1/6 Clipping DEM from {source_label}...")
         t_west, t_south, t_east, t_north = TERRAIN_BBOX
@@ -281,9 +298,14 @@ def main() -> None:
             str(master_dem),
         ])
 
-        print("2/6 Generating local Terrarium 3D terrain tiles (z10-z13)...")
         terrarium_dir = OUT_DIR / "terrarium"
-        tile_count = build_terrarium_tiles(terrain_dem, terrarium_dir, tmp_dir)
+        if SHARED:
+            print("2/6 Terrain tiles: using the shared province set (build_region_terrain.py)")
+            shutil.rmtree(terrarium_dir, ignore_errors=True)
+            tile_count = SHARED["terrarium"]["tile_count"]
+        else:
+            print("2/6 Generating local Terrarium 3D terrain tiles (z10-z13)...")
+            tile_count = build_terrarium_tiles(terrain_dem, terrarium_dir, tmp_dir)
 
         print("3/6 Building EPSG:3857 Elevation Color-Relief raster...")
         dem_3857 = tmp_dir / "dem_3857.tif"
@@ -367,9 +389,14 @@ def main() -> None:
         slope_png.with_name(slope_png.name + ".aux.xml").unlink(missing_ok=True)
         slope_coords = get_3857_wgs84_corners(slope_3857)
 
-        print("5/6 Extracting 5m/25m contours to PMTiles...")
         contours_pmtiles = OUT_DIR / f"{P}_contours.pmtiles"
-        contour_count = build_contours(master_dem, contours_pmtiles, tmp_dir)
+        if SHARED:
+            print("5/6 Contours: using the shared province file")
+            contours_pmtiles.unlink(missing_ok=True)
+            contour_count = SHARED["contours"]["feature_count"]
+        else:
+            print(f"5/6 Extracting {CONTOUR_INTERVAL}m/{CONTOUR_MAJOR}m contours to PMTiles...")
+            contour_count = build_contours(master_dem, contours_pmtiles, tmp_dir)
 
         print("6/6 Encoding compact offline elevation grid & manifest...")
         grid_f32 = tmp_dir / "dem_grid_f32.bin"
@@ -424,13 +451,13 @@ def main() -> None:
                 "file": f"{DEM_URL_DIR}/{P}_slope.png",
                 "coordinates": slope_coords,
             },
-            "contours": {
+            "contours": SHARED["contours"] if SHARED else {
                 "file": f"{DEM_URL_DIR}/{P}_contours.pmtiles",
-                "interval_m": 5,
-                "major_interval_m": 25,
+                "interval_m": CONTOUR_INTERVAL,
+                "major_interval_m": CONTOUR_MAJOR,
                 "feature_count": contour_count,
             },
-            "terrarium": {
+            "terrarium": SHARED["terrarium"] if SHARED else {
                 "tiles_template": DEM_URL_DIR + "/terrarium/{z}/{x}/{y}.png",
                 "minzoom": 10,
                 "maxzoom": 13,

@@ -1,0 +1,36 @@
+{
+  "homeView": {
+    "center": [
+      122.81345,
+      9.98888
+    ],
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": 0
+  },
+  "cameraPresets": [
+    {
+      "id": "centre",
+      "label": "Kabankalan Town Centre",
+      "center": [
+        122.81345,
+        9.98888
+      ],
+      "zoom": 15.6,
+      "pitch": 55,
+      "bearing": 0
+    },
+    {
+      "id": "overview",
+      "label": "Kabankalan Overview",
+      "center": [
+        122.84925,
+        9.84935
+      ],
+      "zoom": 10.8,
+      "pitch": 40,
+      "bearing": 0
+    }
+  ],
+  "landmarks": []
+}
